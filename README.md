@@ -1,7 +1,9 @@
-sgii
+SGII
 ====
 
-Proyecto de investigación Unipanamericana Sistema de Gestión de Instrumentos de Investigación
+Sistema de Gestión de Instrumentos de Investigación
+
+Proyecto de investigación Unipanamericana II 2013
 
 Integrantes:
 
