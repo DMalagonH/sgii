@@ -1,0 +1,28 @@
+Metodologías de la investigación
+
+	Empírico Analítico (problemas de carácter cuantitativo)
+		Experimental (se basa en el experimento, donde el investigador aumenta o disminuye las cantidades de las variables controladas por él para obtener un cambio sobre la variable no controlada)
+		Cuasi – Experimental (Se utilizan dos o más grupos de muestras; grupo comparacion -> reducir la incertidumbre de confianza en la conclusión empírica)
+		Ex Post Facto (requiere del hecho para poder analizar las causas y/o consecuencias del centro de la investigación)
+			Estudios descriptivos
+			Estudios de desarrollo
+			Estudios longitudinales
+			Estudios cohortes
+			Estudios de tendencias
+			Estudios comparartivo-causales
+			Estudios correlacionales
+	Constructivista (se construyen a partir de la información obtenida y no a partir de teorías o hipótesis previas - comprender e interpretar lo singular de los fenómenos sociales - métodos de recolección son cualitativos)
+		Fenomenológica (el mundo se percibe sólo a través de nuestra conciencia - percepción, pensamiento, imaginación memoria, emoción y hasta actividad lingüística - La investigación fenomenológica se centra en el conocimiento estricto de los fenómenos)
+		Interaccionismo simbólico
+		Teoría fundamentada
+		Estudio de caso, 
+		Biográfico-narrativa, 
+		Hermenéutica,
+	Socio Critica
+		Investigación acción 
+		Participativa 
+		Colaborativa 
+		Investigación basada en diseño
+		Evaluativa
+
+		
