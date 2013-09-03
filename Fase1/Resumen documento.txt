@@ -1,3 +1,7 @@
+
+Resumen marco teorico
+---------------------
+
 Metodologías de la investigación
 
 	Empírico Analítico (problemas de carácter cuantitativo)
@@ -13,16 +17,90 @@ Metodologías de la investigación
 			Estudios correlacionales
 	Constructivista (se construyen a partir de la información obtenida y no a partir de teorías o hipótesis previas - comprender e interpretar lo singular de los fenómenos sociales - métodos de recolección son cualitativos)
 		Fenomenológica (el mundo se percibe sólo a través de nuestra conciencia - percepción, pensamiento, imaginación memoria, emoción y hasta actividad lingüística - La investigación fenomenológica se centra en el conocimiento estricto de los fenómenos)
-		Interaccionismo simbólico
-		Teoría fundamentada
-		Estudio de caso, 
+		Interaccionismo simbólico (Trata de comprender el proceso de asignación de símbolos con significado al lenguaje hablado o escrito y al comportamiento en la interacción social)
+		Teoría fundamentada (modo de hacer análisis y se considera que su objetivo es el de generar teoría a partir de textos recogidos en contextos naturales y sus hallazgos son formulaciones teóricas de la realidad - modo de hacer análisis y se considera que su objetivo es el de generar teoría a partir de textos recogidos en contextos naturales y sus hallazgos son formulaciones teóricas de la realidad)
+		Estudio de caso, (Estudiamos sólo un acontecimiento, proceso, persona, unidad de la organización u objeto) 
 		Biográfico-narrativa, 
-		Hermenéutica,
-	Socio Critica
-		Investigación acción 
-		Participativa 
-		Colaborativa 
-		Investigación basada en diseño
-		Evaluativa
-
+		Hermenéutica, (encargada de proveer métodos para la correcta interpretación, así como estudiar cualquier interpretación humana)
+	Socio Critica (Se basa en la ciencia de la acción, es decir en el conocimiento “en” y “para” la acción)
+		Investigación acción (los sujetos de la investigación son parte de la mismo convirtiéndose en co-investigadores ) 
+		Participativa (se fundamenta en el trabajo en equipo, el cual comprende la mejora o a dicha solución) 
+		Colaborativa (requiere la colaboración de un grupo para lograr los resultados)
+		Investigación basada en diseño (Se enfoca en el dialogo, tomando apoyo la participación, realizando un diseño centrado en la gente)
+		Evaluativa (se enfoca en la evaluación de resultados para lograr medir sus efectos, permite obtener información sobre situaciones de la sociedad)
 		
+		
+Tecnicas/Instrumentos de obtención de información (Pág 35)
+
+	Encuesta 
+		Etapas:
+			Definir el objeto de la encuesta
+			Formulación del cuestionario
+			Trabajo de campo
+			Obtención de resultados
+		Clasificación
+			Encuestas exhaustivas y parciales
+			Encuestas directas e indirectas
+			Encuestas sobre hechos y encuestas de opinión
+		Proceso
+			Determinar los objetivos de la encuesta
+			Determinar la información requerida
+			Diseño del cuestionario
+			Determinar la población a estudiar
+			Determinar el número de encuestas
+			Trabajo de campo
+			Conteo y codificación de resultados
+			Análisis y conclusiones
+			Toma de decisiones
+	Cuestionario (es importante garantizar al encuestado la confidencialidad de su información y notificarle los fines para los cuales van a ser recolectados sus datos)
+		Tipos de preguntas 
+			Abiertas
+			Cerradas
+		Formato del cuestionario
+			Titulo
+			Autores
+			Presentación
+			Ejemplo
+			Agradecimientos
+			Preguntas y respuestas
+		Preparación del cuestionario
+			Formulación de la hipótesis
+			Determinación de variables
+			Planificación del contenido
+			Redacción de preguntas
+	Pruebas objetivas	
+	Entrevista
+	Observación directa
+	Grupos de discusión
+	Internet
+
+Selección de la muestra
+	Tipos de muestra
+	Procedimiento de selección de la muestra
+	Tamaño óptimo de una muestra
+	
+Medición de los intrumentos de investigación
+	Tipos de variables según su medición
+	Niveles o escalas de medición
+	Calidad de los Instrumentos
+	Éxito en la aplicación de Instrumentos
+	Metodología de encuestas en el contexto de los métodos de investigación
+	Cuestionario, Entrevista y Test
+
+Psicometria 
+	Modelo de medición tería clásica del test (TCT)
+	Teoría resputest al item (TRI)
+	
+	
+Preguntas	
+---------
+
+Información de los proyectos 
+	Seleccionar metodologia?
+	seleccionar tipo de investigacion? (Cualitativa, cuantitativa o mixta)
+	
+Cuales son los roles o perfiles de usaurio?
+Como se manejan los permisos para los perfiles de usuario?
+Cuales son los permisos?
+
+
