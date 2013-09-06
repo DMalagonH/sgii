@@ -1,0 +1,32 @@
+
+Preguntas 05/09/2013 
+--------------------
+
+Proyectos
+	1.	En el documento menciona metodologias de investigación pero en la entidad
+	de proyectos no se contempla al igual que el tipo de investigación, ¿Deberian
+	agregarse las tablas correspondientes y relacionarlas al proyecto?
+	2. 	En el modelo hay una entidad para estado de objetivos, ¿Cuales serían esos estados?
+	3. 	En el modelo hay una entidad de estado de hipotesis, ¿Cuales serían esos estados?
+	4. 	En la entidad de respuestas, se refiere a las posibles respuestas de la pregunta en caso de ser de opcion multiple? 
+		Y en donde se almacenan las respuestas elegidas por los usuarios?
+	
+Gestion de usuarios
+	1. Si la aplicación va ha estar vinculada a Moodle la gestión de usuarios y control de sesión no
+	debería hacerce desde allí?
+	2. Que requiere la integración a Moodle, tiene alguna API?
+	3. Cuales son los perfiles de usuario
+		Administrador
+		Investigador
+		Co-investigador
+	4. Los roles o perfiles de usuario ya estan definidos? Cuales son?
+	5. Como se manejan los permisos para los perfiles de usuario?
+	6. Cuales son los permisos?
+	
+Administración del sistema
+	1. En el documento SRS pág 14: "Habilitación hace referencia a dar acceso en el nivel de lo requerido a las personas 
+	que ingresan al aplicativo, con el fin de conocer una información específica." Esto se refiere a darle permisos
+	para entrar a un proyecto en particular al cual no tenía permisos?
+	
+Módulos
+	1. La numeración de los modulos obedece a algún estandar? lo podemos cambiar?
