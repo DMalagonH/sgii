@@ -92,15 +92,6 @@ Psicometria
 	Teoría resputest al item (TRI)
 	
 	
-Preguntas	
----------
 
-Información de los proyectos 
-	Seleccionar metodologia?
-	seleccionar tipo de investigacion? (Cualitativa, cuantitativa o mixta)
-	
-Cuales son los roles o perfiles de usaurio?
-Como se manejan los permisos para los perfiles de usuario?
-Cuales son los permisos?
 
 
