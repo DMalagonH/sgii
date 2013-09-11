@@ -1,0 +1,95 @@
+.bodySGII
+{
+	/*background-color:#FFFFFF;*/
+	/*background-image:none;*/
+}
+.thSGII
+{
+	background-color:#AAAAAA;
+	text-align:center;
+	font-size:16px;
+	padding:5px;
+	
+}
+.tdSGII_A
+{
+	background-color:#DDDDDD;
+	vertical-align:middle;
+	height:30px;
+	padding:5px;
+	font-size:14px;
+}
+.tdSGII_B
+{
+	background-color:#EEEEEE;
+	vertical-align:middle;
+	height:30px;
+	padding:5px;
+	font-size:14px;
+}
+.tdSGII_A_Footer
+{
+	background-color:#DDDDDD;
+	vertical-align:bottom;
+	height:10px;
+}
+.tdSGII_B_Footer
+{
+	background-color:#EEEEEE;
+	vertical-align:bottom;
+	height:10px;
+}
+.FooterSGII
+{
+	font-size: 10px;
+	text-align:center;
+}
+
+.TableSGII
+{
+	width:500px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.DivTopTable
+{
+	width:522px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:URL('../Images/bg/Tbl_Top.png');
+	background-repeat: no-repeat;
+	height:25px;
+}
+.DivBodyTable
+{
+
+	width:522px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:URL('../Images/bg/Tbl_Body.png');
+	background-repeat: repeat-y;
+	padding:10px;
+}
+.DivBotttomTable
+{
+	width:522px;
+	margin-left:auto;
+	margin-right:auto;
+	background-image:URL('../Images/bg/Tbl_Bottom.png');
+	background-repeat: no-repeat;
+	height:25px;
+}
+.divContent
+{
+	margin-top:50px;
+	margin-right:100px;
+	margin-left:50px;
+
+}
+.Logo_Sgii
+{
+	margin-top:50px;
+	width:238px;
+	margin-left:auto;
+	margin-right:auto;
+}

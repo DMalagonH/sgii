@@ -1,0 +1,300 @@
+.tx-jfmulticontent-pi1 {
+	
+}
+.subcolumns {
+	WIDTH: 100%; OVERFLOW: hidden
+}
+.subcl {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 1em; PADDING-TOP: 0px
+}
+.subcr {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 1em; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.c16l {
+	WIDTH: 16.66%
+}
+.c16r {
+	WIDTH: 16.66%
+}
+.c20l {
+	WIDTH: 20%
+}
+.c20r {
+	WIDTH: 20%
+}
+.c25l {
+	WIDTH: 25%
+}
+.c25r {
+	WIDTH: 25%
+}
+.c33l {
+	WIDTH: 33.33%
+}
+.c33r {
+	WIDTH: 33.33%
+}
+.c38l {
+	WIDTH: 38%
+}
+.c38r {
+	WIDTH: 38%
+}
+.c40l {
+	WIDTH: 40%
+}
+.c40r {
+	WIDTH: 40%
+}
+.c50l {
+	WIDTH: 50%
+}
+.c50r {
+	WIDTH: 50%
+}
+.c60l {
+	WIDTH: 60%
+}
+.c60r {
+	WIDTH: 60%
+}
+.c62l {
+	WIDTH: 62%
+}
+.c62r {
+	WIDTH: 62%
+}
+.c66l {
+	WIDTH: 66.66%
+}
+.c66r {
+	WIDTH: 66.66%
+}
+.c75l {
+	WIDTH: 75%
+}
+.c75r {
+	WIDTH: 75%
+}
+.c80l {
+	WIDTH: 80%
+}
+.c80r {
+	WIDTH: 80%
+}
+.c16l {
+	FLOAT: left
+}
+.c20l {
+	FLOAT: left
+}
+.c25l {
+	FLOAT: left
+}
+.c33l {
+	FLOAT: left
+}
+.c40l {
+	FLOAT: left
+}
+.c38l {
+	FLOAT: left
+}
+.c50l {
+	FLOAT: left
+}
+.c60l {
+	FLOAT: left
+}
+.c62l {
+	FLOAT: left
+}
+.c66l {
+	FLOAT: left
+}
+.c75l {
+	FLOAT: left
+}
+.c80l {
+	FLOAT: left
+}
+.c16r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c20r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c25r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c33r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c40r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c38r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c50r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c60r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c66r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c62r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c75r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+.c80r {
+	FLOAT: right; MARGIN-LEFT: -5px
+}
+DIV.anythingSlider {
+	MARGIN: 0px auto; WIDTH: 600px; DISPLAY: block; HEIGHT: 390px; OVERFLOW: hidden
+}
+DIV.anythingSlider .thumbNav A.cur {
+	BACKGROUND: #777; COLOR: #000
+}
+DIV.anythingSlider .thumbNav A {
+	BACKGROUND: #777; COLOR: #000
+}
+DIV.anythingSlider .anythingWindow {
+	BORDER-BOTTOM: #777 3px solid; BORDER-TOP: #777 3px solid
+}
+DIV.anythingSlider .start-stop {
+	BACKGROUND-COLOR: #040; COLOR: #fff
+}
+DIV.anythingSlider .start-stop.playing {
+	BACKGROUND-COLOR: #800
+}
+DIV.anythingSlider .start-stop:hover {
+	COLOR: #ddd
+}
+DIV.anythingSlider .start-stop.hover {
+	COLOR: #ddd
+}
+DIV.anythingSlider.activeSlider .anythingWindow {
+	BORDER-BOTTOM-COLOR: #7c9127; BORDER-TOP-COLOR: #7c9127; BORDER-RIGHT-COLOR: #7c9127; BORDER-LEFT-COLOR: #7c9127
+}
+DIV.anythingSlider.activeSlider .thumbNav A.cur {
+	BACKGROUND-COLOR: #7c9127
+}
+DIV.anythingSlider.activeSlider .thumbNav A {
+	BACKGROUND-COLOR: #7c9127
+}
+DIV.anythingSlider .start-stop {
+	BACKGROUND-COLOR: #080; COLOR: #fff
+}
+DIV.anythingSlider .start-stop.playing {
+	BACKGROUND-COLOR: #d00
+}
+DIV.anythingSlider .start-stop:hover {
+	COLOR: #fff
+}
+DIV.anythingSlider .start-stop.hover {
+	COLOR: #fff
+}
+DIV.anythingSlider .anythingWindow {
+	POSITION: relative; WIDTH: 100%; HEIGHT: 100%; OVERFLOW: hidden
+}
+DIV.anythingSlider {
+	POSITION: relative; PADDING-BOTTOM: 28px; PADDING-LEFT: 45px; PADDING-RIGHT: 45px; PADDING-TOP: 0px
+}
+UL.anythingBase {
+	POSITION: absolute; PADDING-BOTTOM: 0px; LIST-STYLE-TYPE: none; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND: none transparent scroll repeat 0% 0%; TOP: 0px; LIST-STYLE-IMAGE: none; PADDING-TOP: 0px; LEFT: 0px
+}
+UL.anythingBase LI.panel {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; DISPLAY: block; BACKGROUND: none transparent scroll repeat 0% 0%; FLOAT: left; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+DIV.anythingSlider .arrow {
+	POSITION: absolute; DISPLAY: block; TOP: 50%
+}
+DIV.anythingSlider .arrow A {
+	TEXT-ALIGN: center; MARGIN: -60px 0px 0px; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: 0px; WIDTH: 45px; DISPLAY: block; BACKGROUND: url(http://mipana.unipanamericana.edu.co/typo3conf/ext/jfmulticontent/res/anythingslider/images/xarrows.png.pagespeed.ic.vMSEsF9alN.png) no-repeat; HEIGHT: 120px
+}
+DIV.anythingSlider .arrow A SPAN {
+	TEXT-INDENT: -9999px; DISPLAY: block
+}
+DIV.anythingSlider .forward {
+	RIGHT: 0px
+}
+DIV.anythingSlider .back {
+	LEFT: 0px
+}
+DIV.anythingSlider .forward A {
+	BACKGROUND-POSITION: 0px -40px
+}
+DIV.anythingSlider .back A {
+	BACKGROUND-POSITION: -88px -40px
+}
+DIV.anythingSlider .forward A:hover {
+	BACKGROUND-POSITION: 0px -240px
+}
+DIV.anythingSlider .forward A.hover {
+	BACKGROUND-POSITION: 0px -240px
+}
+DIV.anythingSlider .back A:hover {
+	BACKGROUND-POSITION: -88px -240px
+}
+DIV.anythingSlider .back A.hover {
+	BACKGROUND-POSITION: -88px -240px
+}
+DIV.anythingSlider .forward.disabled {
+	DISPLAY: none
+}
+DIV.anythingSlider .back.disabled {
+	DISPLAY: none
+}
+DIV.anythingSlider .anythingControls {
+	OUTLINE-STYLE: none; OUTLINE-COLOR: invert; OUTLINE-WIDTH: 0px; DISPLAY: none
+}
+DIV.anythingSlider .thumbNav {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+DIV.anythingSlider .thumbNav LI {
+	DISPLAY: inline
+}
+DIV.anythingSlider .thumbNav A {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAHlBMVEX///9HNAJHNAJHNAJHNAJHNAJHNAJHNAJHNAJHNAIjwtTJAAAACnRSTlMAChsxSGF6kamvT+3sdwAAABZJREFUCNdjnMkAAyzvqchkFGQYcAAAGQQHUnFpRfcAAAAASUVORK5CYII=); TEXT-ALIGN: center; PADDING-BOTTOM: 2px; MARGIN: 0px 5px 0px 0px; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; PADDING-LEFT: 8px; OUTLINE-WIDTH: 0px; PADDING-RIGHT: 8px; DISPLAY: inline-block; BACKGROUND-REPEAT: repeat-x; FONT: 11px/18px Georgia, serif; HEIGHT: 18px; TEXT-DECORATION: none; PADDING-TOP: 2px; border-radius: 0 0 5px 5px; -moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 5px 5px
+}
+DIV.anythingSlider .thumbNav A:hover {
+	BACKGROUND-IMAGE: none
+}
+DIV.anythingSlider.rtl .thumbNav A {
+	FLOAT: right
+}
+DIV.anythingSlider.rtl .thumbNav {
+	FLOAT: left
+}
+DIV.anythingSlider.rtl .anythingWindow {
+	unicode-bidi: bidi-override; DIRECTION: ltr
+}
+DIV.anythingSlider .start-stop {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAHlBMVEX///9HNAJHNAJHNAJHNAJHNAJHNAJHNAJHNAJHNAIjwtTJAAAACnRSTlMAChsxSGF6kamvT+3sdwAAABZJREFUCNdjnMkAAyzvqchkFGQYcAAAGQQHUnFpRfcAAAAASUVORK5CYII=); Z-INDEX: 100; TEXT-ALIGN: center; PADDING-BOTTOM: 2px; OUTLINE-STYLE: none; OUTLINE-COLOR: invert; PADDING-LEFT: 5px; OUTLINE-WIDTH: 0px; WIDTH: 40px; PADDING-RIGHT: 5px; BACKGROUND-REPEAT: repeat-x; BACKGROUND-POSITION: center top; FLOAT: right; TEXT-DECORATION: none; PADDING-TOP: 2px; border-radius: 0 0 5px 5px; -moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 5px 5px
+}
+DIV.anythingSlider .start-stop:hover {
+	BACKGROUND-IMAGE: none
+}
+DIV.anythingSlider .start-stop.hover {
+	BACKGROUND-IMAGE: none
+}
+DIV.anythingSlider {
+	transition-duration: 0; -o-transition-duration: 0; -moz-transition-duration: 0; -webkit-transition-duration: 0
+}
+DIV.anythingSlider .anythingWindow {
+	transition-duration: 0; -o-transition-duration: 0; -moz-transition-duration: 0; -webkit-transition-duration: 0
+}
+DIV.anythingSlider .thumbNav A {
+	transition-duration: 0; -o-transition-duration: 0; -moz-transition-duration: 0; -webkit-transition-duration: 0
+}
+DIV.anythingSlider .arrow A {
+	transition-duration: 0; -o-transition-duration: 0; -moz-transition-duration: 0; -webkit-transition-duration: 0
+}
+DIV.anythingSlider .start-stop {
+	transition-duration: 0; -o-transition-duration: 0; -moz-transition-duration: 0; -webkit-transition-duration: 0
+}

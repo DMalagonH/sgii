@@ -1,0 +1,120 @@
+#sb-title-inner {
+	FONT-FAMILY: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, sans-serif; COLOR: #fff; FONT-WEIGHT: 200
+}
+#sb-info-inner {
+	FONT-FAMILY: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, sans-serif; COLOR: #fff; FONT-WEIGHT: 200
+}
+#sb-loading-inner {
+	FONT-FAMILY: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, sans-serif; COLOR: #fff; FONT-WEIGHT: 200
+}
+DIV.sb-message {
+	FONT-FAMILY: "HelveticaNeue-Light", "Helvetica Neue", Helvetica, Arial, sans-serif; COLOR: #fff; FONT-WEIGHT: 200
+}
+#sb-container {
+	Z-INDEX: 999; POSITION: fixed; TEXT-ALIGN: left; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; DISPLAY: none; VISIBILITY: hidden; TOP: 0px; PADDING-TOP: 0px; LEFT: 0px
+}
+#sb-overlay {
+	POSITION: relative; WIDTH: 100%; HEIGHT: 100%
+}
+#sb-wrapper {
+	POSITION: absolute; WIDTH: 100px; VISIBILITY: hidden
+}
+#sb-wrapper-inner {
+	BORDER-BOTTOM: #303030 1px solid; POSITION: relative; BORDER-LEFT: #303030 1px solid; HEIGHT: 100px; OVERFLOW: hidden; BORDER-TOP: #303030 1px solid; BORDER-RIGHT: #303030 1px solid
+}
+#sb-body {
+	POSITION: relative; HEIGHT: 100%
+}
+#sb-body-inner {
+	POSITION: absolute; WIDTH: 100%; HEIGHT: 100%
+}
+.html#sb-player {
+	HEIGHT: 100%; OVERFLOW: auto
+}
+#sb-body IMG {
+	BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none
+}
+#sb-loading {
+	POSITION: relative; HEIGHT: 100%
+}
+#sb-loading-inner {
+	POSITION: absolute; TEXT-ALIGN: center; LINE-HEIGHT: 24px; MARGIN-TOP: -12px; WIDTH: 100%; HEIGHT: 24px; FONT-SIZE: 14px; TOP: 50%
+}
+#sb-loading-inner SPAN {
+	PADDING-LEFT: 34px; DISPLAY: inline-block; BACKGROUND: url(http://mipana.unipanamericana.edu.co/typo3temp/pmkshadowbox/jquery-es-flv-html-iframe-img-qt-swf-wmp-sizzle-closeOnTop/loading.gif.pagespeed.ce.affjUZup4H.gif) no-repeat
+}
+#sb-body {
+	BACKGROUND-COLOR: #060606
+}
+#sb-loading {
+	BACKGROUND-COLOR: #060606
+}
+#sb-title {
+	POSITION: relative; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+#sb-info {
+	POSITION: relative; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+#sb-title {
+	LINE-HEIGHT: 26px; HEIGHT: 26px
+}
+#sb-title-inner {
+	LINE-HEIGHT: 26px; HEIGHT: 26px
+}
+#sb-title-inner {
+	FONT-SIZE: 16px
+}
+#sb-info {
+	LINE-HEIGHT: 20px; HEIGHT: 20px
+}
+#sb-info-inner {
+	LINE-HEIGHT: 20px; HEIGHT: 20px
+}
+#sb-info-inner {
+	FONT-SIZE: 12px
+}
+#sb-nav {
+	PADDING-BOTTOM: 2px; PADDING-LEFT: 0px; WIDTH: 45%; PADDING-RIGHT: 0px; FLOAT: right; HEIGHT: 16px; PADDING-TOP: 2px
+}
+#sb-nav A {
+	WIDTH: 16px; DISPLAY: block; BACKGROUND-REPEAT: no-repeat; FLOAT: right; HEIGHT: 16px; MARGIN-LEFT: 3px; CURSOR: pointer
+}
+#sb-nav-top {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; WIDTH: 20%; PADDING-RIGHT: 0px; FLOAT: right; HEIGHT: 16px; PADDING-TOP: 5px
+}
+#sb-nav-top A {
+	WIDTH: 16px; DISPLAY: block; FLOAT: right; HEIGHT: 16px; MARGIN-LEFT: 3px; CURSOR: pointer
+}
+#sb-nav-close {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAKFJREFUeNpi/P//PwMlgHHADWAAGYCGo4CYDYs4CMcCMTOyGLqCov8QsB2LIROgcovwGaAFxM+xGALT/A2IPfAZgM2Qybg04zIAZsir/wiAVTM+A0B4KZIBp4GYkxQDYM7+BcQfkLzDSYwB06AafkKdrYvkHQxD0DU3ommGiSMbshqfAXJAfBtHgOlC5SyRxbElZWYg/osj4WLIDXxmAggwAHTlHTWidTHeAAAAAElFTkSuQmCC)
+}
+#sb-nav-next {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAPFBMVEX///////////////////////////////////////////////////////////////////////////////8gsV51AAAAE3RSTlMAAwkPFR4tQk5aeJalscnb5PD5tBJmRQAAAEdJREFUGNONyDkCgCAQwMB4IeLN/v+vFntgSYopAh2lnwAcW1NHXUMd8ibXhjyL6UPuWY0hWY1RTB+7a+McXB3XGAJQpmZPH3A+BK/JMhXTAAAAAElFTkSuQmCC)
+}
+#sb-nav-previous {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAI9JREFUeNpi/P//PwMlgJFSAxhABuDBKoTE8WlOAOJphMRxafYD4j9YDMAQx6bZDIi//YeAaYTEmdCCRAWItwAxJ5HiKAaIAvF2KM1AhDiGAa5Qm9ABLnGs0dj+HxVMIyCONRDnY1OISxybAcxAvBGLAVjFcaUDTiA+iSUdYIjjS4miQFxESJxxwHMjQIABABQT4TRLh+gpAAAAAElFTkSuQmCC)
+}
+#sb-nav-play {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAHVJREFUeNpi/P//PwMlgJFSAxhABmDBZjjEMTAuFyyF0ilA/J0cFyz9DwEngVgCnwsIGQACD4FYlxIDQOAzEHtQYgAI/AHiUkoMgHlHmlwDjmELUGINmA/EbOSGQQW50fgNiEMIpURcEu1AbEBJUqZfbgQIMAD4AkaDGWpXMQAAAABJRU5ErkJggg==)
+}
+#sb-nav-pause {
+	BACKGROUND-IMAGE: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///////////////////////////9nSIHRAAAABnRSTlMACRItM1rW5vKdAAAAHElEQVQI12NgwANY05LD0gxowWBycVRxEcBiJQDuTxJE6WgWBAAAAABJRU5ErkJggg==)
+}
+#sb-counter {
+	WIDTH: 45%; FLOAT: left
+}
+#sb-counter A {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 4px; COLOR: #fff; CURSOR: pointer; TEXT-DECORATION: none; PADDING-TOP: 0px
+}
+#sb-counter A.sb-counter-current {
+	TEXT-DECORATION: underline
+}
+DIV.sb-message {
+	TEXT-ALIGN: center; PADDING-BOTTOM: 10px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; FONT-SIZE: 12px; PADDING-TOP: 10px
+}
+DIV.sb-message A:link {
+	COLOR: #fff; TEXT-DECORATION: underline
+}
+DIV.sb-message A:visited {
+	COLOR: #fff; TEXT-DECORATION: underline
+}
