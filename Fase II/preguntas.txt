@@ -1,4 +1,4 @@
-
+﻿
 Preguntas 05/09/2013 
 --------------------
 
@@ -30,3 +30,8 @@ Administración del sistema
 	
 Módulos
 	1. La numeración de los modulos obedece a algún estandar? lo podemos cambiar?
+
+PREGUNTAS DB
+- Campos tipo -> Tinity(6) ???
+- Campos tipo -> Varchar(2550) ???
+- Campos tipo -> BIGINT(22) ??
