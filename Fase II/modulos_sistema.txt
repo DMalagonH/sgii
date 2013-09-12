@@ -1,42 +1,68 @@
-Módulos del sistema
-===================
+Estructuración de Módulos Fase II
+=================================
 
-	MOD-01 Gestión de proyectos
-	---------------------------
-		MOD-01: Lista de proyectos registrados accesibles para el usuario 
-		MOD-02: Crear nuevo proyecto
-		MOD-03: Modificar proyecto
-		MOD-04: Cerrar proyecto
+Super Administrador
+	Control de logs
+	Control de auditoria
+	Control de cuentas? -> para que sea cloud
 
-	MOD-05 Gestión de objetivos
-	---------------------------
-		MOD-O5: CRUD de objetivos
+Administrador
+	Gestión de usuarios
+	Configuraciónes
+	Copias de seguridad
 
-	MOD-?? Gestión de hipótesis
-	--------------------
-		MOD-?? CRUD de hipótesis
-
-	MOD-06 Gestión de instrumentos
-	------------------------------
-		MOD-06 Lista de instrumentos registrados para un proyecto
-		MOD-07 Encuestas
-			MOD-08 Opciones de respuesta de la encuesta
+Registro de cuentas
 	
-	MOD-09 Seguimiento de resultados
-	--------------------------------
-		MOD-09 CRUD de seguimiento de resultados
-		
-	MOD-10 Asociación de investigadores al proyecto de investigación 
-	----------------------------------------------------------------
-		MOD-10 CRUD usuarios_proyectos
+Gestion de proyectos
+	Gestión de objetivos
+	Gestión de hipótesis
+	Seguimiento de resultados
+	Asociación de investigadores al proyecto de investigación 
 	
-	MOD-11 Parametrización del sistema
-	----------------------------------
-		MOD-11 Vista principal del administrador
-		MOD-12 CRUD de usuarios del sistema
-		MOD-13 Ajustes de investigador
-		MOD-?? Backups
-		
-	MOD-13 Ejecución de instrumentos
-	--------------------------------
-		MOD-13 Contestar encuesta
+Gestión de instrumentos
+
+Ejecución de instrumentos
+
+
+Estructuración de Módulos Fase I
+================================
+
+MOD-01 Gestión de proyectos
+---------------------------
+	MOD-01: Lista de proyectos registrados accesibles para el usuario 
+	MOD-02: Crear nuevo proyecto
+	MOD-03: Modificar proyecto
+	MOD-04: Cerrar proyecto
+
+MOD-05 Gestión de objetivos
+---------------------------
+	MOD-O5: CRUD de objetivos
+
+MOD-?? Gestión de hipótesis
+--------------------
+	MOD-?? CRUD de hipótesis
+
+MOD-06 Gestión de instrumentos
+------------------------------
+	MOD-06 Lista de instrumentos registrados para un proyecto
+	MOD-07 Encuestas
+		MOD-08 Opciones de respuesta de la encuesta
+
+MOD-09 Seguimiento de resultados
+--------------------------------
+	MOD-09 CRUD de seguimiento de resultados
+	
+MOD-10 Asociación de investigadores al proyecto de investigación 
+----------------------------------------------------------------
+	MOD-10 CRUD usuarios_proyectos
+
+MOD-11 Parametrización del sistema
+----------------------------------
+	MOD-11 Vista principal del administrador
+	MOD-12 CRUD de usuarios del sistema
+	MOD-13 Ajustes de investigador
+	MOD-?? Backups
+	
+MOD-13 Ejecución de instrumentos
+--------------------------------
+	MOD-13 Contestar encuesta
