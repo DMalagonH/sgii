@@ -11,7 +11,3 @@ Integrantes
 * Camilo Andrés Carmona Quijano
 * David Arturo López
 * Diego Alejandro Malagón Hernández
-
-este es mi cambio
-este es un cambio de otra persona
-para este cambio no tengo que ingresar mi usuario y contraseña
