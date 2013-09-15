@@ -2,3 +2,6 @@
 /Fase_I/CD/Aplicativo/Fuentes/1.1.0/nbproject
 /source/app/cache/dev/
 /source/app/cache/prod/
+
+/source/app/cache
+logs
