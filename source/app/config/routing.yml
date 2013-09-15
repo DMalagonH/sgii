@@ -1,0 +1,4 @@
+sgii:
+    resource: "@sgiiBundle/Resources/config/routing.yml"
+    prefix:   /
+

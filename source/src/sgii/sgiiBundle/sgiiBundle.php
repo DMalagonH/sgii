@@ -1,0 +1,9 @@
+<?php
+
+namespace sgii\sgiiBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class sgiiBundle extends Bundle
+{
+}

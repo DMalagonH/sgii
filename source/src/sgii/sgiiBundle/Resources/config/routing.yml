@@ -1,0 +1,4 @@
+sgiiBundleAnnotations:
+    resource: "@sgiiBundle/Controller/"
+    prefix: /
+    type: annotation

@@ -1,28 +1,31 @@
 Estructuración de Módulos Fase II
 =================================
 
-Super Administrador
-	Control de logs
-	Control de auditoria
-	Control de cuentas? -> para que sea cloud
+MOD-01 Super Administrador
+	Módulo para funcionalidades de desarrollador, contiene los siguientes submodulos:
+		Control de logs
+		Control de auditoria
 
-Administrador
-	Gestión de usuarios
-	Configuraciónes
-	Copias de seguridad
-
-Registro de cuentas
+MOD-02 Administrador
+	Módulo para la administración y parametrización de la aplicación
+		Gestión de usuarios
+		Configuraciónes
+		Copias de seguridad
 	
-Gestion de proyectos
-	Gestión de objetivos
-	Gestión de hipótesis
-	Seguimiento de resultados
-	Asociación de investigadores al proyecto de investigación 
+MOD-03 Gestión de proyectos
+	Módulo para todo lo relacionado a la gestión interna de proyectos
+		Gestión de objetivos
+		Gestión de hipótesis
+		Seguimiento de resultados
+		Asociación de investigadores al proyecto de investigación 
 	
-Gestión de instrumentos
+MOD-04 Gestión de instrumentos
+	Módulo para la gestión de instrumentos de investigación, va desde la creación hasta la asignación a proyectos
 
-Ejecución de instrumentos
-
+MOD-05 Ejecución de instrumentos
+	Módulo para registrar, consultar y ver reportes de las respuestas sobre los instrumentos de investigación
+	
+	
 
 Estructuración de Módulos Fase I
 ================================
