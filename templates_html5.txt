@@ -12,6 +12,14 @@ Camilo Quijano - Me gusta el 4
 
 1 http://portnine.com/bootstrap-themes/preview/wintertide
 2 http://medialoot.com/item/html5-admin-template/
+3 http://usman.it/themes/charisma/chart.html
 
 Estos dos son admin templates mucho mas completos. Cual les gusta mas? a mi me gusta el 2
 
+Camilo Quijano
+
+	El primero - me gusta que esta como mas completo que el segundo, las tablas tienen paginacion pero no tienen ordenacion por columna, tiene los form de login, y menu de usuario, en general, esta mas completo, pero no me gusta que por ejemplo el texto se ve como muy grande
+
+	El segundo - se ve muy mas bonito, pequeño, limpio, ordenado, las tablas tienen ordenacion, pero toca probar si tienen paginacion, tocaria hacerlo, y pues no aguanta reinventar la rueda, no tiene formularios de login, etc. se ve vacano, pero es sencillo
+
+	Propongo ese tercero, esta muy completo revisenlo, y si algo, mostremosle los que mejor nos paresca al profesor, y dejamos eso definido de una vez

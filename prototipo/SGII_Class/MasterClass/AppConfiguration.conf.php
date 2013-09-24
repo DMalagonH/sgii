@@ -11,7 +11,7 @@
 /* Motores Validos : "MSSQL" (Sql server); "MySQL"(mysql)*/
 $strMotorType="MySQL";
 /*Datos de conxeion*/
-$strDbName = 'sgii_f1';
+$strDbName = 'sgii';
 $strServerName = 'localhost';
 $strUserBD ='root';
 $strPwdBD ='';
