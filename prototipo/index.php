@@ -1,4 +1,6 @@
+
 <? 
+#prueba 
 include ('Header.php');
 ?> 
 <html>
@@ -19,7 +21,7 @@ $ObjDaUtilities->mtdCallJavaScript ();
   <table border="1" class ="TableSGII" align="center">
 	<tr>
 		<td colspan="2">
-			<h1>Iniciar Sesión</h1>
+			<h1>Iniciar Sesiï¿½n</h1>
 			</div>
 		</td>
 	</tr>
@@ -35,12 +37,12 @@ $ObjDaUtilities->mtdCallJavaScript ();
 		</td>
 	</tr>
 	<tr>
-		<!-- Contraseña -->
+		<!-- Contraseï¿½a -->
 		<td>
-			<label>Contraseña:</label>
+			<label>Contraseï¿½a:</label>
 		</td>
 		<td>
-			<input type="password" name="txtpassword" placeholder="Contraseña">
+			<input type="password" name="txtpassword" placeholder="Contraseï¿½a">
 		</td>
 	</tr>
 	<tr>
@@ -54,7 +56,7 @@ $ObjDaUtilities->mtdCallJavaScript ();
 		<td colspan="2">
 		<br/>
 		<br/>
-			<p class="perder"><a href="#">Olvide mi contraseña</a> | <a href="#">Registrarme</a></p>
+			<p class="perder"><a href="#">Olvide mi contraseï¿½a</a> | <a href="#">Registrarme</a></p>
 		</td>
 	</tr>
 	</form>
