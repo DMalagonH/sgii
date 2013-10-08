@@ -8,34 +8,26 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * controlador para el homepage de la aplicacion.
+ * controlador para el login de la aplicacion.
  * 
- * @Route("/home")
+ * @Route("/")
  * @package CuentaBundle/Controller
  */
-class HomeController extends Controller
+class LoginController extends Controller
 {
-    
     /**
-     * Index para la aplicacion
+     * Accion para login de la aplicacion
      * 
-     * @Route("/", name="homepage")
+     * @Route("/", name="login")
      * @author Diego Malagón <diego-software@hotmail.com>
      * @return Resonse
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
         
-        $usuarios = $em->getRepository("sgiiBundle:TblUsuario")->findAll();
         
-        echo "<pre>";
-        print_r($usuarios);
-        echo "</pre>";
-        
-        return $this->render('sgiiBundle:Home:index.html.twig', array());
+        return $this->render('sgiiBundle:Login:index.html.twig', array());
     }
     
 }
-
 ?>
