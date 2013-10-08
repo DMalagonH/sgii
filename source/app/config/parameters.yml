@@ -1,14 +1,14 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: 127.0.0.1
-    database_port: null
-    database_name: sgii-dev
+    database_host: localhost
+    database_port: 3306
+    database_name: db_sgii
     database_user: root
     database_password: null
     mailer_transport: smtp
-    mailer_host: 127.0.0.1
+    mailer_host: localhost
     mailer_user: null
     mailer_password: null
     locale: es
-    secret: ThisTokenIsNotSoSecretChangeIt
+    secret: f5801ca3b5019ed506ec912fe91167ef73ed7b8a

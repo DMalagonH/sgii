@@ -1,8 +1,8 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     127.0.0.1
+    database_host:     localhost
     database_port:     ~
-    database_name:     symfony
+    database_name:     db_sgii
     database_user:     root
     database_password: ~
 
@@ -12,4 +12,4 @@ parameters:
     mailer_password:   ~
 
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            f5801ca3b5019ed506ec912fe91167ef73ed7b8a
