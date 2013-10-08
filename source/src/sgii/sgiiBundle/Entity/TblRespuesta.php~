@@ -1,0 +1,46 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblRespuesta
+ *
+ * @ORM\Table(name="tbl_respuesta")
+ * @ORM\Entity
+ */
+class TblRespuesta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="res_respuesta", type="string", length=250, nullable=false)
+     */
+    private $resRespuesta;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="res_estado", type="boolean", nullable=false)
+     */
+    private $resEstado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
+     */
+    private $preguntaId;
+
+
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblUsuario" table="tbl_usuario">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="usuCedula" type="string" column="usu_cedula" length="20" nullable="true"/>
+    <field name="usuNombre" type="string" column="usu_nombre" length="250" nullable="true"/>
+    <field name="usuFechaCreacion" type="datetime" column="usu_fecha_creacion" nullable="true"/>
+    <field name="usuLog" type="string" column="usu_log" length="250" nullable="true"/>
+    <field name="usuPassword" type="string" column="usu_password" length="250" nullable="true"/>
+    <field name="usuEstado" type="boolean" column="usu_estado" nullable="true"/>
+    <field name="cargoId" type="integer" column="cargo_id" nullable="true"/>
+    <field name="departamentoId" type="integer" column="departamento_id" nullable="true"/>
+    <field name="organizacionId" type="integer" column="organizacion_id" nullable="true"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,125 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblEstadoProyecto
+ *
+ * @ORM\Table(name="tbl_estado_proyecto")
+ * @ORM\Entity
+ */
+class TblEstadoProyecto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="epr_estado_proyecto", type="string", length=250, nullable=false)
+     */
+    private $eprEstadoProyecto;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="epr_estado", type="boolean", nullable=false)
+     */
+    private $eprEstado;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="epr_disponible_cierre", type="boolean", nullable=false)
+     */
+    private $eprDisponibleCierre;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set eprEstadoProyecto
+     *
+     * @param string $eprEstadoProyecto
+     * @return TblEstadoProyecto
+     */
+    public function setEprEstadoProyecto($eprEstadoProyecto)
+    {
+        $this->eprEstadoProyecto = $eprEstadoProyecto;
+    
+        return $this;
+    }
+
+    /**
+     * Get eprEstadoProyecto
+     *
+     * @return string 
+     */
+    public function getEprEstadoProyecto()
+    {
+        return $this->eprEstadoProyecto;
+    }
+
+    /**
+     * Set eprEstado
+     *
+     * @param boolean $eprEstado
+     * @return TblEstadoProyecto
+     */
+    public function setEprEstado($eprEstado)
+    {
+        $this->eprEstado = $eprEstado;
+    
+        return $this;
+    }
+
+    /**
+     * Get eprEstado
+     *
+     * @return boolean 
+     */
+    public function getEprEstado()
+    {
+        return $this->eprEstado;
+    }
+
+    /**
+     * Set eprDisponibleCierre
+     *
+     * @param boolean $eprDisponibleCierre
+     * @return TblEstadoProyecto
+     */
+    public function setEprDisponibleCierre($eprDisponibleCierre)
+    {
+        $this->eprDisponibleCierre = $eprDisponibleCierre;
+    
+        return $this;
+    }
+
+    /**
+     * Get eprDisponibleCierre
+     *
+     * @return boolean 
+     */
+    public function getEprDisponibleCierre()
+    {
+        return $this->eprDisponibleCierre;
+    }
+}

@@ -1,0 +1,95 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblTipoHerramienta
+ *
+ * @ORM\Table(name="tbl_tipo_herramienta")
+ * @ORM\Entity
+ */
+class TblTipoHerramienta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="the_nombre_herramienta", type="string", length=250, nullable=false)
+     */
+    private $theNombreHerramienta;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="the_estado", type="boolean", nullable=false)
+     */
+    private $theEstado;
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set theNombreHerramienta
+     *
+     * @param string $theNombreHerramienta
+     * @return TblTipoHerramienta
+     */
+    public function setTheNombreHerramienta($theNombreHerramienta)
+    {
+        $this->theNombreHerramienta = $theNombreHerramienta;
+    
+        return $this;
+    }
+
+    /**
+     * Get theNombreHerramienta
+     *
+     * @return string 
+     */
+    public function getTheNombreHerramienta()
+    {
+        return $this->theNombreHerramienta;
+    }
+
+    /**
+     * Set theEstado
+     *
+     * @param boolean $theEstado
+     * @return TblTipoHerramienta
+     */
+    public function setTheEstado($theEstado)
+    {
+        $this->theEstado = $theEstado;
+    
+        return $this;
+    }
+
+    /**
+     * Get theEstado
+     *
+     * @return boolean 
+     */
+    public function getTheEstado()
+    {
+        return $this->theEstado;
+    }
+}

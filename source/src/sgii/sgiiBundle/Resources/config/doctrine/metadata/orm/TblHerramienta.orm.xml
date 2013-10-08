@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblHerramienta" table="tbl_herramienta">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="herNombreHerramienta" type="string" column="her_nombre_herramienta" length="250" nullable="false"/>
+    <field name="herFechaInicio" type="datetime" column="her_fecha_inicio" nullable="false"/>
+    <field name="herFechaFn" type="datetime" column="her_fecha_fn" nullable="false"/>
+    <field name="herEstado" type="boolean" column="her_estado" nullable="false"/>
+    <field name="tipoHerramientaId" type="integer" column="tipo_herramienta_id" nullable="false"/>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblPregunta" table="tbl_pregunta">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="prePregunta" type="string" column="pre_pregunta" length="250" nullable="false"/>
+    <field name="preObligatoria" type="boolean" column="pre_obligatoria" nullable="false"/>
+    <field name="preEstado" type="boolean" column="pre_estado" nullable="false"/>
+    <field name="herramientaId" type="integer" column="herramienta_id" nullable="false"/>
+    <field name="tipoPreguntaId" type="integer" column="tipo_pregunta_id" nullable="false"/>
+  </entity>
+</doctrine-mapping>

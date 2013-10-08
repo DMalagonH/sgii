@@ -1,0 +1,39 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblPerfil
+ *
+ * @ORM\Table(name="tbl_perfil")
+ * @ORM\Entity
+ */
+class TblPerfil
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="per_perfil", type="string", length=250, nullable=false)
+     */
+    private $perPerfil;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="per_estado", type="boolean", nullable=false)
+     */
+    private $perEstado;
+
+
+}

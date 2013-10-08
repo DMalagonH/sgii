@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblProyecto" table="tbl_proyecto">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="proNombre" type="string" column="pro_nombre" length="250" nullable="false"/>
+    <field name="proDescripcion" type="string" column="pro_descripcion" length="2500" nullable="false"/>
+    <field name="proProblema" type="string" column="pro_problema" length="500" nullable="false"/>
+    <field name="proFechaCreacion" type="datetime" column="pro_fecha_creacion" nullable="false"/>
+    <field name="proConclusiones" type="string" column="pro_conclusiones" length="2500" nullable="false"/>
+    <field name="proDemostraciones" type="string" column="pro_demostraciones" length="2500" nullable="false"/>
+    <field name="proRecomendaciones" type="string" column="pro_recomendaciones" length="2500" nullable="false"/>
+    <field name="proEstado" type="boolean" column="pro_estado" nullable="false"/>
+    <field name="estadoProyectoId" type="integer" column="estado_proyecto_id" nullable="false"/>
+    <field name="tipoInvestigacionId" type="integer" column="tipo_investigacion_id" nullable="false"/>
+    <field name="lineaInvestigacionId" type="integer" column="linea_investigacion_id" nullable="false"/>
+    <field name="usuarioId" type="integer" column="usuario_id" nullable="false"/>
+  </entity>
+</doctrine-mapping>

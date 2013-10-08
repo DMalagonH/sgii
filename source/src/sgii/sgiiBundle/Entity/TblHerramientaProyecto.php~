@@ -1,0 +1,39 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblHerramientaProyecto
+ *
+ * @ORM\Table(name="tbl_herramienta_proyecto")
+ * @ORM\Entity
+ */
+class TblHerramientaProyecto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
+     */
+    private $herramientaId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
+     */
+    private $proyectoId;
+
+
+}
