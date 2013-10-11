@@ -35,6 +35,13 @@ class TblModulo
      */
     private $modEstado;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mod_routes", type="text", nullable=true)
+     */
+    private $modRoutes;
+
 
 
     /**
@@ -91,5 +98,28 @@ class TblModulo
     public function getModEstado()
     {
         return $this->modEstado;
+    }
+
+    /**
+     * Set modRoutes
+     *
+     * @param string $modRoutes
+     * @return TblModulo
+     */
+    public function setModRoutes($modRoutes)
+    {
+        $this->modRoutes = $modRoutes;
+    
+        return $this;
+    }
+
+    /**
+     * Get modRoutes
+     *
+     * @return string 
+     */
+    public function getModRoutes()
+    {
+        return $this->modRoutes;
     }
 }

@@ -135,7 +135,7 @@ class SecurityService
         JOIN tbl_modulo m ON pm.modulo_id = m.id
         WHERE up.usuario_id = 1
         GROUP BY m.id;*/
-        $dql = "SELECT m.modNombre, 'test,ruta,permisos,modulos' as modRoutes
+        $dql = "SELECT m.modNombre, m.modRoutes
                 FROM sgiiBundle:TblUsuarioPerfil up
                 JOIN sgiiBundle:TblPerfil p WITH up.perfilId = p.id
                 JOIN sgiiBundle:TblPerfilModulo pm WITH p.id = pm.perfilId
