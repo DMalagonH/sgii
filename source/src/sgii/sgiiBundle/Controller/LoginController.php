@@ -24,6 +24,11 @@ class LoginController extends Controller
      */
     public function indexAction()
     {
+        $security = $this->get('security');
+        
+        $login = $security->login('DiegoMalagon', '1234');
+        
+        $security->debug($login);
         
         
         return $this->render('sgiiBundle:Login:index.html.twig', array());
