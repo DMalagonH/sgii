@@ -1,7 +1,8 @@
 $(document).ready(function(){
 	//themes, change CSS with JS
 	//default theme(CSS) is cerulean, change it if needed
-	var current_theme = $.cookie('current_theme')==null ? 'cerulean' :$.cookie('current_theme');
+	/*
+    var current_theme = $.cookie('current_theme')==null ? 'cerulean' :$.cookie('current_theme');
 	switch_theme(current_theme);
 	
 	$('#themes a[data-value="'+current_theme+'"]').find('i').addClass('icon-ok');
@@ -14,7 +15,7 @@ $(document).ready(function(){
 		$('#themes i').removeClass('icon-ok');
 		$(this).find('i').addClass('icon-ok');
 	});
-	
+	*/
 	
 	function switch_theme(theme_name)
 	{
@@ -94,7 +95,7 @@ $(document).ready(function(){
 	//other things to do on document ready, seperated for ajax calls
 	docReady();
 });
-		
+
 		
 function docReady(){
 	//prevent # links from moving to top
@@ -111,7 +112,7 @@ function docReady(){
 	//notifications
 	$('.noty').click(function(e){
 		e.preventDefault();
-		var options = $.parseJSON($(this).attr('data-noty-options'));
+		var options = $.parseJSON('{"text":"This is an alert notification with fade effect","layout":"topCenter","type":"error","animateOpen": {"opacity": "show"}}');
 		noty(options);
 	});
 

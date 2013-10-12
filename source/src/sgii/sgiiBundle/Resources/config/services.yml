@@ -1,6 +1,7 @@
 parameters:
 #    sgii.example.class: sgii\sgiiBundle\Example
     security.class: sgii\sgiiBundle\Services\SecurityService
+    validate.class: sgii\sgiiBundle\Services\ValidateService
 
 services:
 #    sgii.example:
@@ -9,3 +10,5 @@ services:
     security:
         class: %security.class%
         arguments: ["@doctrine", "@session"]
+    validate:
+        class: %security.class%

@@ -1,12 +1,15 @@
+{% set sess_usuario = app.session.get('sess_usuario') %}
+{% set sess_routes = app.session.get('sess_routes') %}
+{% set sess_modulos = app.session.get('sess_modulos') %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <title>{% block title %}SGII{% endblock %}</title>
-        
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <title>{% block title %}SGII{% endblock %}</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         
 	<!-- The styles -->
 	<link id="bs-css" href="{{ asset('css/bootstrap-spacelab.css') }}" rel="stylesheet">
@@ -80,13 +83,13 @@
                     <!-- user dropdown starts -->
                     <div class="btn-group pull-right" >
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-user"></i><span class="hidden-phone"> Usuario</span>
+                            <i class="icon-user"></i><span class="hidden-phone"> {{ sess_usuario.usuNombre }}</span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Mi perfil</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.html">Cerrar sesión</a></li>
+                            <li><a href="{{ path('logout') }}">Cerrar sesión</a></li>
                         </ul>
                     </div>
 
@@ -103,37 +106,37 @@
             </div>
 	</div>
             
-        <!-- topbar ends -->
-        <div class="container-fluid">
-            <div class="row-fluid">
+    <!-- topbar ends -->
+    <div class="container-fluid">
+        <div class="row-fluid">
 
-                <!-- left menu starts -->
-                <div class="span2 main-menu-span">
-                    <div class="well nav-collapse sidebar-nav">
-                        <ul class="nav nav-tabs nav-stacked main-menu">
-                            <li class="nav-header hidden-tablet">Menú</li>
-                            <li><a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-                            <li><a class="ajax-link" href=""><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a></li>
-                            
-                        </ul>
-                    </div>
-                </div>
-                <noscript>
-                    <div class="alert alert-block span10">
-                        <h4 class="alert-heading">Warning!</h4>
-                        <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
-                    </div>
-                </noscript>
+            <!-- left menu starts -->
+            <div class="span2 main-menu-span">
+                <div class="well nav-collapse sidebar-nav">
+                    <ul class="nav nav-tabs nav-stacked main-menu">
+                        <li class="nav-header hidden-tablet">Menú</li>
+                        <li><a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+                        <li><a class="ajax-link" href=""><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a></li>
 
-                <div id="content" class="span10">
-                    {% block body %}{% endblock %}
+                    </ul>
                 </div>
             </div>
-				
-            <hr>		
-            <footer>
-                <p class="pull-left">&copy; <a href="http://unipanamericana.edu.co/" target="_blank">Unipanamericana </a> 2013</p>
-            </footer>
+            <noscript>
+                <div class="alert alert-block span10">
+                    <h4 class="alert-heading">Warning!</h4>
+                    <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+                </div>
+            </noscript>
+
+            <div id="content" class="span10">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
+        <hr>		
+        <footer>
+            <p class="pull-left">&copy; <a href="http://unipanamericana.edu.co/" target="_blank">Unipanamericana </a> 2013</p>
+        </footer>
 	</div>
 
 	<!-- jQuery -->
@@ -204,8 +207,10 @@
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="{{ asset('js/jquery.history.js') }}"></script>
 	<!-- application script for Charisma demo -->
-	<!--<script src="{{ asset('js/charisma.js') }}"></script>-->
+	<script src="{{ asset('js/charisma.js') }}"></script>
 
-        {% block script %}{% endblock %}
+    {% block script %}{% endblock %}
+    
+    {% include '::alerts.html.twig' %}
     </body>
 </html>

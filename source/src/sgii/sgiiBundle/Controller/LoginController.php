@@ -20,18 +20,62 @@ class LoginController extends Controller
      * 
      * @Route("/", name="login")
      * @author Diego Malagón <diego-software@hotmail.com>
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Resonse
      */
-    public function indexAction()
+    public function loginAction(Request $request)
+    {
+        $security = $this->get('security');
+                
+        $formData = array('user' => '', 'pass' => '');
+        $form = $this->createFormBuilder($formData)
+           ->add('user', 'text', array('required' => true))
+           ->add('pass', 'password', array('required' => true))
+           ->getForm(); 
+                
+        $acceso_denegado = true;
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                if(!empty($data['user']) && !empty($data['pass']))
+                {
+                    if($security->login($data['user'], $data['pass']))
+                    {
+                        $acceso_denegado = false;
+                        
+                        return $this->redirect($this->generateUrl('homepage'));
+                    }
+                }
+            }
+            
+            if($acceso_denegado)
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique su usuario o contraseña"));
+            }
+        }
+        
+        return $this->render('sgiiBundle:Login:login.html.twig', array(
+            'form'=>$form->createView(), 
+        ));
+    }
+    
+    /**
+     * Accion para eliminar la session 
+     * 
+     * @Route("/logout", name="logout")
+     * @author Diego Malagón <diego-software@hotmail.com>
+     */
+    public function logoutAction()
     {
         $security = $this->get('security');
         
-        $login = $security->login('DiegoMalagon', '1234');
+        $security->logout();
         
-        $security->debug($login);
-        
-        
-        return $this->render('sgiiBundle:Login:index.html.twig', array());
+        return $this->redirect($this->generateUrl('login'));
     }
     
 }

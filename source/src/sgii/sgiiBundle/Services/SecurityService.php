@@ -94,9 +94,9 @@ class SecurityService
 
             $modulos = $this->getModulosUsuario($usuario['id']);
 
-            $this->session->set('usuario',$usuario);
-            $this->session->set('modulos',$modulos['modulos']);
-            $this->session->set('routes',$modulos['routes']);
+            $this->session->set('sess_usuario',$usuario);
+            $this->session->set('sess_modulos',$modulos['modulos']);
+            $this->session->set('sess_routes',$modulos['routes']);
 
             return true;
         }
@@ -113,9 +113,9 @@ class SecurityService
      */
     public function logout()
     {
-        $this->session->set('usuario',null);
-        $this->session->set('modulos',null);
-        $this->session->set('routes',null);
+        $this->session->set('sess_usuario',null);
+        $this->session->set('sess_modulos',null);
+        $this->session->set('sess_routes',null);
     }
     
     /**

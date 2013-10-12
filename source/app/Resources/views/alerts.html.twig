@@ -1,0 +1,28 @@
+{% set flashbag = app.session.flashbag.get('alerts') %}
+{#
+Tipos de notificaciones:
+    alert (default)
+    error
+    success
+Layouts
+    topLeft
+    topCenter (default)
+    topRight
+    top
+    center
+    bottomLeft
+    bottomRight
+    bottom
+#}
+
+<script>
+$(document).ready(function(){
+    {% for alert in flashbag %}
+
+        var options = $.parseJSON('{"text":"{{ alert.text }}","layout":"{{ alert.layout | default('topCenter') }}","type":"{{ alert.type | default('alert') }}"}');
+        
+        noty(options);
+
+    {% endfor %}
+});
+</script>
