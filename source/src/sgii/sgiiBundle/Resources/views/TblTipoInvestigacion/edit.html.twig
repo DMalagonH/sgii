@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Editar tipo de investigación</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <form class="form-horizontal" action="{{ path('tipoinvestigacion_edit', {'id': entity.id }) }}" method="POST" {{ form_enctype(edit_form) }}>
+                    <fieldset>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Nombre </label>
+                            <div class="controls span10">
+                                {{ form_widget(edit_form.tinNombreTipo, {'attr': {'class':'span10'}} ) }}
+                            </div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2">Activo </label>
+                            <div class="controls span10">
+                                {{ form_widget(edit_form.tinEstado, {'attr': {}} ) }}{# 'class':'span10 iphone-toggle', "data-no-uniform":"true" #}
+                            </div>
+                        </div>
+                        {{ form_errors(edit_form) }}
+                        {{ form_widget(edit_form._token) }}
+                        <div class="form-actions center">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <a href="{{ path('tipoinvestigacion') }}" class="btn">Cancelar</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+    {# form(delete_form) #}
+{% endblock %}
