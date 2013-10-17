@@ -121,9 +121,7 @@
                 <div class="well nav-collapse sidebar-nav">
                     <ul class="nav nav-tabs nav-stacked main-menu">
                         <li class="nav-header hidden-tablet">Menú</li>
-                        <li><a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-                        <li><a class="ajax-link" href=""><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a></li>
-
+                        {% block menu %}{% endblock menu %}
                     </ul>
                 </div>
             </div>

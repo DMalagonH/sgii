@@ -42,7 +42,7 @@ class TblTipoInvestigacionController extends Controller
      * @param Int $id Id del tipo de investigación
      * @return Render Vista renderizada con detalles de tipo de investigación
      * @Template("sgiiBundle:TblTipoInvestigacion:show.html.twig")
-     * @Route("/{id}", name="tipoinvestigacion_show")
+     * @Route("/{id}/show", name="tipoinvestigacion_show")
      */
     public function showAction($id)
     {

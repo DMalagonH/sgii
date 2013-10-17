@@ -1,5 +1,10 @@
 {% extends '::base.html.twig' %}
 
+{% block menu %}
+    {% set origen = 'acceso_tipo_investigacion' %}
+    {% include '::menuhorizontal.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
     <div class="row-fluid sortable">
         <div class="box span12">
