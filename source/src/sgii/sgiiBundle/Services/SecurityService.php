@@ -25,7 +25,16 @@ class SecurityService
      */
     function encriptar($txt)
     {
-        $return = md5($txt);
+        $secret = 'c260f7806c129e256ed2807f67314c42';
+        
+        $len = strlen($txt);
+        $mlen = round($len/2);
+        
+        $m1 = substr($txt, 0, $mlen);
+        $m2 = substr($txt, $mlen);
+        
+        $return = sha1(md5($m1.$secret).md5($m2.$secret));
+        
         return $return;
     }
     
@@ -54,15 +63,53 @@ class SecurityService
      */
     public function autentication()
     {
+        $return = false;
+        $sess_usuario = $this->session->get('sess_usuario');
+        $sess_routes = $this->session->get('sess_routes');
         
+        if(isset($sess_usuario['usuLog']))
+        {
+            if(count($sess_routes)>0)
+            {
+                $return = true;
+            }
+        }
+        
+        return  $return;
     }
     
     /**
+     * Funcion que verifica si el usuario tiene permiso a una ruta o modulo
      * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param string $route ruta de action
+     * @param string $check route|mod indica en donde buscar el permiso
+     * @return boolean true si tiene el permiso false si no
      */
-    public function autorization()
+    public function autorization($route, $check="route")
     {
+        $return = false;
         
+        if($check == 'route')
+        {        
+            $sess_routes = $this->session->get('sess_routes');
+
+            if(in_array($route, $sess_routes))
+            {
+                $return = true;
+            }
+        }
+        elseif($check == 'mod')
+        {
+            $sess_modulos = $this->session->get('sess_modulos');
+
+            if(in_array($route, $sess_modulos))
+            {
+                $return = true;
+            }
+        }
+        
+        return $return;
     }
     
     /**
@@ -166,8 +213,102 @@ class SecurityService
         return $modulos;
     }
     
+    /**
+     * Funcion para registrar una accion de usuario en la auditoria del sistema
+     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param integer $usuarioId id de usuario
+     * @param string $accion descripcion de la accion ejecutada
+     */
+    public function setAuditoria($accion)
+    {
+        $sess_usuario = $this->session->get('sess_usuario');
+        $usuarioId = $sess_usuario['id'];
+        
+        $control = new \sgii\sgiiBundle\Entity\TblAuditoria();
+        $control->setAudAccion($accion);
+        $control->setAudUsuarioId($usuarioId);
+        $control->setAudFecha(new \DateTime());
+        $control->setAudIpAcceso($this->getUserIp());
+        
+        
+        $this->em->persist($control);
+        $this->em->flush();
+    }
     
+    /**
+     * Funcion para registrar un error del sistema
+     * @param type $error
+     * @param type $modulo
+     */
+    public function setError($error, $modulo = null)
+    {
+        $sess_usuario = $this->session->get('sess_usuario');
+        $usuarioId = (isset($sess_usuario['id'])) ? $sess_usuario['id'] : null;
+        
+        
+        $log = new \sgii\sgiiBundle\Entity\TblLog();
+        
+        $log->setLogDescripcion($error);
+        $log->setLogUsuarioId($usuarioId);
+        $log->setLogModulo($modulo);
+        $log->setLogFecha(new \DateTime());
+        $log->setLogIp($this->getUserIp());
+        
+        $this->em->persist($log);
+        $this->em->flush();
+    }
     
+    /**
+     * Funcion para obtener la ip desde donde es accedida la aplicacion
+     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @return string
+     */
+    private function getUserIp() 
+    {
+        $ip = ""; 
+        if(isset($_SERVER)) 
+        { 
+            if (!empty($_SERVER['HTTP_CLIENT_IP'])) 
+            { 
+                $ip=$_SERVER['HTTP_CLIENT_IP'];
+            } 
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) 
+            { 
+                $ip=$_SERVER['HTTP_X_FORWARDED_FOR']; 
+            } 
+            else 
+            { 
+                $ip=$_SERVER['REMOTE_ADDR']; 
+            } 
+        } 
+        else 
+        { 
+            if ( getenv( 'HTTP_CLIENT_IP' ) ) 
+            { 
+                $ip = getenv( 'HTTP_CLIENT_IP' ); 
+            } 
+            elseif ( getenv( 'HTTP_X_FORWARDED_FOR' ) ) 
+            { 
+                $ip = getenv( 'HTTP_X_FORWARDED_FOR' ); 
+            } 
+            else 
+            { 
+                $ip = getenv( 'REMOTE_ADDR' ); 
+            } 
+        } 
+        // En algunos casos muy raros la ip es devuelta repetida dos veces separada por coma 
+        if(strstr($ip,',')) 
+        { 
+            $ip = array_shift(explode(',',$ip)); 
+        } 
+        
+        if($ip == "::1") $ip = "127.0.0.1";
+        
+        return $ip;
+    }
+        
     /**
      * Funcion para imprimir la estructura de una variable
      * 

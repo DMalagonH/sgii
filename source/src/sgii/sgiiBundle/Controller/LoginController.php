@@ -29,7 +29,7 @@ class LoginController extends Controller
                 
         $formData = array('user' => '', 'pass' => '');
         $form = $this->createFormBuilder($formData)
-           ->add('user', 'text', array('required' => true))
+           ->add('user', 'email', array('required' => true))
            ->add('pass', 'password', array('required' => true))
            ->getForm(); 
                 
@@ -47,6 +47,7 @@ class LoginController extends Controller
                     {
                         $acceso_denegado = false;
                         
+                        $security->setAuditoria('login');
                         return $this->redirect($this->generateUrl('homepage'));
                     }
                 }
@@ -55,6 +56,7 @@ class LoginController extends Controller
             if($acceso_denegado)
             {
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique su usuario o contraseña"));
+                $security->setError('login error '.$data['user']);
             }
         }
         
