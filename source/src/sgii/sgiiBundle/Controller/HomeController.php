@@ -25,13 +25,12 @@ class HomeController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+       
         
-        $usuarios = $em->getRepository("sgiiBundle:TblUsuario")->findAll();
-        
-        echo "<pre>";
-        print_r($usuarios);
-        echo "</pre>";
+       
         
         return $this->render('sgiiBundle:Home:index.html.twig', array());
     }
