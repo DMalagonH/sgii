@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_linea_investigacion' %}
+    {% include '::menuhorizontal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Detalles de la línea de investigación</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <fieldset>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Nombre </label>
+                        <div class="controls span10">
+                            {{ entity.linNombreInvestigacion }}
+                        </div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Activo </label>
+                        <div class="controls span10">
+                            {% if entity.linEstado == 1 %}
+                                <span class="label label-success">Activo</span>
+                            {% else %}
+                                <span class="label">Inactivo</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-actions center">
+                        <a href="{{ path('lineainvestigacion_edit', { 'id': entity.id }) }}" class="btn btn-primary">Editar</a>
+                        <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdeleteli'}}) }}</div>
+                        <a href="{{ path('lineainvestigacion') }}" class="btn">Volver</a>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block script %}
+    <script>
+    // Confirmacion de eliminar un tipo de investigacion
+    $('.confirmtp').click(function(){
+        if (confirm('¿Desea eliminar esta línea de investigación?')) {
+            $('#formdeleteli').submit();
+        }
+    });
+    </script>
+{% endblock script %}

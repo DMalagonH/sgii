@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block menu %}
-    {% set origen = 'acceso_tipo_investigacion' %}
+    {% set origen = 'acceso_linea_investigacion' %}
     {% include '::menuhorizontal.html.twig' %}
 {% endblock menu %}
 
@@ -9,9 +9,9 @@
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
-                <h2><i class="icon-list-alt"></i> Tipos de investigación</h2>
+                <h2><i class="icon-list-alt"></i> Línea de investigación</h2>
                 <div class="box-icon">
-                    <a href="{{ path('tipoinvestigacion_new') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Nuevo</a>
+                    <a href="{{ path('lineainvestigacion_new') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Nuevo</a>
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                 </div>
             </div>
@@ -28,19 +28,19 @@
                         <tbody>
                             {% for entity in entities %}
                                 <tr>
-                                    <td>{{ entity.tinNombreTipo }}</td>
+                                    <td>{{ entity.linNombreInvestigacion }}</td>
                                     <td style='text-align:center;'>
-                                        {% if entity.tinEstado == 1 %}
+                                        {% if entity.linEstado == 1 %}
                                             <span class="label label-success">Activo</span>
                                         {% else %}
                                             <span class="label">Inactivo</span>
                                         {% endif %}
                                     </td>
                                     <td style='text-align:center;'>
-                                        <a class="btn btn-success" href="{{ path('tipoinvestigacion_show', { 'id': entity.id }) }}">
+                                        <a class="btn btn-success" href="{{ path('lineainvestigacion_show', { 'id': entity.id }) }}">
                                             <i class="icon-zoom-in icon-white"></i>  Ver
                                         </a>
-                                        <a class="btn btn-info" href="{{ path('tipoinvestigacion_edit', { 'id': entity.id }) }}">
+                                        <a class="btn btn-info" href="{{ path('lineainvestigacion_edit', { 'id': entity.id }) }}">
                                             <i class="icon-edit icon-white"></i> Editar
                                         </a>
                                         {#<a class="btn btn-danger" href="#">
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                    No se ha registrado ningún tipo de investigación
+                    No se ha registrado ningúna línea de investigación
                 {% endif %}
             </div>
         </div><!--/span-->

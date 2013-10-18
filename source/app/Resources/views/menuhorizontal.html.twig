@@ -1,11 +1,14 @@
 {% set origen = (origen is defined) ? origen : '' %}
    
-<li>
+<li {% if origen == 'acceso_home' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a>
 </li>
 <li>
-    <a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a>
+    <a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a>
 </li>
 <li {% if origen == 'acceso_tipo_investigacion' %}class='active'{% endif %}>
-    <a class="ajax-link" href="#"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tipos de investigación</span></a>
+    <a class="ajax-link" href="{{ path("tipoinvestigacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tipos de investigación</span></a>
+</li>
+<li {% if origen == 'acceso_linea_investigacion' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("lineainvestigacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Línea de investigación</span></a>
 </li>

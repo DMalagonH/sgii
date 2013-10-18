@@ -31,7 +31,6 @@ class TblTipoInvestigacion
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="tin_estado", type="boolean", nullable=false)
      */
     private $tinEstado;

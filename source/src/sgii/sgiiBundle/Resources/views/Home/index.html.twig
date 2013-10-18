@@ -1,5 +1,10 @@
 {% extends "::base.html.twig" %}
 
+{% block menu %}
+    {% set origen = 'acceso_home' %}
+    {% include '::menuhorizontal.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
     index
 {% endblock %}

@@ -22,7 +22,7 @@ class TblTipoInvestigacionController extends Controller
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @Method("GET")
-     * @return Render ViewRender de listado de  tipos de investigacion
+     * @return Render ViewRender de listado de tipos de investigacion
      * @Template("sgiiBundle:TblTipoInvestigacion:index.html.twig")
      * @Route("/", name="tipoinvestigacion")
      */
@@ -62,7 +62,7 @@ class TblTipoInvestigacionController extends Controller
     }
 
     /**
-     * Agregar tipo de investigacion
+     * Agregar tipo de investigación
      *
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
@@ -79,8 +79,8 @@ class TblTipoInvestigacionController extends Controller
         if ($request->getMethod() == "POST")
         {
             $form->bind($request);
-            if ($form->isValid()) {
-                
+            if ($form->isValid()) 
+            {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
@@ -122,8 +122,10 @@ class TblTipoInvestigacionController extends Controller
         if ($request->getMethod() == 'POST')
         {
             $editForm->bind($request);
-            if ($editForm->isValid()) {
+            if ($editForm->isValid()) 
+            {
                 $em->flush();
+                
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El tipo de investigacion ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('tipoinvestigacion_show', array('id' => $id)));
             }
@@ -169,7 +171,7 @@ class TblTipoInvestigacionController extends Controller
     }
 
     /**
-     * Creación de forulario para eliminar un tipo de investigación
+     * Creación de formulario para eliminar un tipo de investigación
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @param Int $id Id del tipo de investigación

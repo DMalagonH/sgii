@@ -1,8 +1,8 @@
 <?php
 
 namespace sgii\sgiiBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TblLineaInvestigacion
@@ -23,14 +23,14 @@ class TblLineaInvestigacion
 
     /**
      * @var string
-     *
      * @ORM\Column(name="lin_nombre_investigacion", type="string", length=250, nullable=false)
+     * @Assert\NotNull()
+     * @Assert\Length(min = 3,  max = "200")
      */
     private $linNombreInvestigacion;
 
     /**
      * @var boolean
-     *
      * @ORM\Column(name="lin_estado", type="boolean", nullable=false)
      */
     private $linEstado;
