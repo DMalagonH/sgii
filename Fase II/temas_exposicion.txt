@@ -1,0 +1,16 @@
+* objetivos
+* resumen fase1
+* estado prototipo fase1
+* cambios frente a fase 1
+	* db
+	* symfony
+	* ventajas de usar symfony (http://onlyforthegloryofgod.com/porque-escoger-el-framework-symfony-2/)
+* composicion del proyecto (aspectos tecnicos)
+* seguridad de la aplicacion 
+	* ssl
+	* encriptacion
+	* proteccion de ataques
+* habeas data
+* avance de la aplicacion
+	 
+
