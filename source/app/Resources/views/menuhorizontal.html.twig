@@ -12,3 +12,6 @@
 <li {% if origen == 'acceso_linea_investigacion' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("lineainvestigacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Línea de investigación</span></a>
 </li>
+<li {% if origen == 'acceso_estados_proyectos' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("estadoproyecto") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Estados de proyectos</span></a>
+</li>
