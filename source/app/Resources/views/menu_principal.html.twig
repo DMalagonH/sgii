@@ -1,0 +1,6 @@
+{% set origen = (origen is defined) ? origen : '' %}
+   
+<li {% if origen == 'acceso_home' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a>
+</li>
+

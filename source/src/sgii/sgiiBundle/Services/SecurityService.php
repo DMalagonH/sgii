@@ -156,13 +156,33 @@ class SecurityService
     /**
      * Funcion para eliminar la session
      * 
-     * @author Diego Malagón <diego-software@hotmail.com>     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
      */
     public function logout()
     {
         $this->session->set('sess_usuario',null);
         $this->session->set('sess_modulos',null);
         $this->session->set('sess_routes',null);
+    }
+    
+    /**
+     * Funcion para obtener un valor en sesion
+     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param string $key key del valor en el array de sesion
+     */
+    public function getSessionValue($key)
+    {
+        $sess_usuario = $this->session->get('sess_usuario');
+        
+        $return = false;
+        
+        if(isset($sess_usuario[$key]))
+        {
+            $return = $sess_usuario[$key];
+        }
+        
+        return $return;
     }
     
     /**

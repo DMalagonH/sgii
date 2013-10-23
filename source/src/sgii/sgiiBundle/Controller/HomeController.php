@@ -20,6 +20,7 @@ class HomeController extends Controller
      * Index para la aplicacion
      * 
      * @Route("/", name="homepage")
+     * @Template("sgiiBundle:Home:index.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
      * @return Resonse
      */
@@ -32,7 +33,7 @@ class HomeController extends Controller
         
        
         
-        return $this->render('sgiiBundle:Home:index.html.twig', array());
+        return array();
     }
     
 }
