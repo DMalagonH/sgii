@@ -3,6 +3,7 @@
 namespace sgii\sgiiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TblUsuario
@@ -32,6 +33,7 @@ class TblUsuario
      * @var string
      *
      * @ORM\Column(name="usu_nombre", type="string", length=250, nullable=true)
+     * @Assert\NotNull()
      */
     private $usuNombre;
 
@@ -46,6 +48,8 @@ class TblUsuario
      * @var string
      *
      * @ORM\Column(name="usu_log", type="string", length=250, nullable=true)
+     * @Assert\NotNull()
+     * @Assert\Email()
      */
     private $usuLog;
 
@@ -53,6 +57,7 @@ class TblUsuario
      * @var string
      *
      * @ORM\Column(name="usu_password", type="string", length=250, nullable=true)
+     * @Assert\NotNull()
      */
     private $usuPassword;
 

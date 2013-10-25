@@ -32,34 +32,15 @@ class PerfilController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
 //        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
-        $em = $this->getDoctrine()->getEntityManager();
-        $dql = "SELECT 
-                    u.id,
-                    u.usuCedula,
-                    u.usuNombre,
-                    u.usuFechaCreacion,
-                    u.usuLog,
-                    c.carNombre,
-                    d.depNombre,
-                    o.orgNombre
-                FROM
-                    sgiiBundle:TblUsuario u
-                    LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
-                    LEFT JOIN sgiiBundle:TblDepartamento d  WITH u.departamentoId = d.id
-                    LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
-                WHERE u.id = :usuarioId";
-        $query = $em->createQuery($dql);
-        $query->setParameter('usuarioId', $id);
-        $query->setMaxResults(1);
-        $usuario = $query->getResult();
+        $usuario = $this->getUsuario($id);
                 
-        if(count($usuario) == 0)
+        if(!$usuario)
         {
             throw $this->createNotFoundException();
         }
         
         return array(
-            'usuario'   =>  $usuario[0],
+            'usuario'   =>  $usuario,
             'id'        =>  $id
         );
     }
@@ -72,7 +53,7 @@ class PerfilController extends Controller
      * @author Diego Malagón <diego-software@hotmail.com>
      * @return Resonse
      */
-    public function editAction()
+    public function editAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
@@ -80,6 +61,85 @@ class PerfilController extends Controller
         
         $usuarioId = $security->getSessionValue('id');
         
+        $queries = $this->get('queries');
+        $cargos = $queries->getCargos();
+        $organizaciones = $queries->getOrganizaciones();
+        $departamentos = $queries->getDepartamentos();
+        
+        $usuario = $this->getUsuario($usuarioId);
+        
+        $formData = array(
+            'nombre' => $usuario['usuNombre'], 
+            'correo' => $usuario['usuLog'],
+            'organizacion' => $usuario['organizacionId'],
+            'cargo' => $usuario['cargoId'],
+            'departamento' => $usuario['departamentoId']
+        );
+        $form = $this->createFormBuilder($formData)
+           ->add('nombre', 'text', array('required' => true))
+           ->add('correo', 'email', array('required' => true))
+           ->add('organizacion', 'text', array('required' => false))
+           ->add('cargo', 'text', array('required' => false))
+           ->add('departamento', 'text', array('required' => false))
+           ->getForm(); 
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                $queries = $this->get('queries');
+                if(!$queries->existsEmail($data['correo'], $usuarioId))
+                {
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $usuario = $em->getRepository('sgiiBundle:TblUsuario')->findOneById($usuarioId);
+
+                    $usuario->setUsuNombre($data['nombre']);
+                    $usuario->setUsuLog($data['correo']);
+                    $usuario->setCargoId($data['cargo']);
+                    $usuario->setDepartamentoId($data['departamento']);
+                    $usuario->setOrganizacionId($data['organizacion']);
+                    
+                    $em->persist($usuario);
+                    $em->flush();
+
+                    
+                    $security->setAuditoria('Edición de perfil');
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Información actualizada"));
+                    return $this->redirect($this->generateUrl('perfil', array('id'=>$usuarioId)));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Ya existe un usuario con este correo"));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
+        
+        return array(
+            'usuario' => $usuario,
+            'form'=> $form->createView(),
+            'cargos' => $cargos,
+            'departamentos' => $departamentos,
+            'organizaciones' => $organizaciones
+        );
+    }
+    
+    
+    /**
+     * Funcion que obtiene los datos de perfil de un usuario
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return array arreglo de usuario
+     */
+    private function getUsuario($usuarioId)
+    {
+        $return = false;
         $em = $this->getDoctrine()->getEntityManager();
         $dql = "SELECT 
                     u.id,
@@ -87,8 +147,11 @@ class PerfilController extends Controller
                     u.usuNombre,
                     u.usuFechaCreacion,
                     u.usuLog,
+                    c.id cargoId,
                     c.carNombre,
+                    d.id departamentoId,
                     d.depNombre,
+                    o.id organizacionId,
                     o.orgNombre
                 FROM
                     sgiiBundle:TblUsuario u
@@ -101,9 +164,13 @@ class PerfilController extends Controller
         $query->setMaxResults(1);
         $usuario = $query->getResult();
         
-        return array(
-            'usuario' => $usuario[0],
-        );
+        if(count($usuario)==1)
+        {
+            $return = $usuario[0];
+        }
+        return $return;
     }
+    
+    
 }
 ?>

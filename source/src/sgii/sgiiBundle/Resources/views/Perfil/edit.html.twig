@@ -22,16 +22,17 @@
                 </div>
             </div>
             <div class="box-content">
-                
+                <form  action="{{ path('edit_perfil') }}" method="POST">
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <td rowspan="7" style="width:240px;">
-                            <img class="dashboard-avatar" alt="Usman" src="http://www.gravatar.com/avatar/f0ea51fa1e4fae92608d8affee12f67b.png?s=50" style="width:200px; height: 200px;">                        
+                        <td rowspan="7" style="width:240px; text-align: center;">
+                            <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(usuario.usuLog, 200) }}" style="width:200px; height: 200px;">
+                            <a href="https://gravatar.com" target="_blank" class="btn btn-small" style="margin-top:5px;">Cambiar imagen en gravatar.com</a>
                         </td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Nombre:</b></td>
-                        <td>{{ usuario.usuNombre }}</td>
+                        <td>{{ form_widget(form.nombre, {'attr':{'class':'span10'} }) }}</td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Registrado desde:</b></td>
@@ -39,21 +40,53 @@
                     </tr>
                     <tr>
                         <td class="td-label"><b>Correo electrónico:</b></td>
-                        <td>{{ usuario.usuLog }}</td>
+                        <td>{{ form_widget(form.correo, {'attr':{'class':'span10'} }) }}</td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Organización:</b></td>
-                        <td>{{ usuario.orgNombre|default('No especificado') }}</td>
+                        <td>
+                            <select id="form_organizacion" name="form[organizacion]" class="span10" data-rel="chosen">
+                                <option value="0">Seleccione una organización</option>
+                                {% for organizacion in organizaciones %}
+                                    <option value="{{ organizacion.id }}" {% if organizacion.id == usuario.organizacionId %} selected {% endif %} >{{ organizacion.orgNombre }}</option>
+                                {% endfor %}
+                            </select>
+                            {# form_widget(form.organizacion, {'attr':{'class':'span6'} }) #}
+                        </td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Cargo:</b></td>
-                        <td>{{ usuario.carNombre|default('No especificado') }}</td>
+                        <td>
+                            <select id="form_cargo" name="form[cargo]" class="span10" data-rel="chosen">
+                                <option value="0">Seleccione un cargo</option>
+                                {% for cargo in cargos %}
+                                    <option value="{{ cargo.id }}" {% if cargo.id == usuario.cargoId %} selected {% endif %} >{{ cargo.carNombre }}</option>
+                                {% endfor %}
+                            </select>
+                            {# form_widget(form.cargo, {'attr':{'class':'span6'} }) #}
+                        </td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Departamento:</b></td>
-                        <td>{{ usuario.depNombre|default('No especificado') }}</td>
+                        <td>
+                            <select id="form_departamento" name="form[departamento]" class="span10" data-rel="chosen">
+                                <option value="0">Seleccione un departamento</option>
+                                {% for departamento in departamentos %}
+                                    <option value="{{ departamento.id }}" {% if departamento.id == usuario.departamentoId %} selected {% endif %} >{{ departamento.depNombre }}</option>
+                                {% endfor %}
+                            </select>
+                            {# form_widget(form.departamento, {'attr':{'class':'span6'} }) #}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: right;">
+                            <input type="submit" class="btn btn-primary" value="Guardar"/>
+                            <a href="{{ path('perfil', {'id':sess_usuario.id} ) }}" class="btn">Cancelar</a>
+                        </td>
                     </tr>
                 </table>
+                {{ form_widget(form._token) }}
+                </form>
             </div>
         </div>
 
