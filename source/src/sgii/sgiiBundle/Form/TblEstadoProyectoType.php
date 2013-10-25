@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TblLineaInvestigacionType extends AbstractType
+class TblEstadoProyectoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,8 +15,9 @@ class TblLineaInvestigacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('linNombreInvestigacion', 'text', array('required' => true))
-            ->add('linEstado', 'checkbox', array('required' => false))
+            ->add('eprEstadoProyecto', 'text', array('required' => true))
+            ->add('eprEstado', 'checkbox', array('required' => false))
+            ->add('eprDisponibleCierre')
         ;
     }
     
@@ -26,7 +27,7 @@ class TblLineaInvestigacionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'sgii\sgiiBundle\Entity\TblLineaInvestigacion'
+            'data_class' => 'sgii\sgiiBundle\Entity\TblEstadoProyecto'
         ));
     }
 
@@ -35,6 +36,6 @@ class TblLineaInvestigacionType extends AbstractType
      */
     public function getName()
     {
-        return 'sgii_sgiibundle_tbllineainvestigacion';
+        return 'sgii_sgiibundle_tblestadoproyecto';
     }
 }
