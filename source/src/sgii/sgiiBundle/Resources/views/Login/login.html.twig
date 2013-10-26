@@ -80,6 +80,7 @@
 							<button type="submit" class="btn btn-primary">Login</button>
 							</p>
 						</fieldset>
+                        {{ form_errors(form) }}
                         {{ form_widget(form._token) }}
 					</form>
 				</div>

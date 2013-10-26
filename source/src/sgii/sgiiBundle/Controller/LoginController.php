@@ -19,6 +19,7 @@ class LoginController extends Controller
      * Accion para login de la aplicacion
      * 
      * @Route("/", name="login")
+     * @Template("sgiiBundle:Login:login.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Resonse
@@ -26,7 +27,8 @@ class LoginController extends Controller
     public function loginAction(Request $request)
     {
         $security = $this->get('security');
-                
+        if($security->autentication()){ return $this->redirect($this->generateUrl('homepage'));}        
+        
         $formData = array('user' => '', 'pass' => '');
         $form = $this->createFormBuilder($formData)
            ->add('user', 'email', array('required' => true))
@@ -60,9 +62,9 @@ class LoginController extends Controller
             }
         }
         
-        return $this->render('sgiiBundle:Login:login.html.twig', array(
+        return array(
             'form'=>$form->createView(), 
-        ));
+        );
     }
     
     /**

@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block style %}
+<style>
+    .td-label{
+        width:200px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-user"></i> Perfil</h2>
+                <div class="box-icon">
+                    {% if id == sess_usuario.id %}
+                        <a href="{{ path('edit_perfil') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Editar</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td rowspan="7" style="width:240px;">
+                            <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(usuario.usuLog, 200) }}" style="width:200px; height: 200px;">                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Nombre:</b></td>
+                        <td>{{ usuario.usuNombre }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Registrado desde:</b></td>
+                        <td>{{ usuario.usuFechaCreacion|date('d/m/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Correo electrónico:</b></td>
+                        <td>{{ usuario.usuLog }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Organización:</b></td>
+                        <td>{{ usuario.orgNombre|default('No especificado') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Cargo:</b></td>
+                        <td>{{ usuario.carNombre|default('No especificado') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Departamento:</b></td>
+                        <td>{{ usuario.depNombre|default('No especificado') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}

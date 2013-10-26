@@ -2,13 +2,21 @@ parameters:
 #    sgii.example.class: sgii\sgiiBundle\Example
     security.class: sgii\sgiiBundle\Services\SecurityService
     validate.class: sgii\sgiiBundle\Services\ValidateService
+    queries.class:  sgii\sgiiBundle\Services\GenericQueriesService
 
 services:
-#    sgii.example:
-#        class: %sgii.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+# SERVICES
     security:
         class: %security.class%
         arguments: ["@doctrine", "@session"]
     validate:
         class: %security.class%
+    queries:
+        class: %queries.class%
+        arguments: ["@doctrine", "@session"]
+        
+# TWIG EXTENSIONS        
+    twig.extension.GravatarExtension:
+        class: sgii\sgiiBundle\Services\TwigExtensions\GravatarExtension
+        tags:
+                - { name: twig.extension }
