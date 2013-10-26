@@ -1,17 +1,18 @@
 {% extends '::base.html.twig' %}
 
 {% block menu %}
-    {% set origen = 'acceso_organizaciones' %}
+    {% set origen = 'acceso_cargo' %}
     {% include '::menuhorizontal.html.twig' %}
 {% endblock menu %}
+
 
 {% block body %}
     <div class="row-fluid sortable">
         <div class="box span12">
             <div class="box-header well" data-original-title>
-                <h2><i class="icon-list-alt"></i> Organizaciones</h2>
+                <h2><i class="icon-list-alt"></i> Cargos</h2>
                 <div class="box-icon">
-                    <a href="{{ path('organizacion_new') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Nuevo</a>
+                    <a href="{{ path('cargo_new') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Nuevo</a>
                     <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
                 </div>
             </div>
@@ -21,22 +22,20 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            {#<th style='text-align:center;'>Descripción</th>#}
-                            <th>Sitio web</th>
+                            <th>Descripción</th>
                             <th style='text-align:center;'>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                             {% for entity in entities %}
                                 <tr>
-                                    <td>{{ entity.orgNombre }}</td>
-                                    {#<td>{{ entity.orgDescripcion }}</td>#}
-                                    <td>{{ entity.orgSitioWeb }}</td>
+                                    <td>{{ entity.carNombre }}</td>
+                                    <td>{{ entity.carDescripcion }}</td>
                                     <td style='text-align:center;'>
-                                        <a class="btn btn-success" href="{{ path('organizacion_show', { 'id': entity.id }) }}">
+                                        <a class="btn btn-success" href="{{ path('cargo_show', { 'id': entity.id }) }}">
                                             <i class="icon-zoom-in icon-white"></i>  Ver
                                         </a>
-                                        <a class="btn btn-info" href="{{ path('organizacion_edit', { 'id': entity.id }) }}">
+                                        <a class="btn btn-info" href="{{ path('cargo_edit', { 'id': entity.id }) }}">
                                             <i class="icon-edit icon-white"></i> Editar
                                         </a>
                                         {#<a class="btn btn-danger" href="#">
@@ -48,7 +47,7 @@
                         </tbody>
                     </table>
                 {% else %}
-                    No se ha registrado ningúna organización
+                    No se ha registrado ningún cargo
                 {% endif %}
             </div>
         </div><!--/span-->

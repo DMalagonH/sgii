@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class TblOrganizacionType extends AbstractType
+class TblCargoType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,8 @@ class TblOrganizacionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('orgNombre', 'text', array('required' => true))
-            ->add('orgDescripcion', 'textarea', array('required' => false))
-            ->add('orgSitioWeb', 'text', array('required' => false))
+            ->add('carNombre', 'text', array('required' => true))
+            ->add('carDescripcion', 'textarea', array('required' => false))
         ;
     }
     
@@ -27,7 +26,7 @@ class TblOrganizacionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'sgii\sgiiBundle\Entity\TblOrganizacion'
+            'data_class' => 'sgii\sgiiBundle\Entity\TblCargo'
         ));
     }
 
@@ -36,6 +35,6 @@ class TblOrganizacionType extends AbstractType
      */
     public function getName()
     {
-        return 'sgii_sgiibundle_tblorganizacion';
+        return 'sgii_sgiibundle_tblcargo';
     }
 }
