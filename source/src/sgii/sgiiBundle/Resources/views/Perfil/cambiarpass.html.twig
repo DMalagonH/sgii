@@ -1,0 +1,101 @@
+{% extends "::base.html.twig" %}
+
+{% block menu %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block style %}
+<style>
+    .td-label{
+        width:200px;
+    }
+</style>
+{% endblock style %} 
+
+{% block body %}
+<div class="row-fluid sortable">
+    <div class="box span12">
+        <div class="box-header well" data-original-title>
+            <h2><i class="icon-user"></i> Cambiar Contraseña</h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <div class="row-fluid">                
+                <div class="span3"></div>
+                <div class="span6">
+                    <form  action="{{ path('cambiar_password') }}" method="POST" id="form">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td class="td-label"><b>Contraseña actual:</b></td>
+                                <td>{{ form_widget(form.current_pass, {'attr':{'class':'span12 pass_actual'} }) }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-label"><b>Nueva contraseña:</b></td>
+                                <td>
+                                    {{ form_widget(form.new_pass, {'attr':{'class':'span12 pass1'} }) }}
+                                    <div class="progress progress-danger" style="height:5px;">
+                                       <div id="progress-bar-pass" class="bar" style="width: 0.8%"> </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-label"><b>Confirmar contraseña:</b></td>
+                                <td>
+                                    {{ form_widget(form.confirm_pass, {'attr':{'class':'span12 pass2'} }) }}
+                                    <div class="progress progress-danger" style="height:5px;">
+                                       <div id="span_confirm" class="bar" style="width: 100%"> </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: right;">
+                                    <input type="submit" class="btn btn-primary" value="Guardar"/>
+                                    <a href="{{ path('perfil', {'id':sess_usuario.id} ) }}" class="btn">Cancelar</a>
+                                </td>
+                            </tr>
+                        </table>
+                        {{ form_widget(form._token) }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ asset('js/pass.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            $("#form").on('submit', function(){
+                if($('.pass_actual').val() != $('.pass1').val())
+                {
+                    if(nivelPass >= 4)
+                    {
+                        if($('.pass1').val() == $('.pass2').val())
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                             noty({"text":"Las contraseñas no coinciden","layout":"topCenter","type":"error"});
+                             return false;
+                        }
+                    }
+                    else
+                    {
+                         noty({"text":"La nueva contraseña no lo suficientemente segura","layout":"topCenter","type":"error"});
+                         return false;
+                    }
+                }
+                else
+                {
+                    noty({"text":"La nueva contraseña no puede ser igual al actual","layout":"topCenter","type":"error"});
+                    return false;
+                }
+            });
+        });
+        </script>
+{% endblock %}

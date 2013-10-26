@@ -129,8 +129,7 @@ class PerfilController extends Controller
             'organizaciones' => $organizaciones
         );
     }
-    
-    
+        
     /**
      * Funcion que obtiene los datos de perfil de un usuario
      * 
@@ -171,6 +170,87 @@ class PerfilController extends Controller
         return $return;
     }
     
-    
+    /**
+     * Accion para cambiar la contraseña del usuario
+     * 
+     * @Route("/cambiarpass", name="cambiar_password")
+     * @Template("sgiiBundle:Perfil:cambiarpass.html.twig")
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Resonse
+     */
+    public function cambiarPasswordAction(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $usuarioId = $security->getSessionValue('id');
+        
+        $formData = array(
+            'current_pass' => null, 
+            'new_pass' => null,
+            'confirm_pass' => null
+        );
+        $form = $this->createFormBuilder($formData)
+           ->add('current_pass', 'password', array('required' => true))
+           ->add('new_pass', 'password', array('required' => true))
+           ->add('confirm_pass', 'password', array('required' => true))
+           ->getForm(); 
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                $em = $this->getDoctrine()->getEntityManager();
+                $dql = "SELECT COUNT(u.id) c FROM sgiiBundle:TblUsuario u
+                        WHERE u.id = :usuarioId AND u.usuPassword = :pass";
+                $query = $em->createQuery($dql);
+                $query->setParameter('usuarioId', $usuarioId);
+                $query->setParameter('pass', $security->encriptar($data['current_pass']));
+                $query->setMaxResults(1);
+                $count = $query->getResult();
+                
+                if($count[0]['c'] == 1)
+                {
+                    if($data['new_pass'] == $data['confirm_pass'])
+                    {
+                        if($security->validarPassword($data['new_pass']))
+                        {
+                            $dql = "UPDATE sgiiBundle:TblUsuario u SET u.usuPassword = :pass WHERE u.id = :usuarioId";
+                            $query = $em->createQuery($dql);
+                            $query->setParameter('usuarioId', $usuarioId);
+                            $query->setParameter('pass', $security->encriptar($data['new_pass']));
+                            $query->getResult();
+                            
+                            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "La contraseña se ha cambiado correctamente"));
+                            $security->setAuditoria("Cambio de contraseña");
+                        }
+                        else
+                        {
+                            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "La contraseña no es suficientemente segura"));
+                        }
+                    }
+                    else
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Las contraseñas no coinciden"));
+                    }
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "La contraseña actual no coincide"));
+                }
+                
+            }
+        }
+        
+        
+        return array(
+            'form'=> $form->createView(),
+        );
+    }
 }
 ?>

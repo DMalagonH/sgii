@@ -39,6 +39,50 @@ class SecurityService
     }
     
     /**
+     * Funcion para la validacion del nivel de seguridad de contraseñas
+     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param type $pass
+     * @return boolean
+     */
+    function validarPassword($pass)
+    {
+        $return = false;
+        $nivel = 0;
+                
+        if(strlen($pass) >= 6)
+        {
+            $nivel += 1;
+            if(preg_match('`[a-z]`',$pass) && preg_match('`[A-Z]`',$pass))
+            {
+                $nivel += 1;
+            }
+            if(preg_match('`[0-9]`',$pass) && (preg_match('`[a-z]`',$pass) || preg_match('`[A-Z]`',$pass)))
+            {
+                $nivel += 1;
+            }
+            if(preg_match('`[\`,´,~,!,@,#,$,&,%, ,^,(,),+,=,{,},[,\],|,-,_,/,*,$,=,°,¡,?,¿,\,,\.,;,:,\".\',<,>]`',$pass) && (preg_match('`[a-z]`',$pass) || preg_match('`[A-Z]`',$pass)))
+            {
+                $nivel += 1;
+            }
+            if(strlen($pass) >= 8)
+            {
+                $nivel += 1;
+            }
+            if(strlen($pass) >= 10)
+            {
+                $nivel += 1;
+            }
+            
+            if($nivel >= 4)
+            {
+                $return = true;
+            }
+        }
+        return $return;
+    }
+    
+    /**
      * Funcion que genera una contraseña aleatoria
      * 
      * @author Diego Malagón <diego-software@hotmail.com>
