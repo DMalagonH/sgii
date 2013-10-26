@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_organizaciones' %}
+    {% include '::menuhorizontal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Detalles de la organización</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <fieldset>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Nombre </label>
+                        <div class="controls span10">{{ entity.orgNombre }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Descripción </label>
+                        <div class="controls span10">{{ entity.orgDescripcion }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Sitio web</label>
+                        <div class="controls span10">{{ entity.orgSitioWeb }}</div>
+                    </div>
+                    <div class="form-actions center">
+                        <a href="{{ path('organizacion_edit', { 'id': entity.id }) }}" class="btn btn-primary">Editar</a>
+                        <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdeleteo'}}) }}</div>
+                        <a href="{{ path('organizacion') }}" class="btn">Volver</a>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block script %}
+    <script>
+        // Confirmacion de eliminar un tipo de investigacion
+        $('.confirmo').click(function(){
+            if (confirm('¿Desea eliminar esta organización?')) {
+                $('#formdeleteo').submit();
+            }
+        });
+    </script>
+{% endblock script %}

@@ -1,8 +1,8 @@
 <?php
 
 namespace sgii\sgiiBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * TblOrganizacion
@@ -23,8 +23,9 @@ class TblOrganizacion
 
     /**
      * @var string
-     *
      * @ORM\Column(name="org_nombre", type="string", length=45, nullable=false)
+     * @Assert\NotNull()
+     * @Assert\Length(min = 3,  max = "200")
      */
     private $orgNombre;
 
@@ -39,6 +40,8 @@ class TblOrganizacion
      * @var string
      *
      * @ORM\Column(name="org_sitio_web", type="text", nullable=true)
+     * @Assert\Length(max = 500)
+	 * @Assert\Url()
      */
     private $orgSitioWeb;
 

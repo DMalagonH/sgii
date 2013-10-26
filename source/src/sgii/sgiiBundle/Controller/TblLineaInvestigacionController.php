@@ -70,6 +70,7 @@ class TblLineaInvestigacionController extends Controller
      * @return Render Formulario de nueva línea de investigación
      * @Template("sgiiBundle:TblLineaInvestigacion:new.html.twig")
      * @Route("/new", name="lineainvestigacion_new")
+     * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
@@ -106,6 +107,7 @@ class TblLineaInvestigacionController extends Controller
      * @return Render Formulario de la línea de investigación a editar
      * @Template("sgiiBundle:TblLineaInvestigacion:edit.html.twig")
      * @Route("/{id}/edit", name="lineainvestigacion_edit")
+     * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, $id)
     {
@@ -165,7 +167,7 @@ class TblLineaInvestigacionController extends Controller
 
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigacion ha sido eliminado correctamente"));
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigación ha sido eliminado correctamente"));
         }
         return $this->redirect($this->generateUrl('lineainvestigacion'));
     }
