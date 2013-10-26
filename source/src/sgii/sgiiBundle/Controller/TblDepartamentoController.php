@@ -6,51 +6,51 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use sgii\sgiiBundle\Entity\TblCargo;
-use sgii\sgiiBundle\Form\TblCargoType;
+use sgii\sgiiBundle\Entity\TblDepartamento;
+use sgii\sgiiBundle\Form\TblDepartamentoType;
 
 /**
- * Controlador de cargos
+ * Controlador de departamentos/areas
  * @package sgiiBundle/Controller
- * @Route("/cargo")
+ * @Route("/departamento")
  */
-class TblCargoController extends Controller
+class TblDepartamentoController extends Controller
 {
     /**
-     * Listado de cargos
+     * Listado de departamentos
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @Method("GET")
-     * @return Render ViewRender de listado de cargos
-     * @Template("sgiiBundle:TblCargo:index.html.twig")
-     * @Route("/", name="cargo")
+     * @return Render ViewRender de listado de departamentos
+     * @Template("sgiiBundle:TblDepartamento:index.html.twig")
+     * @Route("/", name="departamento")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('sgiiBundle:TblCargo')->findAll();
+        $entities = $em->getRepository('sgiiBundle:TblDepartamento')->findAll();
         return array( 'entities' => $entities );
     }
 
     /**
-     * Ver detalles del cargo
+     * Ver detalles del departamento
      *
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @Method("GET")
-     * @param Int $id Id del cargo
-     * @return Render Vista renderizada con detalles del cargo
-     * @Template("sgiiBundle:TblCargo:show.html.twig")
-     * @Route("/{id}/show", name="cargo_show")
+     * @param Int $id Id del departamento
+     * @return Render Vista renderizada con detalles del departamento
+     * @Template("sgiiBundle:TblDepartamento:show.html.twig")
+     * @Route("/{id}/show", name="departamento_show")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
+        $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find TblCargo entity.');
+            throw $this->createNotFoundException('Unable to find TblDepartamento entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -62,20 +62,20 @@ class TblCargoController extends Controller
     }
     
     /**
-     * Agregar cargo
+     * Agregar departamento
      *
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de nuevo cargo
-     * @return Render Formulario de nuevo cargo
-     * @Template("sgiiBundle:TblCargo:new.html.twig")
-     * @Route("/new", name="cargo_new")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de nuevo departamento
+     * @return Render Formulario de nuevo departamento
+     * @Template("sgiiBundle:TblDepartamento:new.html.twig")
+     * @Route("/new", name="departamento_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
-        $entity = new TblCargo();
-        $form  = $this->createForm(new TblCargoType(), $entity);
+        $entity = new TblDepartamento();
+        $form  = $this->createForm(new TblDepartamentoType(), $entity);
         
         if ($request->getMethod() == "POST")
         {
@@ -86,8 +86,8 @@ class TblCargoController extends Controller
                 $em->persist($entity);
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo cargo agregado"));
-                return $this->redirect($this->generateUrl('cargo_show', array('id' => $entity->getId())));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo departamento agregado"));
+                return $this->redirect($this->generateUrl('departamento_show', array('id' => $entity->getId())));
             }
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
         }
@@ -97,28 +97,28 @@ class TblCargoController extends Controller
             'form'   => $form->createView(),
         );
     }
-
+    
     /**
-     * Editar cargo
+     * Editar departamento
      *
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
-     * @param \Symfony\Component\HttpFoundation\Request $request Form del cargo a editar
-     * @return Render Formulario del cargo a editar
-     * @Template("sgiiBundle:TblCargo:edit.html.twig")
-     * @Route("/{id}/edit", name="cargo_edit")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form del departamento a editar
+     * @return Render Formulario del departamento a editar
+     * @Template("sgiiBundle:TblDepartamento:edit.html.twig")
+     * @Route("/{id}/edit", name="departamento_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
+        $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find TblCargo entity.');
+            throw $this->createNotFoundException('Unable to find TblDepartamento entity.');
         }
 
-        $editForm = $this->createForm(new TblCargoType(), $entity);
+        $editForm = $this->createForm(new TblDepartamentoType(), $entity);
         //$deleteForm = $this->createDeleteForm($id);
         
         if ($request->getMethod() == 'POST')
@@ -128,8 +128,8 @@ class TblCargoController extends Controller
             {
                 $em->flush();
                 
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido editado correctamente"));
-                return $this->redirect($this->generateUrl('cargo_show', array('id' => $id)));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido editado correctamente"));
+                return $this->redirect($this->generateUrl('departamento_show', array('id' => $id)));
             }
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
         }
@@ -142,14 +142,14 @@ class TblCargoController extends Controller
     }
     
     /**
-     * Borrar una cargo
+     * Borrar una departamento
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar del cargo
-     * @param Int $id Id del cargo a eliminar
-     * @return Redirect Redirigir a listado de cargos
-     * @Route("/{id}", name="cargo_delete")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar del departamento
+     * @param Int $id Id del departamento a eliminar
+     * @return Redirect Redirigir a listado de departamento
+     * @Route("/{id}", name="departamento_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -159,31 +159,32 @@ class TblCargoController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
+            $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find TblCargo entity.');
+                throw $this->createNotFoundException('Unable to find TblDepartamento entity.');
             }
 
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido eliminado correctamente"));
+            
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido eliminado correctamente"));
         }
 
-        return $this->redirect($this->generateUrl('cargo'));
+        return $this->redirect($this->generateUrl('departamento'));
     }
 
     /**
-     * Creación de formulario para eliminar un cargo
+     * Creación de formulario para eliminar un departamento
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
-     * @param Int $id Id del cargo
+     * @param Int $id Id del departamento
      * @return \Symfony\Component\Form\Form Formulario de eliminacion
      */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('cargo_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('departamento_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'button', array('label' => 'Eliminar', 'attr' => array('class' => 'btn btn-primary confirm')))
             ->getForm();

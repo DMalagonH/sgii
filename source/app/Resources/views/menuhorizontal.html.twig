@@ -19,5 +19,8 @@
     <a class="ajax-link" href="{{ path("organizacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Organizaciones</span></a>
 </li>
 <li {% if origen == 'acceso_cargo' %}class='active'{% endif %}>
-    <a class="ajax-link" href="{{ path("cargo") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Cargo</span></a>
+    <a class="ajax-link" href="{{ path("cargo") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Cargos</span></a>
+</li>
+<li {% if origen == 'acceso_departamento' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("departamento") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Departamentos</span></a>
 </li>
