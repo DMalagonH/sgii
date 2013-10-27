@@ -212,5 +212,22 @@ class GenericQueriesService
         return $query->getResult();
     }
     
+    /**
+     * Listado de acciones auditables registrados en la aplicación
+     * - acceso desde TblAuditoriaController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return Array Arreglo de acciones auditables registrados en la aplicación
+     */
+    public function getAuditoria()
+    {
+        $dql = 'SELECT a.audFecha, a.audAccion, a.audIpAcceso,
+                    u.usuNombre
+                FROM sgiiBundle:TblAuditoria a
+                LEFT JOIN sgiiBundle:TblUsuario u WITH u.id = a.audUsuarioId';
+        $query = $this->em->createQuery($dql);
+        return $query->getResult();
+    }
 }
 ?>
