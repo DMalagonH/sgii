@@ -302,6 +302,8 @@ class SecurityService
     
     /**
      * Funcion para registrar un error del sistema
+     * - Acceso desde EventListener\sgiiExceptionListener.php
+     * 
      * @param type $error
      * @param type $modulo
      */

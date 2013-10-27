@@ -194,5 +194,23 @@ class GenericQueriesService
         }
     }
     
+    /**
+     * Listado de errores registrados en la aplicación
+     * - acceso desde TblLogController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return Array Arreglo de errores registrados en la aplicación
+     */
+    public function getErrores()
+    {
+        $dql = 'SELECT l.logFecha, l.logIp, l.logDescripcion, l.logModulo,
+                    u.usuNombre
+                FROM sgiiBundle:TblLog l
+                LEFT JOIN sgiiBundle:TblUsuario u WITH u.id = l.logUsuarioId';
+        $query = $this->em->createQuery($dql);
+        return $query->getResult();
+    }
+    
 }
 ?>

@@ -24,3 +24,6 @@
 <li {% if origen == 'acceso_departamento' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("departamento") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Departamentos</span></a>
 </li>
+<li {% if origen == 'acceso_errores' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("errores") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Errores</span></a>
+</li>
