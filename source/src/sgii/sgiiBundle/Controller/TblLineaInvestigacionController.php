@@ -74,6 +74,8 @@ class TblLineaInvestigacionController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblLineaInvestigacion();
         $form  = $this->createForm(new TblLineaInvestigacionType(), $entity);
         
@@ -85,7 +87,8 @@ class TblLineaInvestigacionController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-
+                
+                $security->setAuditoria('Nueva linea de investigación: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nueva línea de investigacion agregado"));
                 return $this->redirect($this->generateUrl('lineainvestigacion_show', array('id' => $entity->getId())));
             }
@@ -111,6 +114,8 @@ class TblLineaInvestigacionController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblLineaInvestigacion')->find($id);
 
@@ -128,6 +133,7 @@ class TblLineaInvestigacionController extends Controller
             {
                 $em->flush();
                 
+                $security->setAuditoria('Editar línea de investigación: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigacion ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('lineainvestigacion_show', array('id' => $id)));
             }
@@ -154,6 +160,8 @@ class TblLineaInvestigacionController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -167,6 +175,8 @@ class TblLineaInvestigacionController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $security->setAuditoria('Eliminar línea de investigación: '.$id. " - ".$entity->getLinNombreInvestigacion());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigación ha sido eliminado correctamente"));
         }
         return $this->redirect($this->generateUrl('lineainvestigacion'));

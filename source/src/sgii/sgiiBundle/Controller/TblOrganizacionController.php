@@ -74,6 +74,8 @@ class TblOrganizacionController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblOrganizacion();
         $form  = $this->createForm(new TblOrganizacionType(), $entity);
         
@@ -85,7 +87,8 @@ class TblOrganizacionController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-
+                
+                $security->setAuditoria('Nueva organización: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nueva organización agregado"));
                 return $this->redirect($this->generateUrl('organizacion_show', array('id' => $entity->getId())));
             }
@@ -111,6 +114,8 @@ class TblOrganizacionController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblOrganizacion')->find($id);
 
@@ -128,6 +133,7 @@ class TblOrganizacionController extends Controller
             {
                 $em->flush();
                 
+                $security->setAuditoria('Editar organización: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La órganización ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('organizacion_show', array('id' => $id)));
             }
@@ -154,6 +160,8 @@ class TblOrganizacionController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -167,6 +175,8 @@ class TblOrganizacionController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $security->setAuditoria('Eliminar organización: '.$id. " - ".$entity->getOrgNombre());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La organización ha sido eliminado correctamente"));
         }
 

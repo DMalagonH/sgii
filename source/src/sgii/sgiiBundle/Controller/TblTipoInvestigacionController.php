@@ -73,6 +73,8 @@ class TblTipoInvestigacionController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblTipoInvestigacion();
         $form  = $this->createForm(new TblTipoInvestigacionType(), $entity);
         
@@ -85,6 +87,7 @@ class TblTipoInvestigacionController extends Controller
                 $em->persist($entity);
                 $em->flush();
                 
+                $security->setAuditoria('Nuevo tipo de investigación: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo tipo de investigacion agregado"));
                 return $this->redirect($this->generateUrl('tipoinvestigacion_show', array('id' => $entity->getId())));
             }
@@ -109,6 +112,8 @@ class TblTipoInvestigacionController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblTipoInvestigacion')->find($id);
 
@@ -126,6 +131,7 @@ class TblTipoInvestigacionController extends Controller
             {
                 $em->flush();
                 
+                $security->setAuditoria('Editar tipo de investigación: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El tipo de investigacion ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('tipoinvestigacion_show', array('id' => $id)));
             }
@@ -152,6 +158,8 @@ class TblTipoInvestigacionController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -165,6 +173,8 @@ class TblTipoInvestigacionController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            
+            $security->setAuditoria('Eliminar tipo de investigación: '.$id. " - ".$entity->getTinNombreTipo());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El tipo de investigacion ha sido eliminado correctamente"));
         }
         return $this->redirect($this->generateUrl('tipoinvestigacion'));

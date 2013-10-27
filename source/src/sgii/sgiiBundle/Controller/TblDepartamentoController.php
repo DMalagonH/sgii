@@ -74,6 +74,8 @@ class TblDepartamentoController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblDepartamento();
         $form  = $this->createForm(new TblDepartamentoType(), $entity);
         
@@ -85,7 +87,8 @@ class TblDepartamentoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-
+                
+                $security->setAuditoria('Nuevo departamento: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo departamento agregado"));
                 return $this->redirect($this->generateUrl('departamento_show', array('id' => $entity->getId())));
             }
@@ -111,6 +114,8 @@ class TblDepartamentoController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
 
@@ -128,6 +133,7 @@ class TblDepartamentoController extends Controller
             {
                 $em->flush();
                 
+                $security->setAuditoria('Editar departamento: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('departamento_show', array('id' => $id)));
             }
@@ -154,6 +160,8 @@ class TblDepartamentoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -167,7 +175,8 @@ class TblDepartamentoController extends Controller
 
             $em->remove($entity);
             $em->flush();
-            
+
+            $security->setAuditoria('Eliminar cargo: '.$id. " - ".$entity->getDepNombre());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido eliminado correctamente"));
         }
 

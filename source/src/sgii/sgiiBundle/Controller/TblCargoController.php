@@ -74,6 +74,8 @@ class TblCargoController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblCargo();
         $form  = $this->createForm(new TblCargoType(), $entity);
         
@@ -86,6 +88,7 @@ class TblCargoController extends Controller
                 $em->persist($entity);
                 $em->flush();
 
+                $security->setAuditoria('Nuevo cargo: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo cargo agregado"));
                 return $this->redirect($this->generateUrl('cargo_show', array('id' => $entity->getId())));
             }
@@ -111,6 +114,8 @@ class TblCargoController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
 
@@ -128,6 +133,7 @@ class TblCargoController extends Controller
             {
                 $em->flush();
                 
+                $security->setAuditoria('Editar cargo: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('cargo_show', array('id' => $id)));
             }
@@ -154,6 +160,8 @@ class TblCargoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -163,10 +171,12 @@ class TblCargoController extends Controller
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TblCargo entity.');
-            }
+            }            
 
             $em->remove($entity);
             $em->flush();
+            
+            $security->setAuditoria('Eliminar cargo: '.$id. " - ".$entity->getCarNombre());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido eliminado correctamente"));
         }
 

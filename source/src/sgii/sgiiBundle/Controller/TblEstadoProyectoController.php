@@ -73,6 +73,8 @@ class TblEstadoProyectoController extends Controller
      */
     public function newAction(Request $request)
     {
+        $security = $this->get('security');
+        
         $entity = new TblEstadoProyecto();
         $form  = $this->createForm(new TblEstadoProyectoType(), $entity);
         
@@ -84,7 +86,8 @@ class TblEstadoProyectoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($entity);
                 $em->flush();
-
+                
+                $security->setAuditoria('Nuevo estado de proyecto: '.$entity->getId());
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nueva Estado de proyecto agregado"));
                 return $this->redirect($this->generateUrl('estadoproyecto_show', array('id' => $entity->getId())));
             }
@@ -109,6 +112,8 @@ class TblEstadoProyectoController extends Controller
      */
     public function editAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblEstadoProyecto')->find($id);
 
@@ -125,7 +130,8 @@ class TblEstadoProyectoController extends Controller
             if ($editForm->isValid()) 
             {
                 $em->flush();
-                
+
+                $security->setAuditoria('Editar estado de proyecto: '.$id);
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El estado de proyecto ha sido editado correctamente"));
                 return $this->redirect($this->generateUrl('estadoproyecto_show', array('id' => $id)));
             }
@@ -152,6 +158,8 @@ class TblEstadoProyectoController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -166,6 +174,7 @@ class TblEstadoProyectoController extends Controller
             $em->remove($entity);
             $em->flush();
             
+            $security->setAuditoria('Eliminar estado de proyecto: '.$id. " - ".$entity->getEprEstadoProyecto());
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El estado de proyecto ha sido eliminado correctamente"));
         }
         return $this->redirect($this->generateUrl('estadoproyecto'));
