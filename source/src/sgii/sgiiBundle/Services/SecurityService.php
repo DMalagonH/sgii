@@ -109,14 +109,14 @@ class SecurityService
     {
         $return = false;
         $sess_usuario = $this->session->get('sess_usuario');
-        $sess_routes = $this->session->get('sess_routes');
+//        $sess_routes = $this->session->get('sess_routes');
         
         if(isset($sess_usuario['usuLog']))
         {
-            if(count($sess_routes)>0)
-            {
+//            if(count($sess_routes)>0)
+//            {
                 $return = true;
-            }
+//            }
         }
         
         return  $return;
@@ -237,7 +237,7 @@ class SecurityService
      * @param integer $usuarioId id de usuario
      * @return array arreglo con los nombres y rutas asociadas
      */
-    private function getModulosUsuario($usuarioId)
+    public function getModulosUsuario($usuarioId)
     {
         /*
         SELECT * FROM tbl_usuario_perfil up
@@ -246,7 +246,7 @@ class SecurityService
         JOIN tbl_modulo m ON pm.modulo_id = m.id
         WHERE up.usuario_id = 1
         GROUP BY m.id;*/
-        $dql = "SELECT m.modNombre, m.modRoutes
+        $dql = "SELECT m.modNombre, m.modRoute
                 FROM sgiiBundle:TblUsuarioPerfil up
                 JOIN sgiiBundle:TblPerfil p WITH up.perfilId = p.id
                 JOIN sgiiBundle:TblPerfilModulo pm WITH p.id = pm.perfilId
@@ -261,7 +261,7 @@ class SecurityService
         foreach($result as $r)
         {
             $modulos['modulos'][] = $r['modNombre'];
-            $routes = explode(',', $r['modRoutes']);
+            $routes = explode(',', $r['modRoute']);
             foreach($routes as $route)
             {
                 if(!empty($route))

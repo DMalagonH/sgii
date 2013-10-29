@@ -36,6 +36,7 @@ class LoginController extends Controller
            ->getForm(); 
                 
         $acceso_denegado = true;
+        
         if($request->getMethod() == 'POST')
         {
             $form->bind($request);
@@ -50,10 +51,17 @@ class LoginController extends Controller
                         $acceso_denegado = false;
                         
                         $security->setAuditoria('login');
+                        
+                        
                         return $this->redirect($this->generateUrl('homepage'));
                     }
                 }
             }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique su usuario o contraseña"));
+            }
+     
             
             if($acceso_denegado)
             {
