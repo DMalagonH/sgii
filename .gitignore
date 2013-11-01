@@ -3,3 +3,4 @@
 /source/app/cache/
 /source/app/logs/
 *.mwb.bak
+/app/config/parameters.yml
