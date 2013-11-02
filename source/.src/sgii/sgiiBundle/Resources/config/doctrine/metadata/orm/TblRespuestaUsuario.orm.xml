@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblRespuestaUsuario" table="tbl_respuesta_usuario">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="rusRespuestaTextual" type="text" column="rus_respuesta_textual" nullable="true"/>
+    <many-to-one field="respuesta" target-entity="TblRespuesta">
+      <join-columns>
+        <join-column name="respuesta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="TblUsuario">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="pregunta" target-entity="TblPregunta">
+      <join-columns>
+        <join-column name="pregunta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

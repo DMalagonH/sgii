@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblLog" table="tbl_log">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="logFecha" type="datetime" column="log_fecha" nullable="false"/>
+    <field name="logIp" type="string" column="log_ip" length="50" nullable="false"/>
+    <field name="logDescripcion" type="text" column="log_descripcion" nullable="false"/>
+    <field name="logModulo" type="string" column="log_modulo" length="45" nullable="true"/>
+    <field name="logUsuarioId" type="integer" column="log_usuario_id" nullable="true"/>
+  </entity>
+</doctrine-mapping>

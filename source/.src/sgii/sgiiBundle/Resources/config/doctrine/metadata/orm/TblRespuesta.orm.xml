@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblRespuesta" table="tbl_respuesta">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="resRespuesta" type="string" column="res_respuesta" length="250" nullable="false"/>
+    <field name="resEstado" type="boolean" column="res_estado" nullable="false"/>
+    <field name="preguntaId" type="integer" column="pregunta_id" nullable="false"/>
+  </entity>
+</doctrine-mapping>

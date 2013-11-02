@@ -239,9 +239,21 @@ CREATE TABLE IF NOT EXISTS `tbl_herramienta` (
   `her_fecha_fn` DATETIME NOT NULL COMMENT 'fecha de finalizacion',
   `her_estado` TINYINT(4) NOT NULL COMMENT 'Estado del registro',
   `tipo_herramienta_id` INT NOT NULL COMMENT 'FK con la tabla tipo de herramienta',
+  `proyecto_id` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_tbl_therramienta_tbl_tipo_herramienta1_idx` (`tipo_herramienta_id` ASC))
-ENGINE = MyISAM
+  INDEX `fk_tbl_therramienta_tbl_tipo_herramienta1_idx` (`tipo_herramienta_id` ASC),
+  INDEX `fk_tbl_herramienta_tbl_proyecto1_idx` (`proyecto_id` ASC),
+  CONSTRAINT `fk_tbl_therramienta_tbl_tipo_herramienta1`
+    FOREIGN KEY (`tipo_herramienta_id`)
+    REFERENCES `tbl_tipo_herramienta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_herramienta_tbl_proyecto1`
+    FOREIGN KEY (`proyecto_id`)
+    REFERENCES `tbl_proyecto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABAL TRANSACCIONAL DE INSTRUMENTOS DE INVESTIGACION';
@@ -312,22 +324,6 @@ ENGINE = MyISAM
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA TRANSACCIONAL DE HIPOTESIS DE PROBLEMAS';
-
-
--- -----------------------------------------------------
--- Table `tbl_herramienta_proyecto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tbl_herramienta_proyecto` (
-  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
-  `herramienta_id` INT NOT NULL COMMENT 'FK con la tabla therramienta',
-  `proyecto_id` INT NOT NULL COMMENT 'FK con la tabla rproyecto',
-  PRIMARY KEY (`id`),
-  INDEX `fk_tbl_uherramienta_proyecto_tbl_therramienta1_idx` (`herramienta_id` ASC),
-  INDEX `fk_tbl_uherramienta_proyecto_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = utf8
-COMMENT = 'TABLA UNION HERRAMIENTAS POR PROYECTO';
 
 
 -- -----------------------------------------------------
@@ -422,7 +418,6 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_herramienta` (
 ENGINE = MyISAM
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Tabla para usuarios invitados a aplicar en una herramienta';
-
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

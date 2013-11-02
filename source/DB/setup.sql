@@ -81,32 +81,12 @@ null,
 null,
 null);
 
-INSERT INTO `tbl_usuario`
-(`id`,
-`usu_cedula`,
-`usu_nombre`,
-`usu_fecha_creacion`,
-`usu_log`,
-`usu_password`,
-`usu_estado`,
-`cargo_id`,
-`departamento_id`,
-`organizacion_id`)
-VALUES
-(3,
-'6666666666',
-'Juan Perez',
-'2013-10-15',
-'juanperez@hotmail.com',
-'14a8dc6c9e4b8f6e3228576bec334cb78179668e',
-1,
-null,
-null,
-null);
-
 INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('1', '1');
 INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('2', '1');
 INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('3', '3');
+
+INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('1', 'Cuestionario', '1');
+INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('2', 'Encuesta', '1');
 
 
 

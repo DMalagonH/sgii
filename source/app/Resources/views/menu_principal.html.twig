@@ -3,4 +3,7 @@
 <li {% if origen == 'acceso_home' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a>
 </li>
+<li {% if origen == 'instrumentos' %}class='active'{% endif %}>
+    <a class="ajax-link" href="{{ path("instrumentos") }}"><i class="icon-tasks"></i><span class="hidden-tablet"> Instrumentos</span></a>
+</li>
 

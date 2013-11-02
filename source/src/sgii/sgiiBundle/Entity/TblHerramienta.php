@@ -50,11 +50,24 @@ class TblHerramienta
     private $herEstado;
 
     /**
-     * @var integer
+     * @var \TblTipoHerramienta
      *
-     * @ORM\Column(name="tipo_herramienta_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblTipoHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_herramienta_id", referencedColumnName="id")
+     * })
      */
-    private $tipoHerramientaId;
+    private $tipoHerramienta;
+
+    /**
+     * @var \TblProyecto
+     *
+     * @ORM\ManyToOne(targetEntity="TblProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
 
 
 
@@ -161,25 +174,48 @@ class TblHerramienta
     }
 
     /**
-     * Set tipoHerramientaId
+     * Set tipoHerramienta
      *
-     * @param integer $tipoHerramientaId
+     * @param \sgii\sgiiBundle\Entity\TblTipoHerramienta $tipoHerramienta
      * @return TblHerramienta
      */
-    public function setTipoHerramientaId($tipoHerramientaId)
+    public function setTipoHerramienta(\sgii\sgiiBundle\Entity\TblTipoHerramienta $tipoHerramienta = null)
     {
-        $this->tipoHerramientaId = $tipoHerramientaId;
+        $this->tipoHerramienta = $tipoHerramienta;
     
         return $this;
     }
 
     /**
-     * Get tipoHerramientaId
+     * Get tipoHerramienta
      *
-     * @return integer 
+     * @return \sgii\sgiiBundle\Entity\TblTipoHerramienta 
      */
-    public function getTipoHerramientaId()
+    public function getTipoHerramienta()
     {
-        return $this->tipoHerramientaId;
+        return $this->tipoHerramienta;
+    }
+
+    /**
+     * Set proyecto
+     *
+     * @param \sgii\sgiiBundle\Entity\TblProyecto $proyecto
+     * @return TblHerramienta
+     */
+    public function setProyecto(\sgii\sgiiBundle\Entity\TblProyecto $proyecto = null)
+    {
+        $this->proyecto = $proyecto;
+    
+        return $this;
+    }
+
+    /**
+     * Get proyecto
+     *
+     * @return \sgii\sgiiBundle\Entity\TblProyecto 
+     */
+    public function getProyecto()
+    {
+        return $this->proyecto;
     }
 }

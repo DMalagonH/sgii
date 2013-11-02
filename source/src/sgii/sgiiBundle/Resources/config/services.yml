@@ -1,7 +1,7 @@
 parameters:
-#    sgii.example.class: sgii\sgiiBundle\Example
     security.class: sgii\sgiiBundle\Services\SecurityService
     validate.class: sgii\sgiiBundle\Services\ValidateService
+    instrumentos.class: sgii\sgiiBundle\Services\InstrumentosService
     queries.class:  sgii\sgiiBundle\Services\GenericQueriesService
 
 services:
@@ -14,6 +14,11 @@ services:
     queries:
         class: %queries.class%
         arguments: ["@doctrine", "@session"]
+    instrumentos:
+        class: %instrumentos.class%
+        arguments: ["@doctrine", "@session"]
+        
+        
     kernel.listener.listener:
         class: sgii\sgiiBundle\EventListener\sgiiExceptionListener
         arguments: ["@templating", "@service_container"]

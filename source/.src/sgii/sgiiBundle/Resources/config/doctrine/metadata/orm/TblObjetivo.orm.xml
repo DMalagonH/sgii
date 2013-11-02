@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TblObjetivo" table="tbl_objetivo">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="objObjetivo" type="string" column="obj_objetivo" length="250" nullable="false"/>
+    <field name="objEstado" type="boolean" column="obj_estado" nullable="false"/>
+    <field name="proyectoId" type="integer" column="proyecto_id" nullable="false"/>
+    <field name="estadoObjetivoId" type="integer" column="estado_objetivo_id" nullable="false"/>
+    <field name="objetivoId" type="integer" column="objetivo_id" nullable="true"/>
+  </entity>
+</doctrine-mapping>

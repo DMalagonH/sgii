@@ -50,11 +50,24 @@ class TblHerramienta
     private $herEstado;
 
     /**
-     * @var integer
+     * @var \TblTipoHerramienta
      *
-     * @ORM\Column(name="tipo_herramienta_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblTipoHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_herramienta_id", referencedColumnName="id")
+     * })
      */
-    private $tipoHerramientaId;
+    private $tipoHerramienta;
+
+    /**
+     * @var \TblProyecto
+     *
+     * @ORM\ManyToOne(targetEntity="TblProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
 
 
 }
