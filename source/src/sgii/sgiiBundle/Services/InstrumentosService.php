@@ -140,7 +140,7 @@ class InstrumentosService
             
             // Eliminar opciones de repuesta de las preguntas encontradas
             
-            $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.pregunta = ".$where." ";
+            $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.preguntaId = ".$where." ";
             $query = $this->em->createQuery($dql);
             $query->getResult(); 
             

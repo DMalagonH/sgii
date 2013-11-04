@@ -220,6 +220,7 @@ class InstrumentosController extends Controller
      * Accion para eliminar un instrumento
      * 
      * @Route("/{id}/delete", name="delete_instrumento")
+     * @Method({"POST"})
      * @param integer $id id de instrumento
      */
     public function deleteAction($id)
@@ -231,8 +232,20 @@ class InstrumentosController extends Controller
         $inst_serv = $this->get('instrumentos');
         
         $del = $inst_serv->deleteInstrumento($id);
-        
-        $security->debug($del);
+        if($del)
+        {
+            print(json_encode(array(
+               'status' => 'success', 
+               'message' => 'Instrumento eliminado correctamente' 
+            )));
+        }
+        else
+        {
+            print(json_encode(array(
+               'status' => 'warning', 
+               'message' => 'El instrumento no se puede eliminar porque ya contiene respuestas de usuarios.' 
+            )));
+        }
         
         return new Response();
     }

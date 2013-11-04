@@ -45,7 +45,7 @@
                         <a class="btn btn-info btn-mini" href="{{ path('edit_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Editar">
                             <i class="icon-edit icon-white"></i>            
                         </a>
-                        <a class="btn btn-danger btn-mini" href="#" data-rel="tooltip" title="Eliminar">
+                        <a class="btn btn-danger btn-mini btn-delete" href="{{ path('delete_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Eliminar">
                             <i class="icon-trash icon-white"></i>
                         </a>
                      </td>
