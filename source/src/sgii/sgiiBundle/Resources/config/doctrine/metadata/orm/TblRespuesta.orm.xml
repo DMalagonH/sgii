@@ -6,6 +6,10 @@
     </id>
     <field name="resRespuesta" type="string" column="res_respuesta" length="250" nullable="false"/>
     <field name="resEstado" type="boolean" column="res_estado" nullable="false"/>
-    <field name="preguntaId" type="integer" column="pregunta_id" nullable="false"/>
+    <many-to-one field="pregunta" target-entity="TblPregunta">
+      <join-columns>
+        <join-column name="pregunta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

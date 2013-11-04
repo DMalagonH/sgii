@@ -4,8 +4,16 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="herramientaId" type="integer" column="herramienta_id" nullable="false"/>
-    <field name="usuarioId" type="integer" column="usuario_id" nullable="false"/>
     <field name="ushAplico" type="boolean" column="ush_aplico" nullable="true"/>
+    <many-to-one field="usuario" target-entity="TblUsuario">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="herramienta" target-entity="TblHerramienta">
+      <join-columns>
+        <join-column name="herramienta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -12,9 +12,25 @@
     <field name="proDemostraciones" type="string" column="pro_demostraciones" length="2500" nullable="false"/>
     <field name="proRecomendaciones" type="string" column="pro_recomendaciones" length="2500" nullable="false"/>
     <field name="proEstado" type="boolean" column="pro_estado" nullable="false"/>
-    <field name="estadoProyectoId" type="integer" column="estado_proyecto_id" nullable="false"/>
-    <field name="tipoInvestigacionId" type="integer" column="tipo_investigacion_id" nullable="false"/>
-    <field name="lineaInvestigacionId" type="integer" column="linea_investigacion_id" nullable="false"/>
-    <field name="usuarioId" type="integer" column="usuario_id" nullable="false"/>
+    <many-to-one field="usuario" target-entity="TblUsuario">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="lineaInvestigacion" target-entity="TblLineaInvestigacion">
+      <join-columns>
+        <join-column name="linea_investigacion_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="tipoInvestigacion" target-entity="TblTipoInvestigacion">
+      <join-columns>
+        <join-column name="tipo_investigacion_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="estadoProyecto" target-entity="TblEstadoProyecto">
+      <join-columns>
+        <join-column name="estado_proyecto_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

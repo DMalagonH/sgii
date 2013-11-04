@@ -105,7 +105,15 @@ class TblProyecto
      */
     private $usuarioId;
 
-
+    /**
+     * toString
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getProNombre();
+    }
 
     /**
      * Get id

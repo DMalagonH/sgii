@@ -64,21 +64,21 @@
                 <div class="well span5 center login-box">
                     <form  action="{{ path('login') }}" method="POST">
                         <fieldset>
-                                <div class="input-prepend" title="Usuario" data-rel="tooltip">
-                                    <span class="add-on"><i class="icon-user"></i></span>
-                                    {{ form_widget(form.user, {'attr':{'class':'input-large span10', 'autofocus':'', 'placeholder':'Usuario'} }) }}                                
-                                </div>
-                                <div class="clearfix"></div>
+                            <div class="input-prepend" title="Usuario" data-rel="tooltip">
+                                <span class="add-on"><i class="icon-user"></i></span>
+                                {{ form_widget(form.user, {'attr':{'class':'input-large span10', 'autofocus':'', 'placeholder':'Usuario'} }) }}                                
+                            </div>
+                            <div class="clearfix"></div>
 
-                                <div class="input-prepend" title="Contraseña" data-rel="tooltip">
-                                    <span class="add-on"><i class="icon-lock"></i></span>
-                                    {{ form_widget(form.pass, {'attr':{'class':'input-large span10', 'placeholder':'Contraseña'} }) }}                                
-                                </div>
-                                <div class="clearfix"></div>
+                            <div class="input-prepend" title="Contraseña" data-rel="tooltip">
+                                <span class="add-on"><i class="icon-lock"></i></span>
+                                {{ form_widget(form.pass, {'attr':{'class':'input-large span10', 'placeholder':'Contraseña'} }) }}                                
+                            </div>
+                            <div class="clearfix"></div>
 
-                                <p class="center span5">
-                                    <button type="submit" class="btn btn-primary">Login</button>
-                                </p>
+                            <p class="center span5">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </p>
                         </fieldset>
                         {{ form_errors(form) }}
                         {{ form_widget(form._token) }}

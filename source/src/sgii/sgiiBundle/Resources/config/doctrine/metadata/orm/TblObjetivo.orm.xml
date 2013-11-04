@@ -6,8 +6,16 @@
     </id>
     <field name="objObjetivo" type="string" column="obj_objetivo" length="250" nullable="false"/>
     <field name="objEstado" type="boolean" column="obj_estado" nullable="false"/>
-    <field name="proyectoId" type="integer" column="proyecto_id" nullable="false"/>
     <field name="estadoObjetivoId" type="integer" column="estado_objetivo_id" nullable="false"/>
-    <field name="objetivoId" type="integer" column="objetivo_id" nullable="true"/>
+    <many-to-one field="objetivo" target-entity="TblObjetivo">
+      <join-columns>
+        <join-column name="objetivo_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="proyecto" target-entity="TblProyecto">
+      <join-columns>
+        <join-column name="proyecto_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

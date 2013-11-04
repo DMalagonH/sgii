@@ -31,16 +31,16 @@ class TblHerramienta
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="her_fecha_inicio", type="datetime", nullable=false)
+     * @ORM\Column(name="her_fecha_inicio", type="datetime", nullable=true)
      */
     private $herFechaInicio;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="her_fecha_fn", type="datetime", nullable=false)
+     * @ORM\Column(name="her_fecha_fin", type="datetime", nullable=true)
      */
-    private $herFechaFn;
+    private $herFechaFin;
 
     /**
      * @var boolean

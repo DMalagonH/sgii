@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS `tbl_auditoria` (
   `aud_ip_acceso` VARCHAR(45) NOT NULL COMMENT 'ip de acceso del cliente',
   PRIMARY KEY (`id`))
 ENGINE = MyISAM
-AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Tabla de auditoria de usuarios';
 
@@ -31,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `tbl_log` (
   `log_usuario_id` INT NULL COMMENT 'id del usuario que proboca el error',
   PRIMARY KEY (`id`))
 ENGINE = MyISAM
-AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Tabla para el registro de errores de la aplicacion';
 
@@ -45,8 +43,7 @@ CREATE TABLE IF NOT EXISTS `tbl_estado_proyecto` (
   `epr_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
   `epr_disponible_cierre` TINYINT(4) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 5
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DEL ESTADO DE LOS PROYECTOS';
 
@@ -59,8 +56,8 @@ CREATE TABLE IF NOT EXISTS `tbl_linea_investigacion` (
   `lin_nombre_investigacion` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Nombre de la linea de investigacion',
   `lin_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 5
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE LINEAS DE INVESTIGACION';
 
@@ -74,8 +71,7 @@ CREATE TABLE IF NOT EXISTS `tbl_modulo` (
   `mod_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `mod_route` TEXT NULL,
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE MODULOS';
 
@@ -88,8 +84,7 @@ CREATE TABLE IF NOT EXISTS `tbl_tipo_investigacion` (
   `tin_nombre_tipo` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Nombre del tipo de investigación',
   `tin_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 9
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL TIPO DE INVESTIGACION';
 
@@ -148,9 +143,23 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_usuario_tbl_cargo1_idx` (`cargo_id` ASC),
   INDEX `fk_tbl_usuario_tbl_departamento1_idx` (`departamento_id` ASC),
-  INDEX `fk_tbl_usuario_tbl_organizacion1_idx` (`organizacion_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 2
+  INDEX `fk_tbl_usuario_tbl_organizacion1_idx` (`organizacion_id` ASC),
+  CONSTRAINT `fk_tbl_usuario_tbl_cargo1`
+    FOREIGN KEY (`cargo_id`)
+    REFERENCES `tbl_cargo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_usuario_tbl_departamento1`
+    FOREIGN KEY (`departamento_id`)
+    REFERENCES `tbl_departamento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_usuario_tbl_organizacion1`
+    FOREIGN KEY (`organizacion_id`)
+    REFERENCES `tbl_organizacion` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE USUARIO';
 
@@ -176,9 +185,28 @@ CREATE TABLE IF NOT EXISTS `tbl_proyecto` (
   INDEX `fk_tbl_tproyecto_investigacion_tbl_estado_proyecto1_idx` (`estado_proyecto_id` ASC),
   INDEX `fk_tbl_tproyecto_investigacion_tbl_rtipo_investigacion1_idx` (`tipo_investigacion_id` ASC),
   INDEX `fk_tbl_tproyecto_investigacion_tbl_linea_investigacion1_idx` (`linea_investigacion_id` ASC),
-  INDEX `fk_tbl_proyecto_investigacion_tbl_usuario1_idx` (`usuario_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 9
+  INDEX `fk_tbl_proyecto_investigacion_tbl_usuario1_idx` (`usuario_id` ASC),
+  CONSTRAINT `fk_tbl_tproyecto_investigacion_tbl_estado_proyecto1`
+    FOREIGN KEY (`estado_proyecto_id`)
+    REFERENCES `tbl_estado_proyecto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_tproyecto_investigacion_tbl_rtipo_investigacion1`
+    FOREIGN KEY (`tipo_investigacion_id`)
+    REFERENCES `tbl_tipo_investigacion` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_tproyecto_investigacion_tbl_linea_investigacion1`
+    FOREIGN KEY (`linea_investigacion_id`)
+    REFERENCES `tbl_linea_investigacion` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_proyecto_investigacion_tbl_usuario1`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `tbl_usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA TRANSACCIONAL CON PROYECTOS DE INVESTIGACION';
 
@@ -195,9 +223,18 @@ CREATE TABLE IF NOT EXISTS `tbl_objetivo` (
   `objetivo_id` INT NULL COMMENT 'FK de esta tabla copn sigo mismo para la relación genérico - especifico',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_robjetivo_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
-  INDEX `fk_tbl_objetivo_tbl_objetivo1_idx` (`objetivo_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+  INDEX `fk_tbl_objetivo_tbl_objetivo1_idx` (`objetivo_id` ASC),
+  CONSTRAINT `fk_tbl_robjetivo_tbl_tproyecto_investigacion1`
+    FOREIGN KEY (`proyecto_id`)
+    REFERENCES `tbl_proyecto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_objetivo_tbl_objetivo1`
+    FOREIGN KEY (`objetivo_id`)
+    REFERENCES `tbl_objetivo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLAREFERNCIAL DE OBJETIVO';
 
@@ -210,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `tbl_perfil` (
   `per_perfil` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Perfil',
   `per_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   PRIMARY KEY (`id`))
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE PERFILES DE USUARIO';
 
@@ -223,8 +260,8 @@ CREATE TABLE IF NOT EXISTS `tbl_tipo_herramienta` (
   `the_nombre_herramienta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Nombre del tipo de herramienta',
   `the_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 5
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE TIPOS DE HERRAMIENTAS';
 
@@ -235,8 +272,8 @@ COMMENT = 'TABLA REFERENCIAL DE TIPOS DE HERRAMIENTAS';
 CREATE TABLE IF NOT EXISTS `tbl_herramienta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `her_nombre_herramienta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Nombre de herramienta',
-  `her_fecha_inicio` DATETIME NOT NULL COMMENT 'Fecha de Inicio de funciones de la herramienta',
-  `her_fecha_fn` DATETIME NOT NULL COMMENT 'fecha de finalizacion',
+  `her_fecha_inicio` DATETIME NULL COMMENT 'Fecha de Inicio de funciones de la herramienta',
+  `her_fecha_fin` DATETIME NULL COMMENT 'fecha de finalizacion',
   `her_estado` TINYINT(4) NOT NULL COMMENT 'Estado del registro',
   `tipo_herramienta_id` INT NOT NULL COMMENT 'FK con la tabla tipo de herramienta',
   `proyecto_id` INT NULL,
@@ -254,7 +291,6 @@ CREATE TABLE IF NOT EXISTS `tbl_herramienta` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABAL TRANSACCIONAL DE INSTRUMENTOS DE INVESTIGACION';
 
@@ -267,8 +303,8 @@ CREATE TABLE IF NOT EXISTS `tbl_tipo_pregunta` (
   `tpr_tipo_pregunta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Nombre del tipo de pregunta',
   `tpr_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
   PRIMARY KEY (`id`))
-ENGINE = MyISAM
-AUTO_INCREMENT = 4
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL CON EL TIPO DE PREGUNTAS';
 
@@ -285,9 +321,18 @@ CREATE TABLE IF NOT EXISTS `tbl_pregunta` (
   `tipo_pregunta_id` INT NOT NULL COMMENT 'FK con la tabla tipo de proyecto',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_rpregunta_tbl_therramienta1_idx` (`herramienta_id` ASC),
-  INDEX `fk_tbl_rpregunta_tbl_tipo_pregunta1_idx` (`tipo_pregunta_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+  INDEX `fk_tbl_rpregunta_tbl_tipo_pregunta1_idx` (`tipo_pregunta_id` ASC),
+  CONSTRAINT `fk_tbl_rpregunta_tbl_therramienta1`
+    FOREIGN KEY (`herramienta_id`)
+    REFERENCES `tbl_herramienta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_rpregunta_tbl_tipo_pregunta1`
+    FOREIGN KEY (`tipo_pregunta_id`)
+    REFERENCES `tbl_tipo_pregunta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFENCIAL DE PREGUNTAS';
 
@@ -301,9 +346,13 @@ CREATE TABLE IF NOT EXISTS `tbl_respuesta` (
   `res_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `pregunta_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_tbl_rrespuesta_tbl_pregunta1_idx` (`pregunta_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+  INDEX `fk_tbl_rrespuesta_tbl_pregunta1_idx` (`pregunta_id` ASC),
+  CONSTRAINT `fk_tbl_rrespuesta_tbl_pregunta1`
+    FOREIGN KEY (`pregunta_id`)
+    REFERENCES `tbl_pregunta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA REFERENCIAL DE RESPUESTAS';
 
@@ -319,9 +368,13 @@ CREATE TABLE IF NOT EXISTS `tbl_hipotesis` (
   `estado_hipotesis_id` INT NOT NULL COMMENT 'Id estado hipotesis',
   `proyecto_id` INT NOT NULL COMMENT 'Id proyecto de investigacion',
   PRIMARY KEY (`id`),
-  INDEX `fk_tbl_thipotesis_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 3
+  INDEX `fk_tbl_thipotesis_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
+  CONSTRAINT `fk_tbl_thipotesis_tbl_tproyecto_investigacion1`
+    FOREIGN KEY (`proyecto_id`)
+    REFERENCES `tbl_proyecto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA TRANSACCIONAL DE HIPOTESIS DE PROBLEMAS';
 
@@ -335,9 +388,18 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_proyecto` (
   `proyecto_id` INT NOT NULL COMMENT 'FK con la tabla rproyecto_investigacion',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_uusario_proyecto_tbl_usuario1_idx` (`usuario_id` ASC),
-  INDEX `fk_tbl_uusario_proyecto_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+  INDEX `fk_tbl_uusario_proyecto_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
+  CONSTRAINT `fk_tbl_uusario_proyecto_tbl_usuario1`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `tbl_usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_uusario_proyecto_tbl_tproyecto_investigacion1`
+    FOREIGN KEY (`proyecto_id`)
+    REFERENCES `tbl_proyecto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA DE UNION USUARIO PROYECTO';
 
@@ -351,9 +413,18 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_perfil` (
   `perfil_id` INT NOT NULL COMMENT 'FK con la tabla perfil',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_uusuario_perfil_tbl_rusuario1_idx` (`usuario_id` ASC),
-  INDEX `fk_tbl_uusuario_perfil_tbl_perfil1_idx` (`perfil_id` ASC))
-ENGINE = MyISAM
-AUTO_INCREMENT = 1
+  INDEX `fk_tbl_uusuario_perfil_tbl_perfil1_idx` (`perfil_id` ASC),
+  CONSTRAINT `fk_tbl_uusuario_perfil_tbl_rusuario1`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `tbl_usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_uusuario_perfil_tbl_perfil1`
+    FOREIGN KEY (`perfil_id`)
+    REFERENCES `tbl_perfil` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'TABLA DE UNION ENTRE PERFILES Y USUARIOS';
 
@@ -367,8 +438,18 @@ CREATE TABLE IF NOT EXISTS `tbl_perfil_modulo` (
   `modulo_id` INT NOT NULL COMMENT 'FK con la tabla modulo',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_rperfil_has_tbl_rmodulo_tbl_rmodulo1_idx` (`modulo_id` ASC),
-  INDEX `fk_tbl_rperfil_has_tbl_rmodulo_tbl_rperfil_idx` (`perfil_id` ASC))
-ENGINE = MyISAM
+  INDEX `fk_tbl_rperfil_has_tbl_rmodulo_tbl_rperfil_idx` (`perfil_id` ASC),
+  CONSTRAINT `fk_tbl_rperfil_has_tbl_rmodulo_tbl_rperfil`
+    FOREIGN KEY (`perfil_id`)
+    REFERENCES `tbl_perfil` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_rperfil_has_tbl_rmodulo_tbl_rmodulo1`
+    FOREIGN KEY (`modulo_id`)
+    REFERENCES `tbl_modulo` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -414,8 +495,18 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_herramienta` (
   `ush_aplico` TINYINT(1) NULL COMMENT 'indica si el usuario ya aplico a la herramienta',
   INDEX `fk_tbl_herramienta_has_tbl_usuario_tbl_usuario1_idx` (`usuario_id` ASC),
   INDEX `fk_tbl_herramienta_has_tbl_usuario_tbl_herramienta1_idx` (`herramienta_id` ASC),
-  PRIMARY KEY (`id`))
-ENGINE = MyISAM
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_tbl_herramienta_has_tbl_usuario_tbl_herramienta1`
+    FOREIGN KEY (`herramienta_id`)
+    REFERENCES `tbl_herramienta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_herramienta_has_tbl_usuario_tbl_usuario1`
+    FOREIGN KEY (`usuario_id`)
+    REFERENCES `tbl_usuario` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COMMENT = 'Tabla para usuarios invitados a aplicar en una herramienta';
 
