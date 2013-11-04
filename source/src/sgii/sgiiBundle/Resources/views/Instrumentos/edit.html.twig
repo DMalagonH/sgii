@@ -44,12 +44,8 @@
                         </select>                               
                     </div>
                     <div class="control-group" style="margin-bottom: 8px;">
-                        <label class="control-label">Activo</label>
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" id="form_estado" name="form[estado]" {% if instrumento.herEstado %}checked{% endif %}>                               
-                            </label>
-                        </div>
+                        Activo
+                        {{ form_widget(form.estado) }} 
                     </div>
                     {{ form_errors(form) }}
                     {{ form_widget(form._token) }}

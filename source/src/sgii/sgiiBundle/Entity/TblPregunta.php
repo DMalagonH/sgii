@@ -45,16 +45,23 @@ class TblPregunta
     /**
      * @var integer
      *
-     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
+     * @ORM\Column(name="pre_orden", type="integer", nullable=true)
      */
-    private $herramientaId;
+    private $preOrden;
 
     /**
-     * @var integer
+     * @var \TblHerramienta
+     *
+     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
+     */
+    private $herramienta;
+
+    /**
+     * @var \TblTipoPregunta
      *
      * @ORM\Column(name="tipo_pregunta_id", type="integer", nullable=false)
      */
-    private $tipoPreguntaId;
+    private $tipoPregunta;
 
 
 
@@ -138,48 +145,71 @@ class TblPregunta
     }
 
     /**
-     * Set herramientaId
+     * Set preOrden
      *
-     * @param integer $herramientaId
+     * @param integer $preOrden
      * @return TblPregunta
      */
-    public function setHerramientaId($herramientaId)
+    public function setPreOrden($preOrden)
     {
-        $this->herramientaId = $herramientaId;
+        $this->preOrden = $preOrden;
     
         return $this;
     }
 
     /**
-     * Get herramientaId
+     * Get preOrden
      *
      * @return integer 
      */
-    public function getHerramientaId()
+    public function getPreOrden()
     {
-        return $this->herramientaId;
+        return $this->preOrden;
     }
 
     /**
-     * Set tipoPreguntaId
+     * Set herramienta
      *
-     * @param integer $tipoPreguntaId
+     * @param \sgii\sgiiBundle\Entity\TblHerramienta $herramienta
      * @return TblPregunta
      */
-    public function setTipoPreguntaId($tipoPreguntaId)
+    public function setHerramienta($herramienta = null)
     {
-        $this->tipoPreguntaId = $tipoPreguntaId;
+        $this->herramienta = $herramienta;
     
         return $this;
     }
 
     /**
-     * Get tipoPreguntaId
+     * Get herramienta
      *
-     * @return integer 
+     * @return \sgii\sgiiBundle\Entity\TblHerramienta 
      */
-    public function getTipoPreguntaId()
+    public function getHerramienta()
     {
-        return $this->tipoPreguntaId;
+        return $this->herramienta;
+    }
+
+    /**
+     * Set tipoPregunta
+     *
+     * @param \sgii\sgiiBundle\Entity\TblTipoPregunta $tipoPregunta
+     * @return TblPregunta
+     */
+    public function setTipoPregunta($tipoPregunta = null)
+    {
+        $this->tipoPregunta = $tipoPregunta;
+    
+        return $this;
+    }
+
+    /**
+     * Get tipoPregunta
+     *
+     * @return \sgii\sgiiBundle\Entity\TblTipoPregunta 
+     */
+    public function getTipoPregunta()
+    {
+        return $this->tipoPregunta;
     }
 }

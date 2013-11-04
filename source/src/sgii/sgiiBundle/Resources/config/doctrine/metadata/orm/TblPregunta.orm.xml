@@ -7,6 +7,7 @@
     <field name="prePregunta" type="string" column="pre_pregunta" length="250" nullable="false"/>
     <field name="preObligatoria" type="boolean" column="pre_obligatoria" nullable="false"/>
     <field name="preEstado" type="boolean" column="pre_estado" nullable="false"/>
+    <field name="preOrden" type="integer" column="pre_orden" nullable="true"/>
     <many-to-one field="tipoPregunta" target-entity="TblTipoPregunta">
       <join-columns>
         <join-column name="tipo_pregunta_id" referenced-column-name="id"/>

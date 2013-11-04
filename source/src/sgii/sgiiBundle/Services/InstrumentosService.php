@@ -64,9 +64,10 @@ class InstrumentosService
      * Funcion para obtener los instrumentos registrados
      * 
      * @param integer $proyectoId id de proyecto
+     * @param integer $instrumentoId id de instrumento
      * @return array
      */
-    public function getInstrumentos($proyectoId = false)
+    public function getInstrumentos($instrumentoId = false, $proyectoId = false)
     {
         $dql = "SELECT 
                     i.id,
@@ -81,15 +82,33 @@ class InstrumentosService
                     JOIN sgiiBundle:TblTipoHerramienta ti WITH i.tipoHerramienta = ti.id
                     LEFT JOIN sgiiBundle:TblProyecto p WITH i.proyecto = p.id";
         if($proyectoId)
+        {
             $dql .= " WHERE p.id = :proyectoId ";
+        }
+        elseif($instrumentoId)
+        {
+            $dql .= " WHERE i.id = :instrumentoId ";
+        }
         
         $query = $this->em->createQuery($dql);
         
         if($proyectoId)
+        {
             $query->setParameter('proyectoId', $proyectoId);
+        }
+        elseif($instrumentoId)
+        {
+            $query->setParameter('instrumentoId', $instrumentoId);
+            $query->setMaxResults(1);
+        }
         
-        $query = $this->em->createQuery($dql);
-        $result = $query->getResult();        
+        $result = $query->getResult(); 
+        
+        if($instrumentoId)
+        {
+            $result = $result[0];
+        }
+        
         return $result;        
     }
     
@@ -105,7 +124,7 @@ class InstrumentosService
     {
         // Buscar preguntas del instrumento
         $dql = "SELECT p.id FROM sgiiBundle:TblPregunta p
-                WHERE p.herramientaId = :instrumentoId";
+                WHERE p.herramienta = :instrumentoId";
         $query = $this->em->createQuery($dql);
         $query->setParameter('instrumentoId', $instrumentoId);
         $result = $query->getResult(); 
@@ -139,7 +158,7 @@ class InstrumentosService
             
             
             // Eliminar opciones de repuesta de las preguntas encontradas
-            
+            $where = implode(' OR r.preguntaId = ', $preguntas);
             $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.preguntaId = ".$where." ";
             $query = $this->em->createQuery($dql);
             $query->getResult(); 
@@ -147,7 +166,7 @@ class InstrumentosService
         }
         
         // Eliminar preguntas del instrumento
-        $dql = "DELETE FROM sgiiBundle:TblPregunta p WHERE p.herramientaId = :instrumentoId ";
+        $dql = "DELETE FROM sgiiBundle:TblPregunta p WHERE p.herramienta = :instrumentoId ";
         $query = $this->em->createQuery($dql);
         $query->setParameter('instrumentoId', $instrumentoId);
         $query->getResult(); 
@@ -165,5 +184,24 @@ class InstrumentosService
         $query->getResult(); 
         
         return true;
+    }
+    
+    /**
+     * Funcion para obtener los tipos de pregunta
+     * 
+     * @return array
+     */
+    public function getTiposPreguta()
+    {
+        $dql = "SELECT 
+                    tp.id,
+                    tp.tprTipoPregunta
+                FROM 
+                    sgiiBundle:TblTipoPregunta tp
+                WHERE  tp.tprEstado = 1";
+        
+        $query = $this->em->createQuery($dql);
+        $result = $query->getResult();        
+        return $result;
     }
 }

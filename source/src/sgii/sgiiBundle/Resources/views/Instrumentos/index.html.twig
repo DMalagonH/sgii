@@ -35,7 +35,7 @@
                       <td>{{ instrumento.proNombre }}</td>
                       <td>{% if instrumento.herEstado %}<span class="label label-success">Activo</span>{% else %}<span class="label label-inverse">Inactivo</span>{% endif %}</td>
                       <td style="font-size: 10px;">
-                        {% if instrumento.herFechaInicio %}Desde: {{ instrumento.herFechaInicio|date('Y-m-d') }}{% endif %}<br/>
+                        {% if instrumento.herFechaInicio %}Desde: {{ instrumento.herFechaInicio|date('Y-m-d') }}{% endif %}
                         {% if instrumento.herFechaFin %}Hasta: {{ instrumento.herFechaFin|date('Y-m-d') }}{% endif %}
                       </td>
                       <td class="center" style="font-size: 10px; width: 95px;">
@@ -93,12 +93,8 @@
                         </select>                               
                     </div>
                     <div class="control-group" style="margin-bottom: 8px;">
-                        <label class="control-label">Activo</label>
-                        <div class="controls">
-                            <label class="checkbox">
-                                <input type="checkbox" id="form_estado" name="form[estado]">                               
-                            </label>
-                        </div>
+                        Activo
+                        {{ form_widget(form.estado) }} 
                     </div>
                     {{ form_errors(form) }}
                     {{ form_widget(form._token) }}
