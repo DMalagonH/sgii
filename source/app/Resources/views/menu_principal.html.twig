@@ -49,8 +49,12 @@
 		<a class="ajax-link" href="{{ path("auditoria") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Auditoria</span></a>
 	</li>
 {% endif %}
-    
+{% if 'usuarios' in sess_modulos %}
+	<li {% if origen == 'acceso_usuarios' %}class='active'{% endif %}>
+		<a class="ajax-link" href="{{ path("usuarios") }}"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a>
+	</li>
+{% endif %}
+
 <li {% if origen == 'instrumentos' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("instrumentos") }}"><i class="icon-tasks"></i><span class="hidden-tablet"> Instrumentos</span></a>
 </li>
-

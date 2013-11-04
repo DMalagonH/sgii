@@ -1,0 +1,71 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_usuarios' %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Detalles del usuario</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <fieldset>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Nombre </label>
+                        <div class="controls span10">{{ entity.usuNombre }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Cédula </label>
+                        <div class="controls span10">{{ entity.usuCedula }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Correo </label>
+                        <div class="controls span10">{{ entity.usuLog }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Fecha creación </label>
+                        <div class="controls span10">
+                            {% if entity.usuFechaCreacion %}
+                                {{ entity.usuFechaCreacion|date('Y-m-d H:i:s') }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Activo </label>
+                        <div class="controls span10">
+                            {% if entity.usuEstado == 1 %}
+                                <span class="label label-success">Activo</span>
+                            {% else %}
+                                <span class="label">Inactivo</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Cargo </label>
+                        <div class="controls span10">{{ entity.carNombre }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Organización </label>
+                        <div class="controls span10">{{ entity.orgNombre }}</div>
+                    </div>
+                    <div class="control-group row-fluid">
+                        <label class="control-label span2 textRight">Departamento </label>
+                        <div class="controls span10">{{ entity.depNombre }}</div>
+                    </div>
+                        
+                    <div class="form-actions center">
+                        <a href="{{ path('usuarios_edit', { 'id': entity.id }) }}" class="btn btn-primary">Editar</a>
+                        <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdelete'}}) }}</div>
+                        <a href="{{ path('usuarios') }}" class="btn">Volver</a>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+{% endblock %}

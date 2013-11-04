@@ -229,5 +229,44 @@ class GenericQueriesService
         $query = $this->em->createQuery($dql);
         return $query->getResult();
     }
+    
+    
+    /**
+     * Funcion que obtiene los usuarios
+     * 
+     * @param integer $id id del usuario si busca una en específico
+     * @return array
+     */
+    public function getUsuarios($id = null)
+    {
+        $return = false;
+        $dql = "SELECT u.id, u.usuNombre, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
+                    c.carNombre, d.depNombre, o.orgNombre
+                FROM sgiiBundle:TblUsuario u
+                LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
+                LEFT JOIN sgiiBundle:TblDepartamento d WITH d.id = u.departamentoId
+                LEFT JOIN sgiiBundle:TblOrganizacion o WITH o.id = u.organizacionId";
+        
+        if($id != null) {
+            $dql .= " WHERE u.id = :id";
+        }
+        
+        $query = $this->em->createQuery($dql);
+        if($id != null) {
+            $query->setParameter('id', $id);
+            $query->setMaxResults(1);
+        }
+        $result = $query->getResult();
+        
+        if(count($result)>0) {
+            if($id != null) {
+                $return = $result[0];
+            }
+            else {
+                $return = $result;
+            }
+        }
+        return $return;
+    }
 }
 ?>
