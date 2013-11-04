@@ -5,14 +5,14 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="rusRespuestaTextual" type="text" column="rus_respuesta_textual" nullable="true"/>
-    <many-to-one field="usuario" target-entity="TblUsuario">
-      <join-columns>
-        <join-column name="usuario_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="respuesta" target-entity="TblRespuesta">
       <join-columns>
         <join-column name="respuesta_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="TblUsuario">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     <many-to-one field="pregunta" target-entity="TblPregunta">

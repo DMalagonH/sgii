@@ -4,7 +4,15 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="usuarioId" type="integer" column="usuario_id" nullable="false"/>
-    <field name="perfilId" type="integer" column="perfil_id" nullable="false"/>
+    <many-to-one field="perfil" target-entity="TblPerfil">
+      <join-columns>
+        <join-column name="perfil_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="TblUsuario">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -35,7 +35,15 @@ class TblTipoHerramienta
      */
     private $theEstado;
 
-
+    /**
+     * toString
+     * 
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getTheNombreHerramienta();
+    }
 
     /**
      * Get id

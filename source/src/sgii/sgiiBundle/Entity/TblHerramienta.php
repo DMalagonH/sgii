@@ -31,16 +31,16 @@ class TblHerramienta
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="her_fecha_inicio", type="datetime", nullable=false)
+     * @ORM\Column(name="her_fecha_inicio", type="datetime", nullable=true)
      */
     private $herFechaInicio;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="her_fecha_fn", type="datetime", nullable=false)
+     * @ORM\Column(name="her_fecha_fin", type="datetime", nullable=true)
      */
-    private $herFechaFn;
+    private $herFechaFin;
 
     /**
      * @var boolean
@@ -52,20 +52,14 @@ class TblHerramienta
     /**
      * @var \TblTipoHerramienta
      *
-     * @ORM\ManyToOne(targetEntity="TblTipoHerramienta")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tipo_herramienta_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="tipo_herramienta_id", type="integer", nullable=false)
      */
     private $tipoHerramienta;
 
     /**
      * @var \TblProyecto
      *
-     * @ORM\ManyToOne(targetEntity="TblProyecto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="proyecto_id", type="integer", nullable=true)
      */
     private $proyecto;
 
@@ -128,26 +122,26 @@ class TblHerramienta
     }
 
     /**
-     * Set herFechaFn
+     * Set herFechaFin
      *
-     * @param \DateTime $herFechaFn
+     * @param \DateTime $herFechaFin
      * @return TblHerramienta
      */
-    public function setHerFechaFn($herFechaFn)
+    public function setHerFechaFin($herFechaFin)
     {
-        $this->herFechaFn = $herFechaFn;
+        $this->herFechaFin = $herFechaFin;
     
         return $this;
     }
 
     /**
-     * Get herFechaFn
+     * Get herFechaFin
      *
      * @return \DateTime 
      */
-    public function getHerFechaFn()
+    public function getHerFechaFin()
     {
-        return $this->herFechaFn;
+        return $this->herFechaFin;
     }
 
     /**
@@ -179,7 +173,7 @@ class TblHerramienta
      * @param \sgii\sgiiBundle\Entity\TblTipoHerramienta $tipoHerramienta
      * @return TblHerramienta
      */
-    public function setTipoHerramienta(\sgii\sgiiBundle\Entity\TblTipoHerramienta $tipoHerramienta = null)
+    public function setTipoHerramienta( $tipoHerramienta = null)
     {
         $this->tipoHerramienta = $tipoHerramienta;
     
@@ -202,7 +196,7 @@ class TblHerramienta
      * @param \sgii\sgiiBundle\Entity\TblProyecto $proyecto
      * @return TblHerramienta
      */
-    public function setProyecto(\sgii\sgiiBundle\Entity\TblProyecto $proyecto = null)
+    public function setProyecto( $proyecto = null)
     {
         $this->proyecto = $proyecto;
     

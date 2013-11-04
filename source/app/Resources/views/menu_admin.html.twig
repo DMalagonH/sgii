@@ -1,14 +1,3 @@
-{% set origen = (origen is defined) ? origen : '' %}
-
-{# dump(sess_modulos) #}
-{% if 'home' in sess_modulos %}
-	<li {% if origen == 'acceso_home' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("homepage") }}"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a>
-	</li>
-{% endif %}
-<li>
-    <a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a>
-</li>
 {% if 'organizaciones' in sess_modulos %}
 	<li {% if origen == 'acceso_organizaciones' %}class='active'{% endif %}>
 		<a class="ajax-link" href="{{ path("organizacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Organizaciones</span></a>
@@ -49,11 +38,3 @@
 		<a class="ajax-link" href="{{ path("auditoria") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Auditoria</span></a>
 	</li>
 {% endif %}
-{% if 'usuarios' in sess_modulos %}
-	<li {% if origen == 'acceso_usuarios' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("usuarios") }}"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a>
-	</li>
-{% endif %}
-<li {% if origen == 'instrumentos' %}class='active'{% endif %}>
-    <a class="ajax-link" href="{{ path("instrumentos") }}"><i class="icon-tasks"></i><span class="hidden-tablet"> Instrumentos</span></a>
-</li>
