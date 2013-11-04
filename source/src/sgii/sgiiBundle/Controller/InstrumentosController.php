@@ -36,6 +36,7 @@ class InstrumentosController extends Controller
         $form = $this->createInstrumentoForm(); 
         $proyectos = $inst_serv->getProyectos();
         
+        $instrumentos = $inst_serv->getInstrumentos();
         
         if($request->getMethod() == 'POST')
         {
@@ -75,8 +76,9 @@ class InstrumentosController extends Controller
         
         return array(
             'form'=>$form->createView(), 
-            'proyectos' => $proyectos
-        );
+            'proyectos' => $proyectos,
+            'instrumentos' => $instrumentos
+        ); 
     }
     
     /**
@@ -212,6 +214,27 @@ class InstrumentosController extends Controller
             'proyectos' => $proyectos,
             'instrumento' => $instrumento
         );
+    }
+    
+    /**
+     * Accion para eliminar un instrumento
+     * 
+     * @Route("/{id}/delete", name="delete_instrumento")
+     * @param integer $id id de instrumento
+     */
+    public function deleteAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $inst_serv = $this->get('instrumentos');
+        
+        $del = $inst_serv->deleteInstrumento($id);
+        
+        $security->debug($del);
+        
+        return new Response();
     }
 }
 ?>

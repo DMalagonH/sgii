@@ -8,7 +8,7 @@ INSERT INTO `tbl_modulo` VALUES
 (7, 'tipo_investigacion', 1, 'tipoinvestigacion,tipoinvestigacion_show,tipoinvestigacion_new,tipoinvestigacion_edit,tipoinvestigacion_delete'),
 (8, 'errores', 1, 'errores'),
 (9, 'auditoria', 1, 'auditoria'),
-(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento');
+(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
