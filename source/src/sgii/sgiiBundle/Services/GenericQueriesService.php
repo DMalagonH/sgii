@@ -233,8 +233,11 @@ class GenericQueriesService
     
     /**
      * Funcion que obtiene los usuarios
+     * - Acceso desde TblUsuarios
      * 
-     * @param integer $id id del usuario si busca una en específico
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param integer $id id del usuario si busca uno en específico
      * @return array
      */
     public function getUsuarios($id = null)
@@ -267,6 +270,63 @@ class GenericQueriesService
             }
         }
         return $return;
+    }
+    
+    /**
+     * Funcion que obtiene las organizaciones retornandolas como array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getOrganizacionesArray()
+    {
+        $organizaciones = $this->getOrganizaciones();
+        $ArrayOrg = Array();
+        if ($organizaciones) {
+            foreach ($organizaciones as $org){
+                $ArrayOrg[$org->getId()] = $org->getDepNombre();
+            }
+        }
+        return $ArrayOrg;
+    }
+    
+    /**
+     * Funcion que obtiene los cargos retornandolas como Array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getCargosArray()
+    {
+        $cargos = $this->getCargos();
+        $ArrayCar = Array();
+        if ($cargos) {
+            foreach ($cargos as $car){
+                $ArrayCar[$car->getId()] = $car->getCarNombre();
+            }
+        }
+        return $ArrayCar;
+    }
+    
+    /**
+     * Funcion que obtiene los departamentos/areas como Array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getDepartamentosArray()
+    {
+        $departamentos = $this->getDepartamentos();
+        $ArrayDep = Array();
+        if ($departamentos) {
+            foreach ($departamentos as $dep){
+                $ArrayDep[$dep->getId()] = $dep->getCarNombre();
+            }
+        }
+        return $ArrayDep;
     }
 }
 ?>

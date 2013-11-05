@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use sgii\sgiiBundle\Entity\TblUsuario;
 use sgii\sgiiBundle\Form\TblUsuarioType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Controlador de Usuarios
@@ -59,24 +60,119 @@ class TblUsuarioController extends Controller
     }
     
     /**
+     * Funcion para crear el formulario de crear nuevo usuario
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @return Object Formulario
+     */
+    private function createUsuarioForm()
+    {
+        $orgAct = '';
+        $empty_value_org = 'Seleccione una organización';
+        $ARRorg = $this->get('queries')->getOrganizacionesArray();
+        
+        $carAct = '';
+        $empty_value_car = 'Seleccione un cargo';
+        $ARRcar = $this->get('queries')->getCargosArray();
+        
+        $depAct = '';
+        $empty_value_dep = 'Seleccione un departamento';
+        $ARRdep = $this->get('queries')->getDepartamentosArray();
+
+        $formData = array(
+            'usuNombre' => null,
+            'usuCedula' => null,
+            'usuLog' => null,
+            'usuEstado' => null,
+            'organizacionId' => null,
+            'departamentoId' => null,
+            'cargoId' => null,
+            'usuPassword' => null,
+            'usuPassword_conf' => null,
+            '' => null,
+        );
+        
+        $form = $this->createFormBuilder($formData)
+           ->add('usuNombre', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$' )))
+           ->add('usuCedula', 'text', array('required' => true, 'attr' => Array('pattern' => '^[0-9]*$' )))
+           ->add('usuLog', 'email', array('required' => true))
+           ->add('usuEstado', 'checkbox', array('required' => false))
+           ->add('organizacionId', 'choice', array('choices'  => $ARRorg,  'preferred_choices' => array($orgAct), 'required' => false, 'empty_value' => $empty_value_org))
+           ->add('departamentoId', 'choice', array('choices'  => $ARRdep,  'preferred_choices' => array($depAct), 'required' => false, 'empty_value' => $empty_value_dep))
+           ->add('cargosId', 'choice', array('choices'  => $ARRcar,  'preferred_choices' => array($carAct), 'required' => false, 'empty_value' => $empty_value_car))
+           ->add('usuPassword', 'password', array('required' => true))
+           ->add('usuPassword_conf', 'password', array('required' => true))
+           ->getForm();
+        return $form;
+    }
+    
+    
+    /**
+	 * Funcion Privada de validación de formulario del usuario tipo estudiante
+	 * (nombre, apellido, imagen, fecha de nacimiento, colegio, etc.)
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Object Formulario a validar
+     * @return Int Cantidad de errores encontrados
+	 */
+	private function validateFormUsuario($dataForm)
+	{
+		$usuNombre = $dataForm['usuNombre'];
+        $usuCedula = $dataForm['usuCedula'];
+        $usuLog = $dataForm['usuLog'];
+        
+        $NotBlank = new Assert\NotBlank();
+		$RegexTEXT = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$/'));
+        $RegexNUM = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
+        $Email = new Assert\Email();
+		/**
+		 * Validacione aplicadas
+		 * $usuNombre => NotBlank - Regex (Validacion para solo nombres y apellidos (letras y espacios))
+         * $usuCedula => NotBlank - Regex (Validacion para solo NUMEROS)
+         * $usuLog => NotBlank - Email
+		 */
+
+		$countErrores = 0;
+        $countErrores += (count($this->get('validator')->validateValue($usuNombre, Array($NotBlank, $RegexTEXT))) == 0) ? 0 : 1;
+        $countErrores += (count($this->get('validator')->validateValue($usuCedula, Array($NotBlank, $RegexNUM))) == 0) ? 0 : 1;
+        $countErrores += (count($this->get('validator')->validateValue($usuLog, Array($NotBlank, $Email))) == 0) ? 0 : 1;
+		return $countErrores;
+	}
+    
+    
+    /**
      * Displays a form to create a new TblUsuario entity.
      *
      * @Route("/new", name="usuarios_new")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new TblUsuario();
-        //$form   = $this->createCreateForm($entity);
-        $form = $this->createForm(new TblUsuarioType(), $entity, array(
-            //->add('depNombre')
-            //->add('depNombre', 'text', array('required' => true))
-        ));
-        //$form->add('text', 'text');
-        $form->add('submitss', 'submit', array('label' => 'Create'));
-        //$form->add('submi', 'text');
-        //$form->add('depNombre', 'text', array('required' => true));
+        $form = $this->createUsuarioForm();
+        
+        if ($request->getMethod() == "POST") {
+            $form->bind($request);
+            if ($form->isvalid())
+            {
+                $dataForm = $form->getData();
+                $errores = $this->validateFormUsuario($dataForm);
+                if ($errores == 0)
+                {
+                    // pendiente validacion de contraseña
+                    // Guardar la informacion del nuevo registro
+                    // Validacion de que no exista el usuario
+                    // 
+                    //$security->setAuditoria('Nuevo cargo: '.$entity->getId());
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo cargo agregado"));
+                    //return $this->redirect($this->generateUrl('cargo_show', array('id' => $entity->getId())));
+                }
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
 
         return array(
             'entity' => $entity,
