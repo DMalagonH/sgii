@@ -135,6 +135,7 @@ class InstrumentosController extends Controller
      * @Template("sgiiBundle:Instrumentos:show.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
      * @param Request $request
+     * @param $id id de instrumento
      * @return Resonse
      */
     public function showAction(Request $request, $id)
@@ -182,7 +183,8 @@ class InstrumentosController extends Controller
                             {
                                 $opcion = new \sgii\sgiiBundle\Entity\TblRespuesta();
 
-                                $opcion->setPreguntaId($pregunta->getId()); 
+                                $opcion->setPregunta($pregunta->getId()); 
+                                $opcion->setResPeso(0);
                                 $opcion->setResEstado(1);
                                 $opcion->setResRespuesta($o);
 
@@ -205,86 +207,13 @@ class InstrumentosController extends Controller
             }
         }
         
+        $preguntas = $inst_serv->getPreguntasInstrumento($id);
+        
         return array(
             'instrumento' => $instrumento,
             'form' => $form->createView(),
+            'preguntas' => $preguntas
         );
-    }
-    
-    /**
-     * Funcion para crear el formulario de preguntas
-     * 
-     * @param array $data datos precargados del formulario
-     * @return type
-     */
-    private function createPreguntaForm($data = array())
-    {
-        $inst_serv = $this->get('instrumentos');
-        
-        $tiposPregunta = $inst_serv->getTiposPreguta();
-        
-        // adaptar arreglos para formulario del tipo id=>nombre       
-        $choice_tiposPregunta = array();
-        foreach($tiposPregunta as $tp)
-        {
-            $choice_tiposPregunta[$tp['id']] = $tp['tprTipoPregunta'];
-        }
-        
-        if(count($data))
-        {
-            $instrumento = $data;
-        }
-        else
-        {
-            $instrumento = array(
-                'pregunta' => null,
-                'obligatoria' => true,
-                'estado' => true,
-                'orden' => null,
-                'tipoPregunta' => null
-            );
-        }
-        
-        $form = $this->createFormBuilder($instrumento)  
-            ->add('pregunta', 'textarea', array('required' => true))
-            ->add('obligatoria', 'checkbox', array('required' => false))
-            ->add('estado', 'checkbox', array('required' => false))
-            ->add('orden', 'number', array('required' => false))
-            ->add('tipoPregunta', 'choice', array('required' => true, 'choices' => $choice_tiposPregunta))
-            ->getForm(); 
-        
-        return $form;
-    }
-    
-    /**
-     * Funcion para validar el formulario de preguntas
-     * 
-     * @param array $data datos de formulario
-     * @param array $opciones opciones de respuesta
-     * @return array array con estado y mensaje de validacion
-     */
-    private function validatePreguntaFrom($data, $opciones)
-    {
-        $validate = array('validate'=>false, 'message'=>'');
-        
-        if($data['tipoPregunta'] == 2) // pregunta cerrada
-        {
-            if(count($opciones) >= 2)
-            {
-                $validate['validate'] = true;
-            }
-            else
-            {
-                $validate['message'] = 'Debe agregar al menos 2 opciones de respuesta';
-            }
-        }
-        else
-        {
-            $validate['validate'] = true;
-        }
-    
-        
-        return $validate;
     }
     
     /**
@@ -392,5 +321,82 @@ class InstrumentosController extends Controller
         
         return new Response();
     }
+    
+    /**
+     * Funcion para crear el formulario de preguntas
+     * 
+     * @param array $data datos precargados del formulario
+     * @return type
+     */
+    private function createPreguntaForm($data = array())
+    {
+        $inst_serv = $this->get('instrumentos');
+        
+        $tiposPregunta = $inst_serv->getTiposPreguta();
+        
+        // adaptar arreglos para formulario del tipo id=>nombre       
+        $choice_tiposPregunta = array();
+        foreach($tiposPregunta as $tp)
+        {
+            $choice_tiposPregunta[$tp['id']] = $tp['tprTipoPregunta'];
+        }
+        
+        if(count($data))
+        {
+            $instrumento = $data;
+        }
+        else
+        {
+            $instrumento = array(
+                'pregunta' => null,
+                'obligatoria' => true,
+                'estado' => true,
+                'orden' => 0,
+                'tipoPregunta' => null
+            );
+        }
+        
+        $form = $this->createFormBuilder($instrumento)  
+            ->add('pregunta', 'textarea', array('required' => true))
+            ->add('obligatoria', 'checkbox', array('required' => false))
+            ->add('estado', 'checkbox', array('required' => false))
+            ->add('orden', 'number', array('required' => false))
+            ->add('tipoPregunta', 'choice', array('required' => true, 'choices' => $choice_tiposPregunta))
+            ->getForm(); 
+        
+        return $form;
+    }
+    
+    /**
+     * Funcion para validar el formulario de preguntas
+     * 
+     * @param array $data datos de formulario
+     * @param array $opciones opciones de respuesta
+     * @return array array con estado y mensaje de validacion
+     */
+    private function validatePreguntaFrom($data, $opciones)
+    {
+        $validate = array('validate'=>false, 'message'=>'');
+        
+        if($data['tipoPregunta'] == 2) // pregunta cerrada
+        {
+            if(count($opciones) >= 2)
+            {
+                $validate['validate'] = true;
+            }
+            else
+            {
+                $validate['message'] = 'Debe agregar al menos 2 opciones de respuesta';
+            }
+        }
+        else
+        {
+            $validate['validate'] = true;
+        }
+    
+        
+        return $validate;
+    }
+    
 }
 ?>

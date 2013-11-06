@@ -204,4 +204,58 @@ class InstrumentosService
         $result = $query->getResult();        
         return $result;
     }
+    
+    /**
+     * Funcion para obtener las preguntas de un instrumento
+     * 
+     * @param integer $id id de instrumento
+     * @return arrray arreglo de preguntas
+     */
+    public function getPreguntasInstrumento($id)
+    {
+        $dql = "SELECT
+                    p.id,
+                    p.prePregunta,
+                    p.preOrden,
+                    tp.tprTipoPregunta
+                FROM
+                    sgiiBundle:TblPregunta p
+                    JOIN sgiiBundle:TblTipoPregunta tp WITH p.tipoPregunta = tp.id
+                WHERE 
+                    p.herramienta = :instrumentoId
+                ORDER BY p.preOrden ASC
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $id);
+        $result = $query->getResult();
+        
+        // crear array con id de pregunta como keys
+        $preguntas = array();
+        foreach($result as $p)
+        {
+            $preguntas[$p['id']] = $p;
+        }
+        
+        $dql = "SELECT 
+                    r.id,
+                    r.resRespuesta,
+                    r.resPeso,
+                    p.id preguntaId
+                FROM
+                    sgiiBundle:TblRespuesta r
+                    JOIN sgiiBundle:TblPregunta p WITH r.pregunta = p.id
+               WHERE
+                    p.herramienta = :instrumentoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $id);
+        $opc_respuesta = $query->getResult();
+        
+        // Agregar opciones de respuesta al array de preguntas
+        foreach($opc_respuesta as $op)
+        {
+            $preguntas[$op['preguntaId']]['opciones'][] = $op;
+        }
+        
+        return $preguntas;        
+    }
 }

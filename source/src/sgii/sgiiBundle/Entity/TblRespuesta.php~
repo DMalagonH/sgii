@@ -29,6 +29,13 @@ class TblRespuesta
     private $resRespuesta;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="res_peso", type="integer", nullable=false)
+     */
+    private $resPeso;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="res_estado", type="boolean", nullable=false)
@@ -36,11 +43,14 @@ class TblRespuesta
     private $resEstado;
 
     /**
-     * @var integer
+     * @var \TblPregunta
      *
-     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblPregunta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
      */
-    private $preguntaId;
+    private $pregunta;
 
 
 }
