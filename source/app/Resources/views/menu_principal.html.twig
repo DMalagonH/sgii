@@ -9,51 +9,8 @@
 <li>
     <a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proyectos</span></a>
 </li>
-{% if 'organizaciones' in sess_modulos %}
-	<li {% if origen == 'acceso_organizaciones' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("organizacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Organizaciones</span></a>
-	</li>
-{% endif %}
-{% if 'cargos' in sess_modulos %}
-	<li {% if origen == 'acceso_cargo' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("cargo") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Cargos</span></a>
-	</li>
-{% endif %}
-{% if 'departamentos' in sess_modulos %}
-	<li {% if origen == 'acceso_departamento' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("departamento") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Departamentos</span></a>
-	</li>
-{% endif %}
-{% if 'tipo_investigacion' in sess_modulos %}
-	<li {% if origen == 'acceso_tipo_investigacion' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("tipoinvestigacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tipos de investigación</span></a>
-	</li>
-{% endif %}
-{% if 'linea_investigacion' in sess_modulos %}
-	<li {% if origen == 'acceso_linea_investigacion' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("lineainvestigacion") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Línea de investigación</span></a>
-	</li>
-{% endif %}
-{% if 'estados_proyecto' in sess_modulos %}
-	<li {% if origen == 'acceso_estados_proyectos' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("estadoproyecto") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Estados de proyectos</span></a>
-	</li>
-{% endif %}
-{% if 'errores' in sess_modulos %}
-	<li {% if origen == 'acceso_errores' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("errores") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Errores</span></a>
-	</li>
-{% endif %}
-{% if 'auditoria' in sess_modulos %}
-	<li {% if origen == 'acceso_auditoria' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("auditoria") }}"><i class="icon-align-justify"></i><span class="hidden-tablet"> Auditoria</span></a>
-	</li>
-{% endif %}
-{% if 'usuarios' in sess_modulos %}
-	<li {% if origen == 'acceso_usuarios' %}class='active'{% endif %}>
-		<a class="ajax-link" href="{{ path("usuarios") }}"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a>
-	</li>
-{% endif %}
+{% if 'instrumentos' in sess_modulos %}
 <li {% if origen == 'instrumentos' %}class='active'{% endif %}>
     <a class="ajax-link" href="{{ path("instrumentos") }}"><i class="icon-tasks"></i><span class="hidden-tablet"> Instrumentos</span></a>
 </li>
+{% endif %}
