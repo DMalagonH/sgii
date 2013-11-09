@@ -8,7 +8,8 @@ INSERT INTO `tbl_modulo` VALUES
 (7, 'tipo_investigacion', 1, 'tipoinvestigacion,tipoinvestigacion_show,tipoinvestigacion_new,tipoinvestigacion_edit,tipoinvestigacion_delete'),
 (8, 'errores', 1, 'errores'),
 (9, 'auditoria', 1, 'auditoria'),
-(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento');
+(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento'),
+(11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -33,7 +34,13 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('1', '7'),
 ('2', '7'),
 ('1', '8'),
-('1', '9');
+('1', '9'),
+('1', '10'),
+('2', '10'),
+('3', '10'),
+('1', '11'),
+('2', '11'),
+('3', '11');
 
 INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES 
 ('1', '10'),
@@ -93,10 +100,7 @@ INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('2', '1');
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('1', 'Cuestionario', '1');
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('2', 'Encuesta', '1');
 
+
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'Cerrada', '1');
-
-
-
-
 

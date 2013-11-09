@@ -229,5 +229,104 @@ class GenericQueriesService
         $query = $this->em->createQuery($dql);
         return $query->getResult();
     }
+    
+    
+    /**
+     * Funcion que obtiene los usuarios
+     * - Acceso desde TblUsuarios
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param integer $id id del usuario si busca uno en específico
+     * @return array
+     */
+    public function getUsuarios($id = null)
+    {
+        $return = false;
+        $dql = "SELECT u.id, u.usuNombre, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
+                    c.carNombre, d.depNombre, o.orgNombre
+                FROM sgiiBundle:TblUsuario u
+                LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
+                LEFT JOIN sgiiBundle:TblDepartamento d WITH d.id = u.departamentoId
+                LEFT JOIN sgiiBundle:TblOrganizacion o WITH o.id = u.organizacionId";
+        
+        if($id != null) {
+            $dql .= " WHERE u.id = :id";
+        }
+        
+        $query = $this->em->createQuery($dql);
+        if($id != null) {
+            $query->setParameter('id', $id);
+            $query->setMaxResults(1);
+        }
+        $result = $query->getResult();
+        
+        if(count($result)>0) {
+            if($id != null) {
+                $return = $result[0];
+            }
+            else {
+                $return = $result;
+            }
+        }
+        return $return;
+    }
+    
+    /**
+     * Funcion que obtiene las organizaciones retornandolas como array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getOrganizacionesArray()
+    {
+        $organizaciones = $this->getOrganizaciones();
+        $ArrayOrg = Array();
+        if ($organizaciones) {
+            foreach ($organizaciones as $org){
+                $ArrayOrg[$org->getId()] = $org->getDepNombre();
+            }
+        }
+        return $ArrayOrg;
+    }
+    
+    /**
+     * Funcion que obtiene los cargos retornandolas como Array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getCargosArray()
+    {
+        $cargos = $this->getCargos();
+        $ArrayCar = Array();
+        if ($cargos) {
+            foreach ($cargos as $car){
+                $ArrayCar[$car->getId()] = $car->getCarNombre();
+            }
+        }
+        return $ArrayCar;
+    }
+    
+    /**
+     * Funcion que obtiene los departamentos/areas como Array
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getDepartamentosArray()
+    {
+        $departamentos = $this->getDepartamentos();
+        $ArrayDep = Array();
+        if ($departamentos) {
+            foreach ($departamentos as $dep){
+                $ArrayDep[$dep->getId()] = $dep->getCarNombre();
+            }
+        }
+        return $ArrayDep;
+    }
 }
 ?>
