@@ -44,15 +44,25 @@
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Estado </label>
                             <div class="controls span10">{{ form_widget(form.usuEstado, {'attr': {'class':'span10'}} ) }}</div>
+                            
                         </div>
                         <hr>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Contrase&ntilde;a </label>
-                            <div class="controls span10">{{ form_widget(form.usuPassword, {'attr': {'class':'span10'}} ) }}</div>
+                            <div class="controls span10">{{ form_widget(form.usuPassword, {'attr': {'class':'password1 span10'}} ) }}
+                                <div class="progress" style="height: 5px; margin-bottom: -2px; margin-left: 15px;">
+                                    <div id="progress-bar-pass" class="bar bar-danger" style="width: 0.8%;"></div>
+                                </div>
+                                <div style="font-size: 10px; margin-left: 15px;">Seguridad: <span id="sec-pass">Insuficiente</span></div>    
+                            </div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Confirmar contrase&ntilde;a </label>
-                            <div class="controls span10">{{ form_widget(form.usuPassword_conf, {'attr': {'class':'span10'}} ) }}</div>
+                            <div class="controls span10">{{ form_widget(form.usuPassword_conf, {'attr': {'class':'password2 span10'}} ) }}
+                                <div class="progress" style="height:5px; margin-bottom: 10px; margin-left: 15px;">
+                                    <div id="span_conf" class="bar bar-danger" style="width: 100%"> </div>
+                                </div>
+                            </div>
                         </div>
                         
                         {{ form(form) }}
@@ -68,3 +78,8 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script src="{{ asset('js/password.js')}}"></script>
+{% endblock script %}
+

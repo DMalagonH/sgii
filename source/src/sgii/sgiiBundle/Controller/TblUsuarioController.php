@@ -165,7 +165,7 @@ class TblUsuarioController extends Controller
                     // pendiente validacion de contraseña
                     // Guardar la informacion del nuevo registro
                     // Validacion de que no exista el usuario
-                    // 
+                    
                     //$security->setAuditoria('Nuevo cargo: '.$entity->getId());
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo cargo agregado"));
                     //return $this->redirect($this->generateUrl('cargo_show', array('id' => $entity->getId())));
