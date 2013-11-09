@@ -237,8 +237,8 @@ class InstrumentosController extends Controller
         $inst_serv = $this->get('instrumentos');
         
         // Create form
-        $fechaInicio = (!empty($instrumento->getHerFechaInicio())) ? $instrumento->getHerFechaInicio()->format('Y-m-d') : null;
-        $fechaFin = (!empty($instrumento->getHerFechaFin())) ? $instrumento->getHerFechaFin()->format('Y-m-d') : null;
+        $fechaInicio = (is_object($instrumento->getHerFechaInicio())) ? $instrumento->getHerFechaInicio()->format('Y-m-d') : null;
+        $fechaFin = (is_object($instrumento->getHerFechaFin())) ? $instrumento->getHerFechaFin()->format('Y-m-d') : null;
         $form = $this->createInstrumentoForm(array(
             'nombre' => $instrumento->getHerNombreHerramienta(),
             'fechaInicio' => $fechaInicio,
