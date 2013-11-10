@@ -25,10 +25,14 @@
                 <form  action="{{ path('edit_perfil') }}" method="POST">
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <td rowspan="7" style="width:240px; text-align: center;">
+                        <td rowspan="8" style="width:240px; text-align: center;">
                             <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(usuario.usuLog, 200) }}" style="width:200px; height: 200px;">
                             <a href="https://gravatar.com" target="_blank" class="btn btn-small" style="margin-top:5px;">Cambiar imagen en gravatar.com</a>
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Apellido:</b></td>
+                        <td>{{ form_widget(form.usuApellido, {'attr':{'class':'span10'} }) }}</td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Nombre:</b></td>

@@ -99,6 +99,7 @@ class TblUsuarioController extends Controller
                         $newPass = $security->encriptar($dataForm['usuCedula']);
                         $nUser = new TblUsuario();
                         $nUser->setUsuCedula($dataForm['usuCedula']);
+                        $nUser->setUsuApellido($dataForm['usuApellido']);
                         $nUser->setUsuNombre($dataForm['usuNombre']);
                         $nUser->setUsuFechaCreacion(new \DateTime());
                         $nUser->setUsuLog($dataForm['usuLog']);
@@ -172,6 +173,7 @@ class TblUsuarioController extends Controller
                     {
                         $nUser->setUsuCedula($dataForm['usuCedula']);
                         $nUser->setUsuNombre($dataForm['usuNombre']);
+                        $nUser->setUsuApellido($dataForm['usuApellido']);
                         $nUser->setUsuLog($dataForm['usuLog']);
                         $nUser->setUsuEstado($dataForm['usuEstado']);
                         $nUser->setCargoId($dataForm['cargoId']);
@@ -244,10 +246,11 @@ class TblUsuarioController extends Controller
         return $this->redirect($this->generateUrl('usuarios'));
     }
 
+    
     //--------------------------------------------/
     //--  M E T O D O S  y   F U N C I O N E S  --/
     //--------------------------------------------/
-    
+
     /**
      * Creación de formulario para eliminar un usuario
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
@@ -293,6 +296,7 @@ class TblUsuarioController extends Controller
 
         $formData = array(
             'usuNombre' => ($usuario) ? $usuario->getUsuNombre() : null,
+            'usuApellido' => ($usuario) ? $usuario->getUsuApellido() : null,
             'usuCedula' => ($usuario) ? $usuario->getUsuCedula() : null,
             'usuLog' => ($usuario) ? $usuario->getUsuLog() : null,
             'usuEstado' => ($usuario) ? $usuario->getUsuEstado() : null,
@@ -305,6 +309,7 @@ class TblUsuarioController extends Controller
         
         $form = $this->createFormBuilder($formData)
            ->add('usuNombre', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$' )))
+           ->add('usuApellido', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$' )))
            ->add('usuCedula', 'text', array('required' => true, 'attr' => Array('pattern' => '^[0-9]*$' )))
            ->add('usuLog', 'email', array('required' => true))
            ->add('usuEstado', 'checkbox', array('required' => false))
@@ -331,6 +336,7 @@ class TblUsuarioController extends Controller
 	private function validateFormUsuario($dataForm)
 	{
 		$usuNombre = $dataForm['usuNombre'];
+        $usuApellido = $dataForm['usuApellido'];
         $usuCedula = $dataForm['usuCedula'];
         $usuLog = $dataForm['usuLog'];
         $perfilId = $dataForm['perfilId'];
@@ -342,6 +348,7 @@ class TblUsuarioController extends Controller
         
 		$countErrores = 0;
         $countErrores += (count($this->get('validator')->validateValue($usuNombre, Array($NotBlank, $RegexTEXT))) == 0) ? 0 : 1;
+        $countErrores += (count($this->get('validator')->validateValue($usuApellido, Array($NotBlank, $RegexTEXT))) == 0) ? 0 : 1;
         $countErrores += (count($this->get('validator')->validateValue($usuCedula, Array($NotBlank, $RegexNUM))) == 0) ? 0 : 1;
         $countErrores += (count($this->get('validator')->validateValue($usuLog, Array($NotBlank, $Email))) == 0) ? 0 : 1;
         $countErrores += (count($this->get('validator')->validateValue($perfilId, Array($NotBlank))) == 0) ? 0 : 1;

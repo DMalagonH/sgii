@@ -18,6 +18,10 @@
                 <form class="form-horizontal" action="{{ path('usuarios_edit', {'id' : entity.id }) }}" method="POST" {{ form_enctype(form) }}>
                     <fieldset>
                         <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Apellido </label>
+                            <div class="controls span10">{{ form_widget(form.usuApellido, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Nombre </label>
                             <div class="controls span10">{{ form_widget(form.usuNombre, {'attr': {'class':'span10'}} ) }}</div>
                         </div>

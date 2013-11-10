@@ -20,6 +20,7 @@
                     <table class="table table-striped table-bordered bootstrap-datatable datatable">
                         <thead>
                             <tr>
+                                <th>Apellido</th>
                                 <th>Nombre</th>
                                 <th>Cedula</th>
                                 {#<th>Fecha de creación</th>#}
@@ -34,6 +35,7 @@
                         <tbody>
                             {% for entity in entities %}
                                 <tr>
+                                    <td>{{ entity.usuApellido }}</td>
                                     <td>{{ entity.usuNombre }}</td>
                                     <td>{{ entity.usuCedula }}</td>
                                     {#<td>{% if entity.usuFechaCreacion %}{{ entity.usuFechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>#}

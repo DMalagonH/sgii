@@ -291,13 +291,13 @@ class GenericQueriesService
      */
     public function getPerfilUsuario($usuarioId)
     {
-        $dql = "SELECT up.id
+        $dql = "SELECT up.perfilId
             FROM sgiiBundle:TblUsuarioPerfil up
             WHERE up.usuarioId =:usuario";
         $query = $this->em->createQuery($dql);
         $query->setParameter('usuario', $usuarioId);
         $perfilUser = $query->getResult();
-        $perfilId = ($perfilUser) ? $perfilUser[0]['id'] : 0;
+        $perfilId = ($perfilUser) ? $perfilUser[0]['perfilId'] : 0;
         return $perfilId;
     }
     
@@ -349,7 +349,7 @@ class GenericQueriesService
     public function getUsuarios($id = null)
     {
         $return = false;
-        $dql = "SELECT u.id, u.usuNombre, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
+        $dql = "SELECT u.id, u.usuNombre, u.usuApellido, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
                     c.carNombre, d.depNombre, o.orgNombre
                 FROM sgiiBundle:TblUsuario u
                 LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
