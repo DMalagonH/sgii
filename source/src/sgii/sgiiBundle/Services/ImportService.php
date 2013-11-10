@@ -114,19 +114,18 @@ class ImportService
                         $organizacion = false;
 
                         if(!empty($u['cargo'])) $cargo = $this->verificarRegistroRelacionado("TblCargo", "carNombre", $u['cargo']);
-    //                    if(!empty($u['nivel'])) $nivel = $this->verificarRegistroRelacionado("TblNivel", "nivNombre", $u['nivel']);
+                        if(!empty($u['nivel'])) $nivel = $this->verificarRegistroRelacionado("TblNivel", "nivNombre", $u['nivel']);
                         if(!empty($u['departamento'])) $departamento = $this->verificarRegistroRelacionado("TblDepartamento", "depNombre", $u['departamento']);
                         if(!empty($u['organizacion'])) $organizacion = $this->verificarRegistroRelacionado("TblOrganizacion", "orgNombre", $u['organizacion']);
 
                         // Asignar valores a la entidad usuario
                         $usuario =  new \sgii\sgiiBundle\Entity\TblUsuario();
                         $usuario->setUsuCedula($u['usuCedula']);
-                        $usuario->setUsuNombre($u['usuNombre']." ".$u['usuApellido']);
-    //                    $usuario->setUsuNombre($u['usuNombre']);
-    //                    $usuario->setUsuApellido($u['usuApellido']);
+                        $usuario->setUsuNombre($u['usuNombre']);
+                        $usuario->setUsuApellido($u['usuApellido']);
                         $usuario->setUsuLog($u['usuLog']);
                         if($cargo) $usuario->setCargoId($cargo->getId());
-    //                    if($nivel) $usuario->setNivelId($nivel->getId());
+                        if($nivel) $usuario->setNivelId($nivel->getId());
                         if($departamento) $usuario->setDepartamentoId($departamento->getId());
                         if($organizacion) $usuario->setOrganizacionId($organizacion->getId());
 
@@ -140,8 +139,17 @@ class ImportService
                         $this->em->persist($usuario);
                         $this->em->flush();
                         
+                        // Registrar rol de usuario
+                        $rol = new \sgii\sgiiBundle\Entity\TblUsuarioPerfil();
+                        $rol->setPerfilId(4); // rol usuario basico
+                        $rol->setUsuarioId($usuario->getId());
                         
+                        // Persistir rol
+                        $this->em->persist($rol);
+                        $this->em->flush();
+                                                
                         //Enviar correo de notificacion
+                        $this->notificarRegistroUsuario($usuario, $pass);
                         
                         
                         $msg[] = "La fila ".$k." se importó correctamente";
@@ -201,11 +209,12 @@ class ImportService
                     $entity->setCarNombre($valor);                    
                     break;
                 }
-//                case 'TblNivel':
-//                {
-//                    $entity = \sgii\sgiiBundle\Entity\TblNivel();
-//                    break;
-//                }
+                case 'TblNivel':
+                {
+                    $entity = new \sgii\sgiiBundle\Entity\TblNivel();
+                    $entity->setNivNombre($valor);
+                    break;
+                }
                 case 'TblDepartamento':
                 {
                     $entity = new \sgii\sgiiBundle\Entity\TblDepartamento();
@@ -220,11 +229,45 @@ class ImportService
                 }
             }
             
+
             $this->em->persist($entity);
             $this->em->flush();
         }
         
         return $entity;
+    }
+    
+    /**
+     * Funcion para enviar correo a los usuario importado
+     * 
+     * @param Object $usuario entidad de usuario
+     * @param string $pass contraseña autogenerarda sin encriptar
+     */
+    public function notificarRegistroUsuario($usuario, $pass)
+    {
+        $mailer = $this->serv_cont->get('mail');
+        
+        
+        $subject = 'Has sido incluido en SGII';
+        
+        $link = $this->serv_cont->get('request')->getSchemeAndHttpHost().$this->serv_cont->get('router')->generate('login');
+        
+        $body = "BIENVENIDO, Has sido incluido en SGII para acceder haga click en el boton de abajo y luego ingrese con los siguientes datos:<br/>
+                <b>Usuario:</b> ".$usuario->getUsuLog()."<br/>
+                <b>Contraseña:</b> ".$pass." <br/>
+                <br/>
+                SGII es un sistema para la gestión de instrumentos de investigación. 
+                Es usada como una herramienta de apoyo para los procesos investigativos en diferentes áreas.
+                ";
+        
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $body,
+            'link' => $link,
+            'link_text' => 'Ingresar'
+        );
+        
+        $mailer->sendMail($usuario->getUsuLog(), $subject, $dataRender);
     }
 }
 ?>

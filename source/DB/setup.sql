@@ -46,10 +46,6 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('2', '12'),
 ('3', '12');
 
-INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES 
-('1', '10'),
-('2', '10'),
-('3', '10');
 
 INSERT INTO `tbl_usuario`
 (`id`,
