@@ -505,3 +505,9 @@ min-height:297px;
 textarea{
     resize: vertical;
 }
+
+.help-tooltip{
+    color: #3986AC;
+    text-decoration: underline;
+    cursor: pointer;
+}

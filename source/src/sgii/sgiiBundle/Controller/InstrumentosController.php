@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * 
  * @Route("/instrumentos")
  * @package CuentaBundle/Controller
+ * @author Diego Malagón <diego-software@hotmail.com>
  */
 class InstrumentosController extends Controller
 {
@@ -157,6 +158,7 @@ class InstrumentosController extends Controller
             {
                 $data = $form->getData();
                 $opciones = $request->get('opciones');             
+                $pesos = $request->get('peso');
                 
                 $validate = $this->validatePreguntaFrom($data, $opciones);
                 
@@ -177,14 +179,14 @@ class InstrumentosController extends Controller
                     
                     if($data['tipoPregunta'] == 2) // Cerradas
                     {                    
-                        foreach($opciones as $o)
+                        foreach($opciones as $ko => $o)
                         {
                             if(!empty($o))
                             {
                                 $opcion = new \sgii\sgiiBundle\Entity\TblRespuesta();
 
                                 $opcion->setPregunta($pregunta->getId()); 
-                                $opcion->setResPeso(0);
+                                $opcion->setResPeso($pesos[$ko]);
                                 $opcion->setResEstado(1);
                                 $opcion->setResRespuesta($o);
 
@@ -194,6 +196,7 @@ class InstrumentosController extends Controller
                         $em->flush();
                     }
                     
+                    $security->setAuditoria('Creación de pregunta: '.$pregunta->getId());
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Pregunta agregada correctamente"));
                 }
                 else
@@ -343,11 +346,11 @@ class InstrumentosController extends Controller
         
         if(count($data))
         {
-            $instrumento = $data;
+            $pregunta = $data;
         }
         else
         {
-            $instrumento = array(
+            $pregunta = array(
                 'pregunta' => null,
                 'obligatoria' => true,
                 'estado' => true,
@@ -356,7 +359,7 @@ class InstrumentosController extends Controller
             );
         }
         
-        $form = $this->createFormBuilder($instrumento)  
+        $form = $this->createFormBuilder($pregunta)  
             ->add('pregunta', 'textarea', array('required' => true))
             ->add('obligatoria', 'checkbox', array('required' => false))
             ->add('estado', 'checkbox', array('required' => false))
@@ -398,5 +401,150 @@ class InstrumentosController extends Controller
         return $validate;
     }
     
-}
+    /**
+     * Accion para editar una pregunta
+     * 
+     * @Route("/{pid}/{iid}/edit_pregunta", name="edit_pregunta")
+     * @Template("sgiiBundle:Instrumentos:editPregunta.html.twig")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param integer $pid id de pregunta
+     * @param integer $iid id de instrumento
+     */
+    public function editPreguntaAction(Request $request, $pid, $iid)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $inst_serv = $this->get('instrumentos');
+        
+        $em = $this->getDoctrine()->getManager();
+        $pregunta = $em->getRepository('sgiiBundle:TblPregunta')->findOneById($pid);
+        
+        $count = $inst_serv->countRespuestasUsuarios($pid);
+        
+        if($count > 0)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "text" => "La pregunta no se puede editar porque ya contiene respuestas de usuarios"));
+            return $this->redirect($this->generateUrl('show_instrumento', array('id'=>$pregunta->getHerramienta())));
+        }
+        
+        $dataForm = array(
+            'pregunta' => $pregunta->getPrePregunta(),
+            'obligatoria' => $pregunta->getPreObligatoria(),
+            'estado' => $pregunta->getPreEstado(),
+            'orden' => $pregunta->getPreOrden(),
+            'tipoPregunta' => $pregunta->getTipoPregunta()
+        );
+        
+        $form = $this->createPreguntaForm($dataForm);
+        
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                $opciones = $request->get('opciones');             
+                $pesos = $request->get('peso');
+                
+                $validate = $this->validatePreguntaFrom($data, $opciones);
+                
+                if($validate['validate'])
+                {
+                    $pregunta->setPrePregunta($data['pregunta']);
+                    $pregunta->setPreOrden($data['orden']);
+                    $pregunta->setPreObligatoria($data['obligatoria']);
+                    $pregunta->setPreEstado($data['estado']);
+
+                    $em->persist($pregunta);
+                    $em->flush();
+                    
+                    // Eliminar opciones de respuesta
+                    $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.pregunta = :preguntaId";
+                    $query = $em->createQuery($dql);
+                    $query->setParameter('preguntaId', $pid);
+                    $query->getResult();
+                    
+                    // Registrar las nuevas opciones de respuesta
+                    if($pregunta->getTipoPregunta() == 2) // Cerradas
+                    {                    
+                        foreach($opciones as $ko => $o)
+                        {
+                            if(!empty($o))
+                            {
+                                $opcion = new \sgii\sgiiBundle\Entity\TblRespuesta();
+
+                                $opcion->setPregunta($pregunta->getId()); 
+                                $opcion->setResPeso($pesos[$ko]);
+                                $opcion->setResEstado(1);
+                                $opcion->setResRespuesta($o);
+
+                                $em->persist($opcion);
+                            }
+                        }
+                        $em->flush();
+                    }
+                    $security->setAuditoria('Edición de pregunta: '.$pregunta->getId());
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Pregunta editada correctamente"));
+                    return $this->redirect($this->generateUrl('show_instrumento', array('id'=>$pregunta->getHerramienta())));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => $validate['message']));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
+        
+        $opciones = $inst_serv->getOpcionesPregunta($pid);
+        
+        return array(
+            'pid' => $pid,
+            'iid' => $iid,
+            'form' => $form->createView(),
+            'opciones' => $opciones
+        );
+    }
+        
+    /**
+     * Accion ajax para eliminar una pregunta
+     * 
+     * @Route("/{pid}/delete_pregunta", name="delete_pregunta")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param integer $pid id de pregunta
+     */
+    public function deletePreguntaAction($pid)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+                
+        $inst_serv = $this->get('instrumentos');
+        
+        $del = $inst_serv->deletePregunta($pid);        
+        
+        if($del)
+        {
+            $security->setAuditoria('Eliminación pregunta: '.$pid);
+            print(json_encode(array(
+               'status' => 'success', 
+               'message' => 'Pregunta eliminada correctamente' 
+            )));
+        }
+        else
+        {
+            print(json_encode(array(
+               'status' => 'warning', 
+               'message' => 'La pregunta no se puede eliminar porque ya contiene respuestas de usuarios.' 
+            )));            
+        }
+        
+        return new Response();
+    }
+}   
 ?>

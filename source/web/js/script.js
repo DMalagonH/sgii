@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(".btn-delete").on("click", function(e) {
         e.preventDefault();
         
-        var parent = $(this).parent().parent();        
+        var parent = $(this).parents($(this).data('remove'));
         
         if(confirm('¿Esta seguro de eliminar este elemento?\n ¡No se podrá recuperar!'))
         {
