@@ -283,22 +283,32 @@ class GenericQueriesService
     
     /**
      * Perfil del usuario que ingresa por Id
+     * - Acceso desde TblUsuarioController
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @param Int $usuarioId Id del usuario
+     * @param String $valor Valor que retorna del perfil, por default, el ID.
      * @return Array Arreglo de perfiles del usuario
      */
-    public function getPerfilUsuario($usuarioId)
+    public function getPerfilUsuario($usuarioId, $valor = 'id')
     {
-        $dql = "SELECT up.perfilId
+        $dql = "SELECT up.perfilId, p.perPerfil
             FROM sgiiBundle:TblUsuarioPerfil up
+            JOIN sgiiBundle:TblPerfil p WITH p.id = up.perfilId
             WHERE up.usuarioId =:usuario";
         $query = $this->em->createQuery($dql);
         $query->setParameter('usuario', $usuarioId);
         $perfilUser = $query->getResult();
-        $perfilId = ($perfilUser) ? $perfilUser[0]['perfilId'] : 0;
-        return $perfilId;
+        
+        $perfil = false;
+        if ($valor == 'id') {
+            $perfil = ($perfilUser) ? $perfilUser[0]['perfilId'] : 0;
+        }
+        elseif ($valor == 'nombre') {
+            $perfil = ($perfilUser) ? $perfilUser[0]['perPerfil'] : 0;
+        }
+        return $perfil;
     }
     
     /**
@@ -350,12 +360,12 @@ class GenericQueriesService
     {
         $return = false;
         $dql = "SELECT u.id, u.usuNombre, u.usuApellido, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
-                    c.carNombre, d.depNombre, o.orgNombre
+                    c.carNombre, d.depNombre, o.orgNombre, n.nivNombre
                 FROM sgiiBundle:TblUsuario u
                 LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
                 LEFT JOIN sgiiBundle:TblDepartamento d WITH d.id = u.departamentoId
-                LEFT JOIN sgiiBundle:TblOrganizacion o WITH o.id = u.organizacionId";
-        
+                LEFT JOIN sgiiBundle:TblOrganizacion o WITH o.id = u.organizacionId
+                LEFT JOIN sgiiBundle:TblNiveles n WITH n.id = u.nivelId";
         if($id != null) {
             $dql .= " WHERE u.id = :id";
         }
@@ -436,6 +446,31 @@ class GenericQueriesService
             }
         }
         return $ArrayDep;
+    }
+    
+    /**
+     * Funcion que obtiene los Niveles como Array
+     * - acceso desde TblUsuarioController
+     * - acceso desde PerfilController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getNivelesArray()
+    {
+        $dql = "SELECT n.id, n.nivNombre
+            FROM sgiiBundle:TblNiveles n";
+        $query = $this->em->createQuery($dql);
+        $niveles = $query->getResult();
+        
+        $ArrayNiv = Array();
+        if ($niveles) {
+            foreach ($niveles as $niv){
+                $ArrayNiv[$niv['id']] = $niv['nivNombre'];
+            }
+        }
+        return $ArrayNiv;
     }
 }
 ?>

@@ -2,7 +2,7 @@
 
 {% block menu %}
     {% set origen = 'acceso_usuarios' %}
-    {% include '::menu_principal.html.twig' %}
+    {% include '::menu_admin.html.twig' %}
 {% endblock menu %}
 
 {% block body %}
@@ -26,9 +26,10 @@
                                 {#<th>Fecha de creación</th>#}
                                 <th>Email</th><!-- log -->
                                 <th>Estado</th>
-                                <th>Cargo</th>
-                                <th>Departamento</th>
                                 <th>Organizacion</th>
+                                <th>Departamento</th>
+                                <th>Cargo</th>
+                                <th>Nivel</th>
                                 <th style='text-align:center;'>Opciones</th>
                             </tr>
                         </thead>
@@ -47,9 +48,10 @@
                                             <span class="label">Inactivo</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ entity.carNombre }}</td>
-                                    <td>{{ entity.depNombre }}</td>
                                     <td>{{ entity.orgNombre }}</td>
+                                    <td>{{ entity.depNombre }}</td>
+                                    <td>{{ entity.carNombre }}</td>
+                                    <td>{{ entity.nivNombre }}</td>
                                     <td class="center" style="font-size: 10px; width: 95px;text-align:center;">
                                         <a class="btn btn-success btn-mini" href="{{ path('usuarios_show', {'id': entity.id }) }}" data-rel="tooltip" title="Ver">
                                             <i class="icon-zoom-in icon-white"></i>        
