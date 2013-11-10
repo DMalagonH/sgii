@@ -14,8 +14,7 @@ class InstrumentosService
         $this->session = $session;
         $this->em = $doctrine->getManager();
     }
-    
-    
+        
     /**
      * Funcion para obtener los proyectos
      * 
@@ -35,8 +34,7 @@ class InstrumentosService
         $query = $this->em->createQuery($dql);
         $result = $query->getResult();        
         return $result;
-    }
-    
+    }    
     
     /**
      * Funcion para obtener los tipos de instrumentos
@@ -58,8 +56,7 @@ class InstrumentosService
         $result = $query->getResult();        
         return $result;
     }
-    
-    
+        
     /**
      * Funcion para obtener los instrumentos registrados
      * 
@@ -111,14 +108,14 @@ class InstrumentosService
         
         return $result;        
     }
-    
-    
+        
     /**
      * Funcion para eliminar en cascada un instrumento
      * 
      * Permite eliminar un instrumento siempre y cuando no contenga respuestas asociadas
      * 
      * @param integer $instrumentoId id de instrumento
+     * @return boolean true si se elimino el instrumento falso en caso contrario
      */
     public function deleteInstrumento($instrumentoId)
     {
@@ -158,8 +155,8 @@ class InstrumentosService
             
             
             // Eliminar opciones de repuesta de las preguntas encontradas
-            $where = implode(' OR r.preguntaId = ', $preguntas);
-            $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.preguntaId = ".$where." ";
+            $where = implode(' OR r.pregunta = ', $preguntas);
+            $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.pregunta = ".$where." ";
             $query = $this->em->createQuery($dql);
             $query->getResult(); 
             
@@ -257,5 +254,82 @@ class InstrumentosService
         }
         
         return $preguntas;        
+    }
+    
+    /**
+     * Funcion para obtener las opciones de respuesta de una pregunta
+     * 
+     * @param integer $id id de pregunta
+     * @return array arreglo de opciones
+     */
+    public function getOpcionesPregunta($id)
+    {
+        $dql = "SELECT 
+                    r.id,
+                    r.resRespuesta,
+                    r.resPeso
+                FROM
+                    sgiiBundle:TblRespuesta r
+               WHERE
+                    r.pregunta = :preguntaId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('preguntaId', $id);
+        $opc_respuesta = $query->getResult();
+        
+        return $opc_respuesta;        
+    }
+        
+    /**
+     * Funcion que cuenta la cantidad de respuestas de usuarios en una pregunta
+     * 
+     * @param integer $id id de pregunta
+     * @return integer numero de respuestas
+     */
+    public function countRespuestasUsuarios($id)
+    {
+        $count = 0;
+        
+        $dql = "SELECT COUNT(ru.id) c FROM sgiiBundle:TblRespuestaUsuario ru
+                WHERE ru.pregunta = :preguntaId ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('preguntaId', $id);
+        $result = $query->getResult();
+                
+        if(isset($result[0]['c']))
+        {
+            $count = $result[0]['c'];
+        }
+        
+        return $count;
+    }
+    
+    /**
+     * Funcion para eliminar una pregunta
+     * 
+     * @param integer $id id de pregunta
+     * @return boolean true si se elimino la pregunta falso en caso contrario
+     */
+    public function deletePregunta($id)
+    {
+        if($this->countRespuestasUsuarios($id) == 0)
+        {            
+            // Eliminar opciones de respuesta
+            $dql = "DELETE FROM sgiiBundle:TblRespuesta r WHERE r.pregunta = :preguntaId ";
+            $query = $this->em->createQuery($dql);
+            $query->setParameter('preguntaId', $id);
+            $query->getResult(); 
+            
+            // Eliminar pregunta
+            $dql = "DELETE FROM sgiiBundle:TblPregunta p WHERE p.id = :preguntaId ";
+            $query = $this->em->createQuery($dql);
+            $query->setParameter('preguntaId', $id);
+            $query->getResult();  
+            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

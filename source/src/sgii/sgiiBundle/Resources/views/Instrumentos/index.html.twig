@@ -29,7 +29,7 @@
               </thead>   
               <tbody>
                 {% for instrumento in instrumentos %}
-                  <tr>
+                  <tr class="tr-instrumento">
                       <td style="width: 80px;">{{ instrumento.theNombreHerramienta }}</td>
                       <td>{{ instrumento.herNombreHerramienta }}</td>
                       <td>{{ instrumento.proNombre }}</td>
@@ -45,7 +45,7 @@
                         <a class="btn btn-info btn-mini" href="{{ path('edit_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Editar">
                             <i class="icon-edit icon-white"></i>            
                         </a>
-                        <a class="btn btn-danger btn-mini btn-delete" href="{{ path('delete_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Eliminar">
+                        <a class="btn btn-danger btn-mini btn-delete" data-remove=".tr-instrumento" href="{{ path('delete_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Eliminar">
                             <i class="icon-trash icon-white"></i>
                         </a>
                      </td>
