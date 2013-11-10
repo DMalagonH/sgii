@@ -22,7 +22,7 @@
                             <tr>
                                 <th>Nombre</th>
                                 <th>Cedula</th>
-                                <th>Fecha de creación</th>
+                                {#<th>Fecha de creación</th>#}
                                 <th>Email</th><!-- log -->
                                 <th>Estado</th>
                                 <th>Cargo</th>
@@ -36,7 +36,7 @@
                                 <tr>
                                     <td>{{ entity.usuNombre }}</td>
                                     <td>{{ entity.usuCedula }}</td>
-                                    <td>{% if entity.usuFechaCreacion %}{{ entity.usuFechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                    {#<td>{% if entity.usuFechaCreacion %}{{ entity.usuFechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>#}
                                     <td>{{ entity.usuLog }}</td>
                                     <td style='text-align:center;'>
                                         {% if entity.usuEstado == 1 %}
@@ -48,12 +48,12 @@
                                     <td>{{ entity.carNombre }}</td>
                                     <td>{{ entity.depNombre }}</td>
                                     <td>{{ entity.orgNombre }}</td>
-                                    <td style='text-align:center;'>
-                                        <a class="btn btn-success" href="{{ path('usuarios_show', { 'id': entity.id }) }}">
-                                            <i class="icon-zoom-in icon-white"></i>  Ver
+                                    <td class="center" style="font-size: 10px; width: 95px;text-align:center;">
+                                        <a class="btn btn-success btn-mini" href="{{ path('usuarios_show', {'id': entity.id }) }}" data-rel="tooltip" title="Ver">
+                                            <i class="icon-zoom-in icon-white"></i>        
                                         </a>
-                                        <a class="btn btn-info" href="{{ path('usuarios_edit', { 'id': entity.id }) }}">
-                                            <i class="icon-edit icon-white"></i> Editar
+                                        <a class="btn btn-info btn-mini" href="{{ path('usuarios_edit', {'id': entity.id }) }}" data-rel="tooltip" title="Editar">
+                                            <i class="icon-edit icon-white"></i>            
                                         </a>
                                     </td>
                                 </tr>
