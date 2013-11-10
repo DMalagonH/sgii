@@ -1,0 +1,109 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblProyecto
+ *
+ * @ORM\Table(name="tbl_proyecto")
+ * @ORM\Entity
+ */
+class TblProyecto
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_nombre", type="string", length=250, nullable=false)
+     */
+    private $proNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_descripcion", type="string", length=2500, nullable=false)
+     */
+    private $proDescripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_problema", type="string", length=500, nullable=false)
+     */
+    private $proProblema;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="pro_fecha_creacion", type="datetime", nullable=false)
+     */
+    private $proFechaCreacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_conclusiones", type="string", length=2500, nullable=false)
+     */
+    private $proConclusiones;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_demostraciones", type="string", length=2500, nullable=false)
+     */
+    private $proDemostraciones;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pro_recomendaciones", type="string", length=2500, nullable=false)
+     */
+    private $proRecomendaciones;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="pro_estado", type="boolean", nullable=false)
+     */
+    private $proEstado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado_proyecto_id", type="integer", nullable=false)
+     */
+    private $estadoProyectoId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="tipo_investigacion_id", type="integer", nullable=false)
+     */
+    private $tipoInvestigacionId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="linea_investigacion_id", type="integer", nullable=false)
+     */
+    private $lineaInvestigacionId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
+     */
+    private $usuarioId;
+
+
+}

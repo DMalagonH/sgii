@@ -50,11 +50,14 @@ class TblHipotesis
     private $estadoHipotesisId;
 
     /**
-     * @var integer
+     * @var \TblProyecto
      *
-     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
      */
-    private $proyectoId;
+    private $proyecto;
 
 
 }

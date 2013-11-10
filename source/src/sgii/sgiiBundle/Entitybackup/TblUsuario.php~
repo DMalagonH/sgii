@@ -1,0 +1,88 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblUsuario
+ *
+ * @ORM\Table(name="tbl_usuario")
+ * @ORM\Entity
+ */
+class TblUsuario
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_cedula", type="string", length=20, nullable=true)
+     */
+    private $usuCedula;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_nombre", type="string", length=250, nullable=true)
+     */
+    private $usuNombre;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="usu_fecha_creacion", type="datetime", nullable=true)
+     */
+    private $usuFechaCreacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_log", type="string", length=250, nullable=true)
+     */
+    private $usuLog;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_password", type="string", length=250, nullable=true)
+     */
+    private $usuPassword;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="usu_estado", type="boolean", nullable=true)
+     */
+    private $usuEstado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="cargo_id", type="integer", nullable=true)
+     */
+    private $cargoId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="departamento_id", type="integer", nullable=true)
+     */
+    private $departamentoId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="organizacion_id", type="integer", nullable=true)
+     */
+    private $organizacionId;
+
+
+}

@@ -69,6 +69,7 @@ class PerfilController extends Controller
         $usuario = $this->getUsuario($usuarioId);
         
         $formData = array(
+            'usuApellido' => $usuario['usuApellido'], 
             'nombre' => $usuario['usuNombre'], 
             'correo' => $usuario['usuLog'],
             'organizacion' => $usuario['organizacionId'],
@@ -77,6 +78,7 @@ class PerfilController extends Controller
         );
         $form = $this->createFormBuilder($formData)
            ->add('nombre', 'text', array('required' => true))
+           ->add('usuApellido', 'text', array('required' => true))
            ->add('correo', 'email', array('required' => true))
            ->add('organizacion', 'text', array('required' => false))
            ->add('cargo', 'text', array('required' => false))
@@ -97,14 +99,13 @@ class PerfilController extends Controller
                     $usuario = $em->getRepository('sgiiBundle:TblUsuario')->findOneById($usuarioId);
 
                     $usuario->setUsuNombre($data['nombre']);
+                    $usuario->setUsuApellido($data['usuApellido']);
                     $usuario->setUsuLog($data['correo']);
-                    $usuario->setCargoId($data['cargo']);
-                    $usuario->setDepartamentoId($data['departamento']);
-                    $usuario->setOrganizacionId($data['organizacion']);
-                    
+                    if ($data['cargo']) { $usuario->setCargoId($data['cargo']); }
+                    if ($data['departamento']) { $usuario->setDepartamentoId($data['departamento']); }
+                    if ($data['organizacion']) { $usuario->setOrganizacionId($data['organizacion']); }
                     $em->persist($usuario);
                     $em->flush();
-
                     
                     $security->setAuditoria('Edición de perfil');
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Información actualizada"));
@@ -143,6 +144,7 @@ class PerfilController extends Controller
         $dql = "SELECT 
                     u.id,
                     u.usuCedula,
+                    u.usuApellido,
                     u.usuNombre,
                     u.usuFechaCreacion,
                     u.usuLog,

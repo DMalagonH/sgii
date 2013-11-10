@@ -1,0 +1,60 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblObjetivo
+ *
+ * @ORM\Table(name="tbl_objetivo")
+ * @ORM\Entity
+ */
+class TblObjetivo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="obj_objetivo", type="string", length=250, nullable=false)
+     */
+    private $objObjetivo;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="obj_estado", type="boolean", nullable=false)
+     */
+    private $objEstado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
+     */
+    private $proyectoId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado_objetivo_id", type="integer", nullable=false)
+     */
+    private $estadoObjetivoId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="objetivo_id", type="integer", nullable=true)
+     */
+    private $objetivoId;
+
+
+}

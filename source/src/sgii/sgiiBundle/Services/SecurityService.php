@@ -166,7 +166,7 @@ class SecurityService
      */
     public function login($user, $pass)
     {
-        $dql = "SELECT u.id, u.usuCedula, u.usuNombre, u.usuFechaCreacion, u.usuLog, u.usuEstado,
+        $dql = "SELECT u.id, u.usuCedula, u.usuNombre, u.usuApellido, u.usuFechaCreacion, u.usuLog, u.usuEstado,
                 c.carNombre, d.depNombre, o.orgNombre
                 FROM sgiiBundle:TblUsuario u 
                 LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id

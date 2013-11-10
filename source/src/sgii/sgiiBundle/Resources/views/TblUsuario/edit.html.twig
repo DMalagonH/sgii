@@ -1,16 +1,69 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>TblUsuario edit</h1>
+{% block menu %}
+    {% set origen = 'acceso_usuarios' %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
 
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('usuarios') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-user"></i> Nuevo usuario</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <form class="form-horizontal" action="{{ path('usuarios_edit', {'id' : entity.id }) }}" method="POST" {{ form_enctype(form) }}>
+                    <fieldset>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Apellido </label>
+                            <div class="controls span10">{{ form_widget(form.usuApellido, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Nombre </label>
+                            <div class="controls span10">{{ form_widget(form.usuNombre, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Correo electrónico </label>
+                            <div class="controls span10">{{ form_widget(form.usuLog, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Cédula </label>
+                            <div class="controls span10">{{ form_widget(form.usuCedula, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Oganización </label>
+                            <div class="controls span10">{{ form_widget(form.organizacionId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Departamento </label>
+                            <div class="controls span10">{{ form_widget(form.departamentoId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Cargo </label>
+                            <div class="controls span10">{{ form_widget(form.cargoId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Perfil </label>
+                            <div class="controls span10">{{ form_widget(form.perfilId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Estado </label>
+                            <div class="controls span10">{{ form_widget(form.usuEstado, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        
+                        {{ form(form) }}
+                        {{ form_errors(form) }}
+                        {{ form_widget(form._token) }}
+                        <div class="form-actions center">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <a href="{{ path('usuarios') }}" class="btn">Cancelar</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

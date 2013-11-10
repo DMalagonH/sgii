@@ -36,6 +36,13 @@ class TblUsuario
     private $usuNombre;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_apellido", type="string", length=70, nullable=true)
+     */
+    private $usuApellido;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="usu_fecha_creacion", type="datetime", nullable=true)
@@ -64,25 +71,44 @@ class TblUsuario
     private $usuEstado;
 
     /**
-     * @var integer
+     * @var \TblCargo
      *
-     * @ORM\Column(name="cargo_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="TblCargo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cargo_id", referencedColumnName="id")
+     * })
      */
-    private $cargoId;
+    private $cargo;
 
     /**
-     * @var integer
+     * @var \TblDepartamento
      *
-     * @ORM\Column(name="departamento_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="TblDepartamento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="departamento_id", referencedColumnName="id")
+     * })
      */
-    private $departamentoId;
+    private $departamento;
 
     /**
-     * @var integer
+     * @var \TblOrganizacion
      *
-     * @ORM\Column(name="organizacion_id", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="TblOrganizacion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="organizacion_id", referencedColumnName="id")
+     * })
      */
-    private $organizacionId;
+    private $organizacion;
+
+    /**
+     * @var \TblNiveles
+     *
+     * @ORM\ManyToOne(targetEntity="TblNiveles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="nivel_id", referencedColumnName="id")
+     * })
+     */
+    private $nivel;
 
 
 }

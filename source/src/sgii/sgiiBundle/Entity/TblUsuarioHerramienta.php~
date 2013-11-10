@@ -22,25 +22,31 @@ class TblUsuarioHerramienta
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
-     */
-    private $herramientaId;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
-     */
-    private $usuarioId;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="ush_aplico", type="boolean", nullable=true)
      */
     private $ushAplico;
+
+    /**
+     * @var \TblHerramienta
+     *
+     * @ORM\ManyToOne(targetEntity="TblHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="herramienta_id", referencedColumnName="id")
+     * })
+     */
+    private $herramienta;
+
+    /**
+     * @var \TblUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="TblUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
 
 
 }

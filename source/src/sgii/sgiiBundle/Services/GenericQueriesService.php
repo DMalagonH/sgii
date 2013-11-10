@@ -163,6 +163,41 @@ class GenericQueriesService
     }
     
     /**
+     * Funcion que verifica si un usuario existe por medio del correo electronico y/o cedula
+     * - Acceso desde TblUsuarioController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param String $email Correo a validar si existe
+     * @param Int $documento Número de cédula a validar si existe
+     * @param Int $id Id del usuario
+     * @return Boolean
+     */
+    public function existUser($email, $documento, $id = null)
+    {
+        $return = true;
+        $dql = "SELECT u.id FROM sgiiBundle:TblUsuario u WHERE (u.usuLog =:email OR u.usuCedula =:documento)";
+        if($id != null)
+        {
+            $dql .= " AND u.id != :id";
+        }
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('email', $email);
+        $query->setParameter('documento', $documento);
+        if($id != null)
+        {
+            $query->setParameter('id', $id);
+        }
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        if (COUNT($result)>0) {
+            $return = false;
+        }
+        return $return;
+    }
+    
+            
+    /**
      * Funcion que verifica si existe un usuario registrado con el email
      * 
      * @param string $email email a verificar
@@ -230,6 +265,77 @@ class GenericQueriesService
         return $query->getResult();
     }
     
+    /**
+     * Listado de Perfiles Activos
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return Array Arreglo de perfiles activos
+     */
+    public function getPerfiles()
+    {
+        $dql = "SELECT p.id, p.perPerfil, p.perEstado
+            FROM sgiiBundle:TblPerfil p
+            WHERE p.perEstado = 1";
+        $query = $this->em->createQuery($dql);
+        return $query->getResult();
+    }
+    
+    /**
+     * Perfil del usuario que ingresa por Id
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $usuarioId Id del usuario
+     * @return Array Arreglo de perfiles del usuario
+     */
+    public function getPerfilUsuario($usuarioId)
+    {
+        $dql = "SELECT up.perfilId
+            FROM sgiiBundle:TblUsuarioPerfil up
+            WHERE up.usuarioId =:usuario";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuario', $usuarioId);
+        $perfilUser = $query->getResult();
+        $perfilId = ($perfilUser) ? $perfilUser[0]['perfilId'] : 0;
+        return $perfilId;
+    }
+    
+    /**
+     * Borrar perfiles del usuario
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $usuarioId Id del usuario
+     */
+    public function deletPerfilesUsuario($usuarioId)
+    {
+        $dql = "DELETE FROM sgiiBundle:TblUsuarioPerfil up
+            WHERE up.usuarioId =:usuario";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuario', $usuarioId);
+        $query->getResult();
+    }
+    
+    /**
+     * Funcion que obtiene los perfiles retornandolas como array
+     * - acceso desde TblUsuarioController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array
+     */
+    public function getPerfilesArray()
+    {
+        $perfiles = $this->getPerfiles();
+        $ArrayPer = Array();
+        if ($perfiles) {
+            foreach ($perfiles as $per){
+                $ArrayPer[$per['id']] = $per['perPerfil'];
+            }
+        }
+        return $ArrayPer;
+    }
     
     /**
      * Funcion que obtiene los usuarios
@@ -243,7 +349,7 @@ class GenericQueriesService
     public function getUsuarios($id = null)
     {
         $return = false;
-        $dql = "SELECT u.id, u.usuNombre, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
+        $dql = "SELECT u.id, u.usuNombre, u.usuApellido, u.usuCedula, u.usuFechaCreacion, u.usuLog, u.usuEstado,
                     c.carNombre, d.depNombre, o.orgNombre
                 FROM sgiiBundle:TblUsuario u
                 LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
@@ -274,6 +380,7 @@ class GenericQueriesService
     
     /**
      * Funcion que obtiene las organizaciones retornandolas como array
+     * - acceso desde TblUsuarioController
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
@@ -285,7 +392,7 @@ class GenericQueriesService
         $ArrayOrg = Array();
         if ($organizaciones) {
             foreach ($organizaciones as $org){
-                $ArrayOrg[$org->getId()] = $org->getDepNombre();
+                $ArrayOrg[$org['id']] = $org['orgNombre'];
             }
         }
         return $ArrayOrg;
@@ -293,6 +400,7 @@ class GenericQueriesService
     
     /**
      * Funcion que obtiene los cargos retornandolas como Array
+     * - acceso desde TblUsuarioController
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
@@ -304,7 +412,7 @@ class GenericQueriesService
         $ArrayCar = Array();
         if ($cargos) {
             foreach ($cargos as $car){
-                $ArrayCar[$car->getId()] = $car->getCarNombre();
+                $ArrayCar[$car['id']] = $car['carNombre'];
             }
         }
         return $ArrayCar;
@@ -312,6 +420,7 @@ class GenericQueriesService
     
     /**
      * Funcion que obtiene los departamentos/areas como Array
+     * - acceso desde TblUsuarioController
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
@@ -323,7 +432,7 @@ class GenericQueriesService
         $ArrayDep = Array();
         if ($departamentos) {
             foreach ($departamentos as $dep){
-                $ArrayDep[$dep->getId()] = $dep->getCarNombre();
+                $ArrayDep[$dep['id']] = $dep['depNombre'];
             }
         }
         return $ArrayDep;

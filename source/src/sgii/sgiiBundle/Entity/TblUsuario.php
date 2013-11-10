@@ -38,6 +38,14 @@ class TblUsuario
     private $usuNombre;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="usu_apellido", type="string", length=70, nullable=true)
+     * @Assert\NotNull()
+     */
+    private $usuApellido;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="usu_fecha_creacion", type="datetime", nullable=true)
@@ -89,6 +97,12 @@ class TblUsuario
      */
     private $organizacionId;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nivel_id", type="integer", nullable=true)
+     */
+    private $nivelId;
 
 
     /**
@@ -145,6 +159,29 @@ class TblUsuario
     public function getUsuNombre()
     {
         return $this->usuNombre;
+    }
+
+    /**
+     * Set usuApellido
+     *
+     * @param string $usuApellido
+     * @return TblUsuario
+     */
+    public function setUsuApellido($usuApellido)
+    {
+        $this->usuApellido = $usuApellido;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuApellido
+     *
+     * @return string 
+     */
+    public function getUsuApellido()
+    {
+        return $this->usuApellido;
     }
 
     /**
@@ -306,5 +343,28 @@ class TblUsuario
     public function getOrganizacionId()
     {
         return $this->organizacionId;
+    }
+    
+    /**
+     * Set nivelId
+     *
+     * @param integer $nivelId
+     * @return TblUsuario
+     */
+    public function setNivelId($nivelId)
+    {
+        $this->nivelId = $nivelId;
+    
+        return $this;
+    }
+
+    /**
+     * Get nivelId
+     *
+     * @return integer 
+     */
+    public function getNivelId()
+    {
+        return $this->nivelId;
     }
 }

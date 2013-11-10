@@ -1,4 +1,4 @@
-INSERT INTO `tbl_modulo` VALUES 
+﻿INSERT INTO `tbl_modulo` VALUES
 (1, 'home', 1, 'homepage'),
 (2, 'cargos', 1, 'cargo,cargo_show,cargo_new,cargo_edit,cargo_delete'),
 (3, 'departamentos', 1, 'departamento,departamento_show,departamento_new,departamento_edit,departamento_delete'),
@@ -55,6 +55,7 @@ INSERT INTO `tbl_usuario`
 (`id`,
 `usu_cedula`,
 `usu_nombre`,
+`usu_apellido`,
 `usu_fecha_creacion`,
 `usu_log`,
 `usu_password`,
@@ -65,7 +66,8 @@ INSERT INTO `tbl_usuario`
 VALUES
 (1,
 '1022366307',
-'Diego Malagón',
+'Diego Alejandro',
+'Malagón',
 '2013-10-15',
 'diego-software@hotmail.com',
 '14a8dc6c9e4b8f6e3228576bec334cb78179668e',
@@ -79,6 +81,7 @@ INSERT INTO `tbl_usuario`
 (`id`,
 `usu_cedula`,
 `usu_nombre`,
+`usu_apellido`,
 `usu_fecha_creacion`,
 `usu_log`,
 `usu_password`,
@@ -89,7 +92,8 @@ INSERT INTO `tbl_usuario`
 VALUES
 (2,
 '10123456',
-'Camilo Quijano',
+'Camilo Andres',
+'Quijano',
 '2013-10-15',
 'camiloquijano31@hotmail.com',
 '14a8dc6c9e4b8f6e3228576bec334cb78179668e',
@@ -104,8 +108,11 @@ INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('2', '1');
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('1', 'Cuestionario', '1');
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('2', 'Encuesta', '1');
 
-
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('3', 'De opción múltiple con múltiple respuesta', '1');
 
+INSERT INTO `tbl_niveles` (`niv_nombre`, `niv_descripcion`) VALUES
+('Operativo', ''),
+('Directivo', ''),
+('Táctico', '');

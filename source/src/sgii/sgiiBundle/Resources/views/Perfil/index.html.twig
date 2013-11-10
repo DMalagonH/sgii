@@ -28,9 +28,13 @@
                 
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <td rowspan="7" style="width:240px;">
+                        <td rowspan="8" style="width:240px;">
                             <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(usuario.usuLog, 200) }}" style="width:200px; height: 200px;">                        
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Apellido:</b></td>
+                        <td>{{ usuario.usuApellido }}</td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Nombre:</b></td>

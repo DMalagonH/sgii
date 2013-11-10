@@ -1,0 +1,73 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblHerramienta
+ *
+ * @ORM\Table(name="tbl_herramienta")
+ * @ORM\Entity
+ */
+class TblHerramienta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="her_nombre_herramienta", type="string", length=250, nullable=false)
+     */
+    private $herNombreHerramienta;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="her_fecha_inicio", type="datetime", nullable=true)
+     */
+    private $herFechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="her_fecha_fin", type="datetime", nullable=true)
+     */
+    private $herFechaFin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="her_estado", type="boolean", nullable=false)
+     */
+    private $herEstado;
+
+    /**
+     * @var \TblTipoHerramienta
+     *
+     * @ORM\ManyToOne(targetEntity="TblTipoHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_herramienta_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoHerramienta;
+
+    /**
+     * @var \TblProyecto
+     *
+     * @ORM\ManyToOne(targetEntity="TblProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
+     */
+    private $proyecto;
+
+
+}

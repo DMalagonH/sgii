@@ -38,9 +38,9 @@ class TblModulo
     /**
      * @var string
      *
-     * @ORM\Column(name="mod_routes", type="text", nullable=true)
+     * @ORM\Column(name="mod_route", type="text", nullable=true)
      */
-    private $modRoutes;
+    private $modRoute;
 
 
 }

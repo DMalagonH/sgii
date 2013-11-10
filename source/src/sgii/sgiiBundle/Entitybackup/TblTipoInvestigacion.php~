@@ -1,0 +1,39 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblTipoInvestigacion
+ *
+ * @ORM\Table(name="tbl_tipo_investigacion")
+ * @ORM\Entity
+ */
+class TblTipoInvestigacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tin_nombre_tipo", type="string", length=250, nullable=false)
+     */
+    private $tinNombreTipo;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="tin_estado", type="boolean", nullable=false)
+     */
+    private $tinEstado;
+
+
+}

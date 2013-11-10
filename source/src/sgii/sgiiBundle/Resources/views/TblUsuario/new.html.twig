@@ -18,41 +18,40 @@
                 <form class="form-horizontal" action="{{ path('usuarios_new') }}" method="POST" {{ form_enctype(form) }}>
                     <fieldset>
                         <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Nombre </label>
-                            <div class="controls span10">{{ form_widget(form.usuNombre, {'attr': {'class':'span10'}} ) }}</div>
+                            <label class="control-label span2" for="typeahead">Apellido </label>
+                            <div class="controls span10">{{ form_widget(form.usuApellido, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Cédula </label>
-                            <div class="controls span10">{{ form_widget(form.usuCedula, {'attr': {'class':'span10'}} ) }}</div>
+                            <label class="control-label span2" for="typeahead">Nombre </label>
+                            <div class="controls span10">{{ form_widget(form.usuNombre, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Correo electrónico </label>
                             <div class="controls span10">{{ form_widget(form.usuLog, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Cédula </label>
+                            <div class="controls span10">{{ form_widget(form.usuCedula, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Oganización </label>
-                            <div class="controls span10">{{ form_widget(form.organizacionId, {'attr': {'class':'span10'}} ) }}</div>
+                            <div class="controls span10">{{ form_widget(form.organizacionId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Departamento </label>
-                            <div class="controls span10">{{ form_widget(form.departamentoId, {'attr': {'class':'span10'}} ) }}</div>
+                            <div class="controls span10">{{ form_widget(form.departamentoId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Cargo </label>
-                            <div class="controls span10">{{ form_widget(form.cargosId, {'attr': {'class':'span10'}} ) }}</div>
+                            <div class="controls span10">{{ form_widget(form.cargoId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Perfil </label>
+                            <div class="controls span10">{{ form_widget(form.perfilId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Estado </label>
                             <div class="controls span10">{{ form_widget(form.usuEstado, {'attr': {'class':'span10'}} ) }}</div>
-                        </div>
-                        <hr>
-                        <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Contrase&ntilde;a </label>
-                            <div class="controls span10">{{ form_widget(form.usuPassword, {'attr': {'class':'span10'}} ) }}</div>
-                        </div>
-                        <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Confirmar contrase&ntilde;a </label>
-                            <div class="controls span10">{{ form_widget(form.usuPassword_conf, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
                         
                         {{ form(form) }}

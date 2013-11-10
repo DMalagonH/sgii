@@ -1,0 +1,46 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblOrganizacion
+ *
+ * @ORM\Table(name="tbl_organizacion")
+ * @ORM\Entity
+ */
+class TblOrganizacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="org_nombre", type="string", length=45, nullable=false)
+     */
+    private $orgNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="org_descripcion", type="text", nullable=true)
+     */
+    private $orgDescripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="org_sitio_web", type="text", nullable=true)
+     */
+    private $orgSitioWeb;
+
+
+}

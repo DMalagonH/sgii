@@ -1,0 +1,39 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblCargo
+ *
+ * @ORM\Table(name="tbl_cargo")
+ * @ORM\Entity
+ */
+class TblCargo
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="car_nombre", type="string", length=45, nullable=false)
+     */
+    private $carNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="car_descripcion", type="string", length=45, nullable=true)
+     */
+    private $carDescripcion;
+
+
+}
