@@ -60,10 +60,12 @@ class TblUsuarioController extends Controller
             throw $this->createNotFoundException('Unable to find TblUsuario entity.');
         }
 
+        $perfilId = $this->get('queries')->getPerfilUsuario($id, 'nombre');
         $deleteForm = $this->createDeleteForm($id);
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'perfilId' => $perfilId,
         );
     }
 
@@ -105,6 +107,7 @@ class TblUsuarioController extends Controller
                         $nUser->setUsuLog($dataForm['usuLog']);
                         $nUser->setUsuPassword($newPass);
                         $nUser->setUsuEstado($dataForm['usuEstado']);
+                        $nUser->setNivelId($dataForm['nivelId']);
                         $nUser->setCargoId($dataForm['cargoId']);
                         $nUser->setDepartamentoId($dataForm['departamentoId']);
                         $nUser->setOrganizacionId($dataForm['organizacionId']);
@@ -177,6 +180,7 @@ class TblUsuarioController extends Controller
                         $nUser->setUsuLog($dataForm['usuLog']);
                         $nUser->setUsuEstado($dataForm['usuEstado']);
                         $nUser->setCargoId($dataForm['cargoId']);
+                        $nUser->setNivelId($dataForm['nivelId']);
                         $nUser->setDepartamentoId($dataForm['departamentoId']);
                         $nUser->setOrganizacionId($dataForm['organizacionId']);
                         
@@ -290,6 +294,10 @@ class TblUsuarioController extends Controller
         $empty_value_dep = ($usuario) ? (($usuario->getDepartamentoId()) ? false : 'Seleccione un departamento') : 'Seleccione un departamento';
         $ARRdep = $this->get('queries')->getDepartamentosArray();
         
+        $nivAct = ($usuario) ? (($usuario->getNivelId()) ? $usuario->getNivelId() : '') : '';
+        $empty_value_niv = ($usuario) ? (($usuario->getNivelId()) ? false : 'Seleccione un Nivel') : 'Seleccione un nivel';
+        $ARRniv = $this->get('queries')->getNivelesArray();
+        
         $perAct = ($perfilId) ? $perfilId : 4;
         $empty_value_per = false;
         $ARRper = $this->get('queries')->getPerfilesArray();
@@ -304,6 +312,7 @@ class TblUsuarioController extends Controller
             'departamentoId' => null,
             'cargoId' => null,
             'rolId' => null,
+            'nivelId' => null,
             'perfilId' => null,
         );
         
@@ -316,6 +325,7 @@ class TblUsuarioController extends Controller
            ->add('organizacionId', 'choice', array('choices'  => $ARRorg,  'preferred_choices' => array($orgAct), 'required' => false, 'empty_value' => $empty_value_org))
            ->add('departamentoId', 'choice', array('choices'  => $ARRdep,  'preferred_choices' => array($depAct), 'required' => false, 'empty_value' => $empty_value_dep))
            ->add('cargoId', 'choice', array('choices'  => $ARRcar,  'preferred_choices' => array($carAct), 'required' => false, 'empty_value' => $empty_value_car))
+           ->add('nivelId', 'choice', array('choices'  => $ARRniv,  'preferred_choices' => array($nivAct), 'required' => false, 'empty_value' => $empty_value_niv))
            ->add('perfilId', 'choice', array('choices'  => $ARRper,  'preferred_choices' => array($perAct), 'required' => true, 'empty_value' => $empty_value_per))
            ->getForm();
         return $form;

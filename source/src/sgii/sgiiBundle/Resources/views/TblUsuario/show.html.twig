@@ -2,7 +2,7 @@
 
 {% block menu %}
     {% set origen = 'acceso_usuarios' %}
-    {% include '::menu_principal.html.twig' %}
+    {% include '::menu_admin.html.twig' %}
 {% endblock menu %}
 
 {% block body %}
@@ -17,7 +17,7 @@
             <div class="box-content" style='padding-top:30px;'>
                 <table class="table table-bordered table-striped">
                     <tr>
-                        <td rowspan="10" style="width:240px;">
+                        <td rowspan="12" style="width:240px;">
                             <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(entity.usuLog, 200) }}" style="width:200px; height: 200px;">
                         </td>
                     </tr>
@@ -50,8 +50,16 @@
                         <td>{{ entity.carNombre|default('No especificado') }}</td>
                     </tr>
                     <tr>
+                        <td class="td-label"><b>Nivel:</b></td>
+                        <td>{{ entity.nivNombre|default('No especificado') }}</td>
+                    </tr>
+                    <tr>
                         <td class="td-label"><b>Departamento:</b></td>
                         <td>{{ entity.depNombre|default('No especificado') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-label"><b>Perfil:</b></td>
+                        <td>{{ perfilId }}</td>
                     </tr>
                     <tr>
                         <td class="td-label"><b>Estado:</b></td>

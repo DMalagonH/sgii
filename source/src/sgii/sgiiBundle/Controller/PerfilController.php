@@ -68,12 +68,17 @@ class PerfilController extends Controller
         
         $usuario = $this->getUsuario($usuarioId);
         
+        $nivAct = ($usuario) ? (($usuario['nivelId']) ? $usuario['nivelId'] : '') : '';
+        $empty_value_niv = ($usuario) ? (($usuario['nivelId']) ? false : 'Seleccione un nivel') : 'Seleccione un nivel';
+        $ARRniv = $queries->getNivelesArray();
+        
         $formData = array(
             'usuApellido' => $usuario['usuApellido'], 
             'nombre' => $usuario['usuNombre'], 
             'correo' => $usuario['usuLog'],
             'organizacion' => $usuario['organizacionId'],
             'cargo' => $usuario['cargoId'],
+            'nivelId' => $usuario['nivelId'],
             'departamento' => $usuario['departamentoId']
         );
         $form = $this->createFormBuilder($formData)
@@ -82,6 +87,7 @@ class PerfilController extends Controller
            ->add('correo', 'email', array('required' => true))
            ->add('organizacion', 'text', array('required' => false))
            ->add('cargo', 'text', array('required' => false))
+           ->add('nivelId', 'choice', array('choices'  => $ARRniv,  'preferred_choices' => array($nivAct), 'required' => false, 'empty_value' => $empty_value_niv))
            ->add('departamento', 'text', array('required' => false))
            ->getForm(); 
         
@@ -102,6 +108,7 @@ class PerfilController extends Controller
                     $usuario->setUsuApellido($data['usuApellido']);
                     $usuario->setUsuLog($data['correo']);
                     if ($data['cargo']) { $usuario->setCargoId($data['cargo']); }
+                    if ($data['nivelId']) { $usuario->setNivelId($data['nivelId']); }
                     if ($data['departamento']) { $usuario->setDepartamentoId($data['departamento']); }
                     if ($data['organizacion']) { $usuario->setOrganizacionId($data['organizacion']); }
                     $em->persist($usuario);
@@ -153,12 +160,15 @@ class PerfilController extends Controller
                     d.id departamentoId,
                     d.depNombre,
                     o.id organizacionId,
-                    o.orgNombre
+                    o.orgNombre,
+                    n.id AS nivelId,
+                    n.nivNombre
                 FROM
                     sgiiBundle:TblUsuario u
                     LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
                     LEFT JOIN sgiiBundle:TblDepartamento d  WITH u.departamentoId = d.id
                     LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
+                    LEFT JOIN sgiiBundle:TblNivel n WITH n.id = u.nivelId
                 WHERE u.id = :usuarioId";
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);

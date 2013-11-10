@@ -2,7 +2,7 @@
 
 {% block menu %}
     {% set origen = 'acceso_usuarios' %}
-    {% include '::menu_principal.html.twig' %}
+    {% include '::menu_admin.html.twig' %}
 {% endblock menu %}
 
 {% block body %}
@@ -43,7 +43,9 @@
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Cargo </label>
-                            <div class="controls span10">{{ form_widget(form.cargoId, {'attr': {'class':'span10', 'data-rel':'chosen'}} ) }}</div>
+                            <div class="controls span5">{{ form_widget(form.cargoId, {'attr': {'class':'span12', 'data-rel':'chosen'}} ) }}</div>
+                            <label class="control-label span1" for="typeahead">Nivel </label>
+                            <div class="controls span3">{{ form_widget(form.nivelId, {'attr': {'class':'span9', 'data-rel':'chosen'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Perfil </label>
