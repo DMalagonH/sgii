@@ -5,12 +5,12 @@ namespace sgii\sgiiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TblNiveles
+ * TblNivel
  *
- * @ORM\Table(name="tbl_niveles")
+ * @ORM\Table(name="tbl_nivel")
  * @ORM\Entity
  */
-class TblNiveles
+class TblNivel
 {
     /**
      * @var integer
@@ -51,7 +51,7 @@ class TblNiveles
      * Set nivNombre
      *
      * @param string $nivNombre
-     * @return TblNiveles
+     * @return TblNivel
      */
     public function setNivNombre($nivNombre)
     {
@@ -74,7 +74,7 @@ class TblNiveles
      * Set nivDescripcion
      *
      * @param string $nivDescripcion
-     * @return TblNiveles
+     * @return TblNivel
      */
     public function setNivDescripcion($nivDescripcion)
     {

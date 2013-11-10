@@ -22,18 +22,24 @@ class TblUsuarioProyecto
     private $id;
 
     /**
-     * @var integer
+     * @var \TblUsuario
      *
-     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
      */
-    private $usuarioId;
+    private $usuario;
 
     /**
-     * @var integer
+     * @var \TblProyecto
      *
-     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblProyecto")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
+     * })
      */
-    private $proyectoId;
+    private $proyecto;
 
 
 
@@ -48,48 +54,48 @@ class TblUsuarioProyecto
     }
 
     /**
-     * Set usuarioId
+     * Set usuario
      *
-     * @param integer $usuarioId
+     * @param \sgii\sgiiBundle\Entity\TblUsuario $usuario
      * @return TblUsuarioProyecto
      */
-    public function setUsuarioId($usuarioId)
+    public function setUsuario(\sgii\sgiiBundle\Entity\TblUsuario $usuario = null)
     {
-        $this->usuarioId = $usuarioId;
+        $this->usuario = $usuario;
     
         return $this;
     }
 
     /**
-     * Get usuarioId
+     * Get usuario
      *
-     * @return integer 
+     * @return \sgii\sgiiBundle\Entity\TblUsuario 
      */
-    public function getUsuarioId()
+    public function getUsuario()
     {
-        return $this->usuarioId;
+        return $this->usuario;
     }
 
     /**
-     * Set proyectoId
+     * Set proyecto
      *
-     * @param integer $proyectoId
+     * @param \sgii\sgiiBundle\Entity\TblProyecto $proyecto
      * @return TblUsuarioProyecto
      */
-    public function setProyectoId($proyectoId)
+    public function setProyecto(\sgii\sgiiBundle\Entity\TblProyecto $proyecto = null)
     {
-        $this->proyectoId = $proyectoId;
+        $this->proyecto = $proyecto;
     
         return $this;
     }
 
     /**
-     * Get proyectoId
+     * Get proyecto
      *
-     * @return integer 
+     * @return \sgii\sgiiBundle\Entity\TblProyecto 
      */
-    public function getProyectoId()
+    public function getProyecto()
     {
-        return $this->proyectoId;
+        return $this->proyecto;
     }
 }
