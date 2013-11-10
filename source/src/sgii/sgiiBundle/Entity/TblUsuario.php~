@@ -101,9 +101,9 @@ class TblUsuario
     private $organizacion;
 
     /**
-     * @var \TblNiveles
+     * @var \TblNivel
      *
-     * @ORM\ManyToOne(targetEntity="TblNiveles")
+     * @ORM\ManyToOne(targetEntity="TblNivel")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="nivel_id", referencedColumnName="id")
      * })

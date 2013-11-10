@@ -98,11 +98,12 @@ class TblUsuario
     private $organizacionId;
 
     /**
-     * @var integer
+     * @var \TblNivel
      *
      * @ORM\Column(name="nivel_id", type="integer", nullable=true)
      */
     private $nivelId;
+
 
 
     /**
@@ -344,14 +345,14 @@ class TblUsuario
     {
         return $this->organizacionId;
     }
-    
+
     /**
      * Set nivelId
      *
      * @param integer $nivelId
      * @return TblUsuario
      */
-    public function setNivelId($nivelId)
+    public function setNivelId($nivelId = null)
     {
         $this->nivelId = $nivelId;
     
@@ -361,7 +362,7 @@ class TblUsuario
     /**
      * Get nivelId
      *
-     * @return integer 
+     * @return integer
      */
     public function getNivelId()
     {
