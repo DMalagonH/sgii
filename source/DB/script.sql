@@ -127,12 +127,25 @@ COMMENT = 'Tabla de organicaciones para clasificacion de usuarios';
 
 
 -- -----------------------------------------------------
+-- Table `tbl_nivel`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `tbl_nivel` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Id del nivel',
+  `niv_nombre` VARCHAR(50) NOT NULL COMMENT 'Nombre del nivel',
+  `niv_descripcion` TEXT NULL COMMENT 'Descripcion del nivel',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+COMMENT = 'Tabla para nivel de cargo que el usuario (Operativo, directi /* comment truncated */ /*vo, tactico	)*/';
+
+
+-- -----------------------------------------------------
 -- Table `tbl_usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tbl_usuario` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `usu_cedula` VARCHAR(20) NULL DEFAULT '0' COMMENT 'Cedula del usuario',
   `usu_nombre` VARCHAR(250) NULL DEFAULT '0' COMMENT 'Nombre completo del usuario',
+  `usu_apellido` VARCHAR(70) NULL,
   `usu_fecha_creacion` DATETIME NULL COMMENT 'Fecha de creacion en el sistema SGII',
   `usu_log` VARCHAR(250) NULL DEFAULT '0' COMMENT 'Nombre de ususairo al sistema SGII',
   `usu_password` VARCHAR(250) NULL DEFAULT '0' COMMENT 'Contraseña al sistema SGII',
@@ -140,10 +153,12 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
   `cargo_id` INT NULL,
   `departamento_id` INT NULL,
   `organizacion_id` INT NULL,
+  `nivel_id` INT NULL COMMENT 'Id del nivel del usuario',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_usuario_tbl_cargo1_idx` (`cargo_id` ASC),
   INDEX `fk_tbl_usuario_tbl_departamento1_idx` (`departamento_id` ASC),
   INDEX `fk_tbl_usuario_tbl_organizacion1_idx` (`organizacion_id` ASC),
+  INDEX `fk_tbl_usuario_tbl_niveles1` (`nivel_id` ASC),
   CONSTRAINT `fk_tbl_usuario_tbl_cargo1`
     FOREIGN KEY (`cargo_id`)
     REFERENCES `tbl_cargo` (`id`)
@@ -157,6 +172,11 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario` (
   CONSTRAINT `fk_tbl_usuario_tbl_organizacion1`
     FOREIGN KEY (`organizacion_id`)
     REFERENCES `tbl_organizacion` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_usuario_tbl_niveles1`
+    FOREIGN KEY (`nivel_id`)
+    REFERENCES `tbl_nivel` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

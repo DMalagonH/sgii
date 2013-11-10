@@ -22,25 +22,31 @@ class TblUsuarioHerramienta
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
-     */
-    private $herramientaId;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
-     */
-    private $usuarioId;
-
-    /**
      * @var boolean
      *
      * @ORM\Column(name="ush_aplico", type="boolean", nullable=true)
      */
     private $ushAplico;
+
+    /**
+     * @var \TblHerramienta
+     *
+     * @ORM\ManyToOne(targetEntity="TblHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="herramienta_id", referencedColumnName="id")
+     * })
+     */
+    private $herramienta;
+
+    /**
+     * @var \TblUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="TblUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
 
 
 
@@ -52,52 +58,6 @@ class TblUsuarioHerramienta
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set herramientaId
-     *
-     * @param integer $herramientaId
-     * @return TblUsuarioHerramienta
-     */
-    public function setHerramientaId($herramientaId)
-    {
-        $this->herramientaId = $herramientaId;
-    
-        return $this;
-    }
-
-    /**
-     * Get herramientaId
-     *
-     * @return integer 
-     */
-    public function getHerramientaId()
-    {
-        return $this->herramientaId;
-    }
-
-    /**
-     * Set usuarioId
-     *
-     * @param integer $usuarioId
-     * @return TblUsuarioHerramienta
-     */
-    public function setUsuarioId($usuarioId)
-    {
-        $this->usuarioId = $usuarioId;
-    
-        return $this;
-    }
-
-    /**
-     * Get usuarioId
-     *
-     * @return integer 
-     */
-    public function getUsuarioId()
-    {
-        return $this->usuarioId;
     }
 
     /**
@@ -121,5 +81,51 @@ class TblUsuarioHerramienta
     public function getUshAplico()
     {
         return $this->ushAplico;
+    }
+
+    /**
+     * Set herramienta
+     *
+     * @param \sgii\sgiiBundle\Entity\TblHerramienta $herramienta
+     * @return TblUsuarioHerramienta
+     */
+    public function setHerramienta(\sgii\sgiiBundle\Entity\TblHerramienta $herramienta = null)
+    {
+        $this->herramienta = $herramienta;
+    
+        return $this;
+    }
+
+    /**
+     * Get herramienta
+     *
+     * @return \sgii\sgiiBundle\Entity\TblHerramienta 
+     */
+    public function getHerramienta()
+    {
+        return $this->herramienta;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \sgii\sgiiBundle\Entity\TblUsuario $usuario
+     * @return TblUsuarioHerramienta
+     */
+    public function setUsuario(\sgii\sgiiBundle\Entity\TblUsuario $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \sgii\sgiiBundle\Entity\TblUsuario 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

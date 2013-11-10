@@ -107,8 +107,3 @@ INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('3', 'De opción múltiple con múltiple respuesta', '1');
-
-INSERT INTO `tbl_niveles` (`niv_nombre`, `niv_descripcion`) VALUES
-('Operativo', ''),
-('Directivo', ''),
-('Táctico', '');

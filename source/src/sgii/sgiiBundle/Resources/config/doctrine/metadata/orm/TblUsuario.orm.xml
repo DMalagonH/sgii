@@ -11,7 +11,7 @@
     <field name="usuLog" type="string" column="usu_log" length="250" nullable="true"/>
     <field name="usuPassword" type="string" column="usu_password" length="250" nullable="true"/>
     <field name="usuEstado" type="boolean" column="usu_estado" nullable="true"/>
-    <many-to-one field="nivel" target-entity="TblNiveles">
+    <many-to-one field="nivel" target-entity="TblNivel">
       <join-columns>
         <join-column name="nivel_id" referenced-column-name="id"/>
       </join-columns>
