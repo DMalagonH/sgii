@@ -45,16 +45,29 @@ class TblPregunta
     /**
      * @var integer
      *
-     * @ORM\Column(name="herramienta_id", type="integer", nullable=false)
+     * @ORM\Column(name="pre_orden", type="integer", nullable=true)
      */
-    private $herramientaId;
+    private $preOrden;
 
     /**
-     * @var integer
+     * @var \TblHerramienta
      *
-     * @ORM\Column(name="tipo_pregunta_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="TblHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="herramienta_id", referencedColumnName="id")
+     * })
      */
-    private $tipoPreguntaId;
+    private $herramienta;
+
+    /**
+     * @var \TblTipoPregunta
+     *
+     * @ORM\ManyToOne(targetEntity="TblTipoPregunta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoPregunta;
 
 
 }

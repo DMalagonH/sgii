@@ -315,8 +315,9 @@ COMMENT = 'TABLA REFERENCIAL CON EL TIPO DE PREGUNTAS';
 CREATE TABLE IF NOT EXISTS `tbl_pregunta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `pre_pregunta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Pregunta',
-  `pre_obligatoria` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Indicador booleano de obligatoriedad',
-  `pre_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Estado del registro',
+  `pre_obligatoria` TINYINT(1) NOT NULL COMMENT 'Indicador booleano de obligatoriedad',
+  `pre_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
+  `pre_orden` INT NULL COMMENT 'indica la posicion de la pregunta',
   `herramienta_id` INT NOT NULL COMMENT 'FK con la tabla therramienta',
   `tipo_pregunta_id` INT NOT NULL COMMENT 'FK con la tabla tipo de proyecto',
   PRIMARY KEY (`id`),
@@ -343,6 +344,7 @@ COMMENT = 'TABLA REFENCIAL DE PREGUNTAS';
 CREATE TABLE IF NOT EXISTS `tbl_respuesta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `res_respuesta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Respuesta',
+  `res_peso` INT(3) NOT NULL DEFAULT 0,
   `res_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `pregunta_id` INT NOT NULL,
   PRIMARY KEY (`id`),

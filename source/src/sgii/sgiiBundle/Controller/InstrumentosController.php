@@ -36,6 +36,7 @@ class InstrumentosController extends Controller
         $form = $this->createInstrumentoForm(); 
         $proyectos = $inst_serv->getProyectos();
         
+        $instrumentos = $inst_serv->getInstrumentos();
         
         if($request->getMethod() == 'POST')
         {
@@ -75,13 +76,15 @@ class InstrumentosController extends Controller
         
         return array(
             'form'=>$form->createView(), 
-            'proyectos' => $proyectos
-        );
+            'proyectos' => $proyectos,
+            'instrumentos' => $instrumentos
+        ); 
     }
     
     /**
      * Funcion para crear el formulario de creacion y edicion de instrumentos
      * 
+     * @param array $data datos precargados del formulario
      * @return Object formulario
      */
     private function createInstrumentoForm($data = array())
@@ -107,7 +110,7 @@ class InstrumentosController extends Controller
                 'nombre' => null,
                 'fechaInicio' => null,
                 'fechaFin' => null,
-                'estado' => null,
+                'estado' => true,
                 'tipoInstrumento' => null,
                 'proyecto' => null
             );
@@ -117,7 +120,7 @@ class InstrumentosController extends Controller
             ->add('nombre', 'text', array('required' => true))
             ->add('fechaInicio', 'text', array('required' => false))
             ->add('fechaFin', 'text', array('required' => false))
-            ->add('estado', 'text', array('required' => false))
+            ->add('estado', 'checkbox', array('required' => false))
             ->add('tipoInstrumento', 'choice', array('required' => true, 'choices' => $choice_tiposInstrumento))
             ->add('proyecto', 'text', array('required' => false))
             ->getForm(); 
@@ -131,15 +134,85 @@ class InstrumentosController extends Controller
      * @Route("/{id}/show", name="show_instrumento")
      * @Template("sgiiBundle:Instrumentos:show.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
+     * @param Request $request
+     * @param $id id de instrumento
      * @return Resonse
      */
-    public function showAction($id)
+    public function showAction(Request $request, $id)
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $inst_serv = $this->get('instrumentos');
         
+        $instrumento = $inst_serv->getInstrumentos($id);
+        
+        $form = $this->createPreguntaForm();
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                $opciones = $request->get('opciones');             
+                
+                $validate = $this->validatePreguntaFrom($data, $opciones);
+                
+                if($validate['validate'])
+                {
+                    $pregunta = new \sgii\sgiiBundle\Entity\TblPregunta();
+                
+                    $pregunta->setHerramienta($id);
+                    $pregunta->setTipoPregunta($data['tipoPregunta']);
+                    $pregunta->setPrePregunta($data['pregunta']);
+                    $pregunta->setPreOrden($data['orden']);
+                    $pregunta->setPreObligatoria($data['obligatoria']);
+                    $pregunta->setPreEstado($data['estado']);
+
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($pregunta);
+                    $em->flush();
+                    
+                    if($data['tipoPregunta'] == 2) // Cerradas
+                    {                    
+                        foreach($opciones as $o)
+                        {
+                            if(!empty($o))
+                            {
+                                $opcion = new \sgii\sgiiBundle\Entity\TblRespuesta();
+
+                                $opcion->setPregunta($pregunta->getId()); 
+                                $opcion->setResPeso(0);
+                                $opcion->setResEstado(1);
+                                $opcion->setResRespuesta($o);
+
+                                $em->persist($opcion);
+                            }
+                        }
+                        $em->flush();
+                    }
+                    
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Pregunta agregada correctamente"));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => $validate['message']));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
+        
+        $preguntas = $inst_serv->getPreguntasInstrumento($id);
         
         return array(
-            
+            'instrumento' => $instrumento,
+            'form' => $form->createView(),
+            'preguntas' => $preguntas
         );
     }
     
@@ -155,7 +228,7 @@ class InstrumentosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $em = $this->getDoctrine()->getManager();
         
@@ -164,10 +237,8 @@ class InstrumentosController extends Controller
         $inst_serv = $this->get('instrumentos');
         
         // Create form
-        $fechaInicio = null;
-        $fechaFin = null;
-        //$fechaInicio = (!empty($instrumento->getHerFechaInicio())) ? $instrumento->getHerFechaInicio()->format('Y-m-d') : null;
-        //$fechaFin = (!empty($instrumento->getHerFechaFin())) ? $instrumento->getHerFechaFin()->format('Y-m-d') : null;
+        $fechaInicio = (is_object($instrumento->getHerFechaInicio())) ? $instrumento->getHerFechaInicio()->format('Y-m-d') : null;
+        $fechaFin = (is_object($instrumento->getHerFechaFin())) ? $instrumento->getHerFechaFin()->format('Y-m-d') : null;
         $form = $this->createInstrumentoForm(array(
             'nombre' => $instrumento->getHerNombreHerramienta(),
             'fechaInicio' => $fechaInicio,
@@ -215,5 +286,117 @@ class InstrumentosController extends Controller
             'instrumento' => $instrumento
         );
     }
+    
+    /**
+     * Accion para eliminar un instrumento
+     * 
+     * @Route("/{id}/delete", name="delete_instrumento")
+     * @Method({"POST"})
+     * @param integer $id id de instrumento
+     */
+    public function deleteAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $inst_serv = $this->get('instrumentos');
+        
+        $del = $inst_serv->deleteInstrumento($id);
+        if($del)
+        {
+            $security->setAuditoria('Eliminación instrumento: '.$id);
+            print(json_encode(array(
+               'status' => 'success', 
+               'message' => 'Instrumento eliminado correctamente' 
+            )));
+        }
+        else
+        {
+            print(json_encode(array(
+               'status' => 'warning', 
+               'message' => 'El instrumento no se puede eliminar porque ya contiene respuestas de usuarios.' 
+            )));
+        }
+        
+        return new Response();
+    }
+    
+    /**
+     * Funcion para crear el formulario de preguntas
+     * 
+     * @param array $data datos precargados del formulario
+     * @return type
+     */
+    private function createPreguntaForm($data = array())
+    {
+        $inst_serv = $this->get('instrumentos');
+        
+        $tiposPregunta = $inst_serv->getTiposPreguta();
+        
+        // adaptar arreglos para formulario del tipo id=>nombre       
+        $choice_tiposPregunta = array();
+        foreach($tiposPregunta as $tp)
+        {
+            $choice_tiposPregunta[$tp['id']] = $tp['tprTipoPregunta'];
+        }
+        
+        if(count($data))
+        {
+            $instrumento = $data;
+        }
+        else
+        {
+            $instrumento = array(
+                'pregunta' => null,
+                'obligatoria' => true,
+                'estado' => true,
+                'orden' => 0,
+                'tipoPregunta' => null
+            );
+        }
+        
+        $form = $this->createFormBuilder($instrumento)  
+            ->add('pregunta', 'textarea', array('required' => true))
+            ->add('obligatoria', 'checkbox', array('required' => false))
+            ->add('estado', 'checkbox', array('required' => false))
+            ->add('orden', 'number', array('required' => false))
+            ->add('tipoPregunta', 'choice', array('required' => true, 'choices' => $choice_tiposPregunta))
+            ->getForm(); 
+        
+        return $form;
+    }
+    
+    /**
+     * Funcion para validar el formulario de preguntas
+     * 
+     * @param array $data datos de formulario
+     * @param array $opciones opciones de respuesta
+     * @return array array con estado y mensaje de validacion
+     */
+    private function validatePreguntaFrom($data, $opciones)
+    {
+        $validate = array('validate'=>false, 'message'=>'');
+        
+        if($data['tipoPregunta'] == 2) // pregunta cerrada
+        {
+            if(count($opciones) >= 2)
+            {
+                $validate['validate'] = true;
+            }
+            else
+            {
+                $validate['message'] = 'Debe agregar al menos 2 opciones de respuesta';
+            }
+        }
+        else
+        {
+            $validate['validate'] = true;
+        }
+    
+        
+        return $validate;
+    }
+    
 }
 ?>

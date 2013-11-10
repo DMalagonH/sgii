@@ -29,6 +29,13 @@ class TblRespuesta
     private $resRespuesta;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="res_peso", type="integer", nullable=false)
+     */
+    private $resPeso;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="res_estado", type="boolean", nullable=false)
@@ -36,11 +43,11 @@ class TblRespuesta
     private $resEstado;
 
     /**
-     * @var integer
+     * @var \TblPregunta
      *
      * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
      */
-    private $preguntaId;
+    private $pregunta;
 
 
 
@@ -78,6 +85,29 @@ class TblRespuesta
     }
 
     /**
+     * Set resPeso
+     *
+     * @param integer $resPeso
+     * @return TblRespuesta
+     */
+    public function setResPeso($resPeso)
+    {
+        $this->resPeso = $resPeso;
+    
+        return $this;
+    }
+
+    /**
+     * Get resPeso
+     *
+     * @return integer 
+     */
+    public function getResPeso()
+    {
+        return $this->resPeso;
+    }
+
+    /**
      * Set resEstado
      *
      * @param boolean $resEstado
@@ -101,25 +131,25 @@ class TblRespuesta
     }
 
     /**
-     * Set preguntaId
+     * Set pregunta
      *
-     * @param integer $preguntaId
+     * @param \sgii\sgiiBundle\Entity\TblPregunta $pregunta
      * @return TblRespuesta
      */
-    public function setPreguntaId($preguntaId)
+    public function setPregunta($pregunta = null)
     {
-        $this->preguntaId = $preguntaId;
+        $this->pregunta = $pregunta;
     
         return $this;
     }
 
     /**
-     * Get preguntaId
+     * Get pregunta
      *
-     * @return integer 
+     * @return \sgii\sgiiBundle\Entity\TblPregunta 
      */
-    public function getPreguntaId()
+    public function getPregunta()
     {
-        return $this->preguntaId;
+        return $this->pregunta;
     }
 }

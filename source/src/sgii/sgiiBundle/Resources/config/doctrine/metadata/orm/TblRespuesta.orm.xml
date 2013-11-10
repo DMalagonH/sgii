@@ -5,6 +5,7 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="resRespuesta" type="string" column="res_respuesta" length="250" nullable="false"/>
+    <field name="resPeso" type="integer" column="res_peso" nullable="false"/>
     <field name="resEstado" type="boolean" column="res_estado" nullable="false"/>
     <many-to-one field="pregunta" target-entity="TblPregunta">
       <join-columns>
