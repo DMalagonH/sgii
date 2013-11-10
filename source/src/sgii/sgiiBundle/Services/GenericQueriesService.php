@@ -365,7 +365,7 @@ class GenericQueriesService
                 LEFT JOIN sgiiBundle:TblCargo c WITH c.id = u.cargoId
                 LEFT JOIN sgiiBundle:TblDepartamento d WITH d.id = u.departamentoId
                 LEFT JOIN sgiiBundle:TblOrganizacion o WITH o.id = u.organizacionId
-                LEFT JOIN sgiiBundle:TblNiveles n WITH n.id = u.nivelId";
+                LEFT JOIN sgiiBundle:TblNivel n WITH n.id = u.nivelId";
         if($id != null) {
             $dql .= " WHERE u.id = :id";
         }
@@ -460,7 +460,7 @@ class GenericQueriesService
     public function getNivelesArray()
     {
         $dql = "SELECT n.id, n.nivNombre
-            FROM sgiiBundle:TblNiveles n";
+            FROM sgiiBundle:TblNivel n";
         $query = $this->em->createQuery($dql);
         $niveles = $query->getResult();
         

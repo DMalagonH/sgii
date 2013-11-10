@@ -168,7 +168,7 @@ class PerfilController extends Controller
                     LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
                     LEFT JOIN sgiiBundle:TblDepartamento d  WITH u.departamentoId = d.id
                     LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
-                    LEFT JOIN sgiiBundle:TblNiveles n WITH n.id = u.nivelId
+                    LEFT JOIN sgiiBundle:TblNivel n WITH n.id = u.nivelId
                 WHERE u.id = :usuarioId";
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
