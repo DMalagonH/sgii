@@ -1,6 +1,0 @@
-INSERT INTO `tbl_modulo` VALUES (10, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete');
-
-INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES 
-('1', '10'),
-('2', '10'),
-('3', '10');
