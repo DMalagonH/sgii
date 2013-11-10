@@ -34,20 +34,20 @@
                         </div>
                         <div class="control-group span1" style="margin-bottom: 8px;" >
                             Orden:
-                            <i data-rel="popover" data-content="Este campo le permite ordenar las pregunas en el orden que usted crea conveniente." title="Indique el número de la pregunta" class="icon-info-sign help-tooltip"></i>
+                            <i data-rel="popover" data-content="Este campo le permite ordenar las pregunas en el orden que usted crea conveniente." title="Indique el número de la pregunta" class="icon-info-sign help-tooltip icon icon-color icon-info"></i>
                             {{ form_widget(form.orden, {'attr':{'class':'span12', 'type':'numeric'} }) }}                                
                         </div>
                         <div class="control-group span4" style="margin-bottom: 8px; padding-top: 10px;">
                             <span >{{ form_widget(form.obligatoria) }} Obligatoria</span>                              
-                            <i data-rel="popover" data-content="Indica si el usuario debe obligatoriamente responder o no esta pregunta." title="Obligatoria" class="icon-info-sign help-tooltip"></i>
+                            <i data-rel="popover" data-content="Indica si el usuario debe obligatoriamente responder o no esta pregunta." title="Obligatoria" class="icon-info-sign help-tooltip icon icon-color icon-info"></i>
                             <br/>
                             <span>{{ form_widget(form.estado) }} Activa </span>                              
-                            <i data-rel="popover" data-content="Indica si la pregunta esta oculta o activa." title="Activa" class="icon-info-sign help-tooltip"></i>
+                            <i data-rel="popover" data-content="Indica si la pregunta esta oculta o activa." title="Activa" class="icon-info-sign help-tooltip icon icon-color icon-info"></i>
                         </div>
                     </div>
                     <div class="control-group" style="margin-bottom: 8px;">
                         Pregunta:
-                        <i data-rel="popover" data-content="Ingrese el texto de la pregunta" title="Pregunta" data-placement="top" class="icon-info-sign help-tooltip"></i>
+                        <i data-rel="popover" data-content="Ingrese el texto de la pregunta" title="Pregunta" data-placement="top" class="icon-info-sign help-tooltip icon icon-color icon-info"></i>
                         {{ form_widget(form.pregunta, {'attr':{'class':'input-large span12'} }) }}                                
                     </div>
                     {% if opciones %}
@@ -65,7 +65,7 @@
                                     peso: 
                                     <input type="text" name="peso[]" class="input-large span1" style="display:inline;" required="required" value="{{ opcion.resPeso }}"/>
                                     {% if loop.first %}
-                                        <i  data-rel="popover" data-placement="left" class="icon-info-sign help-tooltip" title="Opciones de respuesta" 
+                                        <i  data-rel="popover" data-placement="left" class="icon-info-sign help-tooltip icon icon-color icon-info" title="Opciones de respuesta" 
                                             data-content="Use el peso para indicar la(s) opcion(es) correcta(s). Así:
                                             <br/><b>Para una pregunta con única respuesta</b> ingrese la calificación de la pregunta en el campo 'peso' de la opción correcta y para las demás opciones ingrese 0. 
                                             <br/>Ejemplo: ¿Cristóbal Colón descubrió América? FALSO o VERDADERO. la pregunta vale 5 puntos. Entonces en el peso de la opción FALSO ingrese 0 Y en la opción VERDADERO ingrese 5.

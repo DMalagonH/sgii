@@ -33,6 +33,8 @@ class ImportController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $import_result = false;
+        
         // Formulario para importacion
         $tablas = array(
             1 => 'usuarios',
@@ -40,19 +42,21 @@ class ImportController extends Controller
         
         $dataForm = array(
             'file' => null,
-            'tabla' => 1
+            'tabla' => 1,
+            'filas' => 100
         );
         
         $form = $this->createFormBuilder($dataForm)  
             ->add('file', 'file', array('required' => true))            
             ->add('tabla', 'choice', array('required' => true, 'choices'=>$tablas))            
+            ->add('filas', 'number', array('required' => true))            
             ->getForm(); 
         
         
         if($request->getMethod() == 'POST')
         {
             // Extensiones permitidas
-            $exts = array('csv','xls','xlsx');
+            $exts = array('xlsx');
             
             $validate = false;
             $form->bind($request);
@@ -76,7 +80,7 @@ class ImportController extends Controller
                         
                         if($data['tabla'] == 1) // usuarios
                         {
-                            $import->importUsuarios($file);
+                            $import_result = $import->importUsuarios($file, $data['filas']);
                         }
                         else
                         {
@@ -95,6 +99,7 @@ class ImportController extends Controller
         
         return array(
             'form' => $form->createView(),
+            'import_result' => $import_result
         );
     }
     

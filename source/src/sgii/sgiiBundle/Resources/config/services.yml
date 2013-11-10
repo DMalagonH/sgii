@@ -11,7 +11,8 @@ services:
         class: %security.class%
         arguments: ["@doctrine", "@session"]
     validate:
-        class: %security.class%
+        class: %validate.class%
+        arguments: ["@validator"]
     queries:
         class: %queries.class%
         arguments: ["@doctrine", "@session"]
@@ -20,7 +21,7 @@ services:
         arguments: ["@doctrine", "@session"]
     import:
         class: %import.class%
-        arguments: ["@doctrine", "@session"]
+        arguments: ["@service_container"]
         
         
     kernel.listener.listener:

@@ -1,8 +1,17 @@
 <?php
 namespace sgii\sgiiBundle\Services;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class ValidateService
 {
+    var $validator;
+    
+    function __construct($validator)
+    {
+        $this->validator = $validator;
+    }
+    
     public function validateEmail($email, $require=true)
     {
         $return = false;
@@ -121,7 +130,9 @@ class ValidateService
         $return = false;
         if(!empty($txt))
         {
-            if(preg_match('/[a-zA-Z]/', $txt)) $return = true;
+            $regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$/'));
+            
+            if(count($this->validator->validateValue($txt, $regex)) == 0) $return = true;
         }
         elseif(!$require) $return = true;
         
@@ -133,7 +144,23 @@ class ValidateService
         $return = false;
         if(!empty($txt))
         {
-            if(preg_match('/[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9]/', $txt)) $return = true;
+            $regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9 ]*$/'));
+            
+            if(count($this->validator->validateValue($txt, $regex)) == 0) $return = true;
+        }
+        elseif(!$require) $return = true;
+        
+        return $return;
+    }
+    
+    public function validateNumOnly($txt, $require=true)
+    {
+        $return = false;
+        if(!empty($txt))
+        {
+            $regex = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
+            
+            if(count($this->validator->validateValue($txt, $regex)) == 0) $return = true;
         }
         elseif(!$require) $return = true;
         
