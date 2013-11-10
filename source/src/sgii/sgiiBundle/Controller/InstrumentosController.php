@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * controlador para el login de la aplicacion.
  * 
  * @Route("/instrumentos")
- * @package CuentaBundle/Controller
  * @author Diego Malagón <diego-software@hotmail.com>
  */
 class InstrumentosController extends Controller

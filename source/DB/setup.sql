@@ -9,7 +9,8 @@ INSERT INTO `tbl_modulo` VALUES
 (8, 'errores', 1, 'errores'),
 (9, 'auditoria', 1, 'auditoria'),
 (10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta'),
-(11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete');
+(11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
+(12, 'import', '1', 'import,import_usuarios');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -40,7 +41,10 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('3', '10'),
 ('1', '11'),
 ('2', '11'),
-('3', '11');
+('3', '11'),
+('1', '12'),
+('2', '12'),
+('3', '12');
 
 INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES 
 ('1', '10'),
@@ -103,5 +107,5 @@ INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`
 
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');
-INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('3' 'De opción múltiple con múltiple respuesta', '1');
+INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('3', 'De opción múltiple con múltiple respuesta', '1');
 
