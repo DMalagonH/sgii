@@ -1,0 +1,62 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblRespuestaUsuario
+ *
+ * @ORM\Table(name="tbl_respuesta_usuario")
+ * @ORM\Entity
+ */
+class TblRespuestaUsuario
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rus_respuesta_textual", type="text", nullable=true)
+     */
+    private $rusRespuestaTextual;
+
+    /**
+     * @var \TblPregunta
+     *
+     * @ORM\ManyToOne(targetEntity="TblPregunta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $pregunta;
+
+    /**
+     * @var \TblUsuario
+     *
+     * @ORM\ManyToOne(targetEntity="TblUsuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \TblRespuesta
+     *
+     * @ORM\ManyToOne(targetEntity="TblRespuesta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="respuesta_id", referencedColumnName="id")
+     * })
+     */
+    private $respuesta;
+
+
+}

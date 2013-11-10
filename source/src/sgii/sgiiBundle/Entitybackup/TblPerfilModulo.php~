@@ -22,24 +22,18 @@ class TblPerfilModulo
     private $id;
 
     /**
-     * @var \TblPerfil
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblPerfil")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="perfil_id", type="integer", nullable=false)
      */
-    private $perfil;
+    private $perfilId;
 
     /**
-     * @var \TblModulo
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblModulo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="modulo_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="modulo_id", type="integer", nullable=false)
      */
-    private $modulo;
+    private $moduloId;
 
 
 }

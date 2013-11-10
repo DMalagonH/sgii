@@ -38,29 +38,23 @@ class TblObjetivo
     /**
      * @var integer
      *
+     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
+     */
+    private $proyectoId;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="estado_objetivo_id", type="integer", nullable=false)
      */
     private $estadoObjetivoId;
 
     /**
-     * @var \TblProyecto
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblProyecto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="objetivo_id", type="integer", nullable=true)
      */
-    private $proyecto;
-
-    /**
-     * @var \TblObjetivo
-     *
-     * @ORM\ManyToOne(targetEntity="TblObjetivo")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="objetivo_id", referencedColumnName="id")
-     * })
-     */
-    private $objetivo;
+    private $objetivoId;
 
 
 }

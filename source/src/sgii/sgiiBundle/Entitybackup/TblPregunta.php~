@@ -1,0 +1,73 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblPregunta
+ *
+ * @ORM\Table(name="tbl_pregunta")
+ * @ORM\Entity
+ */
+class TblPregunta
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pre_pregunta", type="string", length=250, nullable=false)
+     */
+    private $prePregunta;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="pre_obligatoria", type="boolean", nullable=false)
+     */
+    private $preObligatoria;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="pre_estado", type="boolean", nullable=false)
+     */
+    private $preEstado;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="pre_orden", type="integer", nullable=true)
+     */
+    private $preOrden;
+
+    /**
+     * @var \TblHerramienta
+     *
+     * @ORM\ManyToOne(targetEntity="TblHerramienta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="herramienta_id", referencedColumnName="id")
+     * })
+     */
+    private $herramienta;
+
+    /**
+     * @var \TblTipoPregunta
+     *
+     * @ORM\ManyToOne(targetEntity="TblTipoPregunta")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="tipo_pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $tipoPregunta;
+
+
+}

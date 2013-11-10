@@ -78,44 +78,32 @@ class TblProyecto
     private $proEstado;
 
     /**
-     * @var \TblEstadoProyecto
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblEstadoProyecto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="estado_proyecto_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="estado_proyecto_id", type="integer", nullable=false)
      */
-    private $estadoProyecto;
+    private $estadoProyectoId;
 
     /**
-     * @var \TblTipoInvestigacion
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblTipoInvestigacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tipo_investigacion_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="tipo_investigacion_id", type="integer", nullable=false)
      */
-    private $tipoInvestigacion;
+    private $tipoInvestigacionId;
 
     /**
-     * @var \TblLineaInvestigacion
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblLineaInvestigacion")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="linea_investigacion_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="linea_investigacion_id", type="integer", nullable=false)
      */
-    private $lineaInvestigacion;
+    private $lineaInvestigacionId;
 
     /**
-     * @var \TblUsuario
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblUsuario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
-    private $usuario;
+    private $usuarioId;
 
 
 }

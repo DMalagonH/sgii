@@ -6,10 +6,16 @@
     </id>
     <field name="usuCedula" type="string" column="usu_cedula" length="20" nullable="true"/>
     <field name="usuNombre" type="string" column="usu_nombre" length="250" nullable="true"/>
+    <field name="usuApellido" type="string" column="usu_apellido" length="70" nullable="true"/>
     <field name="usuFechaCreacion" type="datetime" column="usu_fecha_creacion" nullable="true"/>
     <field name="usuLog" type="string" column="usu_log" length="250" nullable="true"/>
     <field name="usuPassword" type="string" column="usu_password" length="250" nullable="true"/>
     <field name="usuEstado" type="boolean" column="usu_estado" nullable="true"/>
+    <many-to-one field="nivel" target-entity="TblNiveles">
+      <join-columns>
+        <join-column name="nivel_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="organizacion" target-entity="TblOrganizacion">
       <join-columns>
         <join-column name="organizacion_id" referenced-column-name="id"/>

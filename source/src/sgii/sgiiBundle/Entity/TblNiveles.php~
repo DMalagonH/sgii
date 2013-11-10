@@ -1,0 +1,39 @@
+<?php
+
+namespace sgii\sgiiBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TblNiveles
+ *
+ * @ORM\Table(name="tbl_niveles")
+ * @ORM\Entity
+ */
+class TblNiveles
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niv_nombre", type="string", length=50, nullable=false)
+     */
+    private $nivNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niv_descripcion", type="text", nullable=true)
+     */
+    private $nivDescripcion;
+
+
+}

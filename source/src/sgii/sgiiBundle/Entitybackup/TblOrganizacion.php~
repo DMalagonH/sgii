@@ -5,12 +5,12 @@ namespace sgii\sgiiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TblModulo
+ * TblOrganizacion
  *
- * @ORM\Table(name="tbl_modulo")
+ * @ORM\Table(name="tbl_organizacion")
  * @ORM\Entity
  */
-class TblModulo
+class TblOrganizacion
 {
     /**
      * @var integer
@@ -24,23 +24,23 @@ class TblModulo
     /**
      * @var string
      *
-     * @ORM\Column(name="mod_nombre", type="string", length=255, nullable=false)
+     * @ORM\Column(name="org_nombre", type="string", length=45, nullable=false)
      */
-    private $modNombre;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="mod_estado", type="boolean", nullable=false)
-     */
-    private $modEstado;
+    private $orgNombre;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mod_route", type="text", nullable=true)
+     * @ORM\Column(name="org_descripcion", type="text", nullable=true)
      */
-    private $modRoute;
+    private $orgDescripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="org_sitio_web", type="text", nullable=true)
+     */
+    private $orgSitioWeb;
 
 
 }

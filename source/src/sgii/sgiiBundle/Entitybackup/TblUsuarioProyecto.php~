@@ -22,24 +22,18 @@ class TblUsuarioProyecto
     private $id;
 
     /**
-     * @var \TblUsuario
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblUsuario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
-    private $usuario;
+    private $usuarioId;
 
     /**
-     * @var \TblProyecto
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="TblProyecto")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="proyecto_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="proyecto_id", type="integer", nullable=false)
      */
-    private $proyecto;
+    private $proyectoId;
 
 
 }
