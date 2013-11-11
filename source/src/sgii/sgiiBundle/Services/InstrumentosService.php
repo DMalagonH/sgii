@@ -527,6 +527,7 @@ class InstrumentosService
          */
         
         $dql = "SELECT 
+                    h.id,
                     h.herNombreHerramienta, 
                     th.theNombreHerramienta,
                     p.proNombre,
@@ -562,6 +563,7 @@ class InstrumentosService
     public function getHistorialInstrumentosUsuario($usuarioId)
     {
         $dql = "SELECT
+                    h.id,
                     h.herNombreHerramienta,
                     p.proNombre,
                     uh.ushFechaActivoInicio,

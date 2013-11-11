@@ -11,7 +11,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
  * controlador para el homepage de la aplicacion.
  * 
  * @Route("/home")
- * @package CuentaBundle/Controller
  */
 class HomeController extends Controller
 {
@@ -22,7 +21,7 @@ class HomeController extends Controller
      * @Route("/", name="homepage")
      * @Template("sgiiBundle:Home:index.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
-     * @return Resonse
+     * @return Response
      */
     public function indexAction()
     {

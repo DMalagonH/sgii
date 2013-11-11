@@ -364,7 +364,7 @@ COMMENT = 'TABLA REFENCIAL DE PREGUNTAS';
 CREATE TABLE IF NOT EXISTS `tbl_respuesta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `res_respuesta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Respuesta',
-  `res_peso` INT(3) NOT NULL DEFAULT 0,
+  `res_peso` FLOAT NOT NULL DEFAULT 0,
   `res_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `pregunta_id` INT NOT NULL,
   PRIMARY KEY (`id`),

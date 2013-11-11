@@ -4,8 +4,7 @@ $(document).ready(function(){
         {
             event.preventDefault();
         }
-
-        if (event.keyCode == 46 || event.keyCode == 8)    {
+        if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 110 || event.keyCode == 190)    {
         }
         else {
             if (event.keyCode < 95) {

@@ -7,6 +7,20 @@
 
 {% block body %}
 <div class="row-fluid sortable">		
+    <a class="well span4 top-block" href="{{ path('perfil', {'id': sess_usuario.id }) }}" style="height: 95px;">
+        <img class="dashboard-avatar" alt="Usman" src="{{ gravatar(sess_usuario.usuLog, 75) }}" style="width:75px; height: 75px;">
+        <div style="font-size:16px; padding-top: 15px;">Bienvenido</div>
+        <div style="font-weight: normal; font-size: 12px; line-height: 15px;">{{ sess_usuario.usuNombre ~ ' ' ~ sess_usuario.usuApellido }}</div>
+    </a>
+    <a class="well span8 top-block" style="min-height: 95px;">
+        <div style="font-weight: normal; font-size: 12px; line-height: 15px; padding: 15px;">
+            El <b>SGII</b> 
+            Sistema de gestión de instrumentos de investigación en una herramienta para el apollo de los procesos de investigación
+            permitiendo la creación, administración y posterior participación en instrumentos de investigación como los cuestionarios.
+        </div>
+    </a>
+</div>
+<div class="row-fluid sortable">		
     <div class="box span8">
         <div class="box-header well" data-original-title>
             <h2><i class="icon-list-alt"></i> Cuestionarios</h2>
@@ -36,7 +50,7 @@
                             {% endif %}                            
                         </div>
                         <div class="span1">
-                            <button class="btn btn-large btn-primary btn-info">Iniciar</button>
+                            <a href="{{ path('ejecucion_instrumento', {'id': instrumento.id}) }}" class="btn btn-large btn-primary btn-info">Iniciar</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -74,7 +88,7 @@
                         <i class="{{ alert_icon }}"></i>
                         Te han invitado a participar en el instrumento 
                     {% endif %}
-                    "{{ historial.herNombreHerramienta }}"
+                        <a href="{{ path('ejecucion_instrumento', {'id': historial.id}) }}">"{{ historial.herNombreHerramienta }}"</a>
                     
                     {% if historial.ushFechaActivoInicio or historial.ushFechaActivoFin %}
                         disponible 
