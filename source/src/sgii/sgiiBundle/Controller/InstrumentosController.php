@@ -82,53 +82,6 @@ class InstrumentosController extends Controller
     }
     
     /**
-     * Funcion para crear el formulario de creacion y edicion de instrumentos
-     * 
-     * @param array $data datos precargados del formulario
-     * @return Object formulario
-     */
-    private function createInstrumentoForm($data = array())
-    {
-        $inst_serv = $this->get('instrumentos');
-        
-        $tiposInstrumento = $inst_serv->getTiposInstrumento();
-        
-        // adaptar arreglos para formulario del tipo id=>nombre       
-        $choice_tiposInstrumento = array();
-        foreach($tiposInstrumento as $ti)
-        {
-            $choice_tiposInstrumento[$ti['id']] = $ti['theNombreHerramienta'];
-        }
-        
-        if(count($data))
-        {
-            $instrumento = $data;
-        }
-        else
-        {
-            $instrumento = array(
-                'nombre' => null,
-                'fechaInicio' => null,
-                'fechaFin' => null,
-                'estado' => true,
-                'tipoInstrumento' => null,
-                'proyecto' => null
-            );
-        }
-        
-        $form = $this->createFormBuilder($instrumento)  
-            ->add('nombre', 'text', array('required' => true))
-            ->add('fechaInicio', 'text', array('required' => false))
-            ->add('fechaFin', 'text', array('required' => false))
-            ->add('estado', 'checkbox', array('required' => false))
-            ->add('tipoInstrumento', 'choice', array('required' => true, 'choices' => $choice_tiposInstrumento))
-            ->add('proyecto', 'text', array('required' => false))
-            ->getForm(); 
-        
-        return $form;
-    }
-    
-    /**
      * Accion para la pagina principal de un instrumento
      * 
      * @Route("/{id}/show", name="show_instrumento")
@@ -211,10 +164,13 @@ class InstrumentosController extends Controller
         
         $preguntas = $inst_serv->getPreguntasInstrumento($id);
         
+        $usuarios = $inst_serv->getUsuariosInstrumento($id);
+        
         return array(
             'instrumento' => $instrumento,
             'form' => $form->createView(),
-            'preguntas' => $preguntas
+            'preguntas' => $preguntas,
+            'usuarios' => $usuarios
         );
     }
     
@@ -322,82 +278,6 @@ class InstrumentosController extends Controller
         }
         
         return new Response();
-    }
-    
-    /**
-     * Funcion para crear el formulario de preguntas
-     * 
-     * @param array $data datos precargados del formulario
-     * @return type
-     */
-    private function createPreguntaForm($data = array())
-    {
-        $inst_serv = $this->get('instrumentos');
-        
-        $tiposPregunta = $inst_serv->getTiposPreguta();
-        
-        // adaptar arreglos para formulario del tipo id=>nombre       
-        $choice_tiposPregunta = array();
-        foreach($tiposPregunta as $tp)
-        {
-            $choice_tiposPregunta[$tp['id']] = $tp['tprTipoPregunta'];
-        }
-        
-        if(count($data))
-        {
-            $pregunta = $data;
-        }
-        else
-        {
-            $pregunta = array(
-                'pregunta' => null,
-                'obligatoria' => true,
-                'estado' => true,
-                'orden' => 0,
-                'tipoPregunta' => null
-            );
-        }
-        
-        $form = $this->createFormBuilder($pregunta)  
-            ->add('pregunta', 'textarea', array('required' => true))
-            ->add('obligatoria', 'checkbox', array('required' => false))
-            ->add('estado', 'checkbox', array('required' => false))
-            ->add('orden', 'number', array('required' => false))
-            ->add('tipoPregunta', 'choice', array('required' => true, 'choices' => $choice_tiposPregunta))
-            ->getForm(); 
-        
-        return $form;
-    }
-    
-    /**
-     * Funcion para validar el formulario de preguntas
-     * 
-     * @param array $data datos de formulario
-     * @param array $opciones opciones de respuesta
-     * @return array array con estado y mensaje de validacion
-     */
-    private function validatePreguntaFrom($data, $opciones)
-    {
-        $validate = array('validate'=>false, 'message'=>'');
-        
-        if($data['tipoPregunta'] == 2) // pregunta cerrada
-        {
-            if(count($opciones) >= 2)
-            {
-                $validate['validate'] = true;
-            }
-            else
-            {
-                $validate['message'] = 'Debe agregar al menos 2 opciones de respuesta';
-            }
-        }
-        else
-        {
-            $validate['validate'] = true;
-        }
-    
-        
-        return $validate;
     }
     
     /**
@@ -509,7 +389,7 @@ class InstrumentosController extends Controller
             'opciones' => $opciones
         );
     }
-        
+    
     /**
      * Accion ajax para eliminar una pregunta
      * 
@@ -545,5 +425,344 @@ class InstrumentosController extends Controller
         
         return new Response();
     }
+    
+    /**
+     * Accion para buscar usuarios
+     * 
+     * @Route("/{id}/buscar", name="buscar_instrumento")
+     * @Template("sgiiBundle:Instrumentos:invitar.html.twig")
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param Request $request
+     * @param $id id de instrumento
+     * @return Resonse
+     */
+    public function buscarUsuariosAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $form = $this->createBusquedaForm();
+        
+        $usuarios = false;
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                $inst_serv = $this->get('instrumentos');
+                
+                $usuarios = $inst_serv->buscarUsuario($data, $id, 'OR');
+            }
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $instrumento = $em->getRepository("sgiiBundle:TblHerramienta")->findOneById($id);
+        
+        return array(
+            'instrumento' => $instrumento,
+            'form' => $form->createView(),
+            'usuarios' => $usuarios
+        );
+    }
+    
+    /**
+     * Accion para invitar usuarios a un instrumento
+     * 
+     * @Route("/{id}/invitar", name="invitar_instrumento")
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param Request $request
+     * @param $id id de instrumento
+     * @return Resonse
+     */
+    public function invitarUsuariosAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        if($request->getMethod() == 'POST')
+        {
+            $usuarios = $request->get('usuarios');
+            $form = $request->get('form');
+                        
+            if(count($usuarios)>0)
+            {
+                $validate = $this->get('validate');
+                
+                $val['ini'] = $validate->validateDateFormat($form['ini'], 'yyyy-mm-dd', false);
+                $val['fin'] = $validate->validateDateFormat($form['fin'], 'yyyy-mm-dd', false);
+                
+                if($val['ini'] && $val['fin'])
+                {
+                    $em = $this->getDoctrine()->getManager();
+                    $instrumento = $em->getRepository("sgiiBundle:TblHerramienta")->findOneById($id);
+                    
+                    $fecIni = null;
+                    $fecFin = null;
+                                        
+                    if(!empty($form['ini'])) $fecIni = new \DateTime($form['ini']);
+                    if(!empty($form['fin'])) 
+                    {
+                        $fecFin = new \DateTime($form['fin']);
+                        $fecFin->modify('+1 days');
+                    }
+                    
+                    $emails = array();
+                    foreach($usuarios as $u)
+                    {
+                        $usuario = $em->getRepository("sgiiBundle:TblUsuario")->findOneById($u);
+
+                        $usu_inst = $em->getRepository("sgiiBundle:TblUsuarioHerramienta")->findOneBy(array('herramienta'=>$instrumento,'usuario'=>$usuario));
+
+                        if(!$usu_inst)
+                        {
+                            $usu_inst = new \sgii\sgiiBundle\Entity\TblUsuarioHerramienta();
+
+                            $usu_inst->setHerramienta($instrumento);
+                            $usu_inst->setUsuario($usuario);
+                            $usu_inst->setUshAplico(0);
+                            $usu_inst->setUshFechaActivoInicio($fecIni);
+                            $usu_inst->setUshFechaActivoFin($fecFin);
+
+                            $em->persist($usu_inst);
+
+                            $emails[]=$usuario->getUsuLog();
+                        }
+                    }
+
+                    $em->flush();
+
+                    //Enviar notificacion de correo
+                    $this->enviarNotificacionInvitacion($emails, $instrumento, $form);
+
+
+                    $security->setAuditoria('Invito usuarios al instrumento: '.$id);
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Invitaciones enviadas correctamente"));
+
+                    return $this->redirect($this->generateUrl('show_instrumento', array('id'=>$id)));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Formato de fechas incorrecto"));
+                    return $this->redirect($this->generateUrl('buscar_instrumento', array('id'=>$id)));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Debe seleccionar al menos un usuario"));
+                return $this->redirect($this->generateUrl('buscar_instrumento', array('id'=>$id)));
+            }
+        }
+        
+        return new Response();
+    }
+    
+    /**
+     * Funcion para crear el formulario de creacion y edicion de instrumentos
+     * 
+     * @param array $data datos precargados del formulario
+     * @return Object formulario
+     */
+    private function createInstrumentoForm($data = array())
+    {
+        $inst_serv = $this->get('instrumentos');
+        
+        $tiposInstrumento = $inst_serv->getTiposInstrumento();
+        
+        // adaptar arreglos para formulario del tipo id=>nombre       
+        $choice_tiposInstrumento = array();
+        foreach($tiposInstrumento as $ti)
+        {
+            $choice_tiposInstrumento[$ti['id']] = $ti['theNombreHerramienta'];
+        }
+        
+        if(count($data))
+        {
+            $instrumento = $data;
+        }
+        else
+        {
+            $instrumento = array(
+                'nombre' => null,
+                'fechaInicio' => null,
+                'fechaFin' => null,
+                'estado' => true,
+                'tipoInstrumento' => null,
+                'proyecto' => null
+            );
+        }
+        
+        $form = $this->createFormBuilder($instrumento)  
+            ->add('nombre', 'text', array('required' => true))
+            ->add('fechaInicio', 'text', array('required' => false))
+            ->add('fechaFin', 'text', array('required' => false))
+            ->add('estado', 'checkbox', array('required' => false))
+            ->add('tipoInstrumento', 'choice', array('required' => true, 'choices' => $choice_tiposInstrumento))
+            ->add('proyecto', 'text', array('required' => false))
+            ->getForm(); 
+        
+        return $form;
+    }
+    
+    /**
+     * Funcion para crear el formulario de preguntas
+     * 
+     * @param array $data datos precargados del formulario
+     * @return type
+     */
+    private function createPreguntaForm($data = array())
+    {
+        $inst_serv = $this->get('instrumentos');
+        
+        $tiposPregunta = $inst_serv->getTiposPreguta();
+        
+        // adaptar arreglos para formulario del tipo id=>nombre       
+        $choice_tiposPregunta = array();
+        foreach($tiposPregunta as $tp)
+        {
+            $choice_tiposPregunta[$tp['id']] = $tp['tprTipoPregunta'];
+        }
+        
+        if(count($data))
+        {
+            $pregunta = $data;
+        }
+        else
+        {
+            $pregunta = array(
+                'pregunta' => null,
+                'obligatoria' => true,
+                'estado' => true,
+                'orden' => 0,
+                'tipoPregunta' => null
+            );
+        }
+        
+        $form = $this->createFormBuilder($pregunta)  
+            ->add('pregunta', 'textarea', array('required' => true))
+            ->add('obligatoria', 'checkbox', array('required' => false))
+            ->add('estado', 'checkbox', array('required' => false))
+            ->add('orden', 'number', array('required' => false))
+            ->add('tipoPregunta', 'choice', array('required' => true, 'choices' => $choice_tiposPregunta))
+            ->getForm(); 
+        
+        return $form;
+    }
+    
+    /**
+     * Funcion para validar el formulario de preguntas
+     * 
+     * @param array $data datos de formulario
+     * @param array $opciones opciones de respuesta
+     * @return array array con estado y mensaje de validacion
+     */
+    private function validatePreguntaFrom($data, $opciones)
+    {
+        $validate = array('validate'=>false, 'message'=>'');
+        
+        if($data['tipoPregunta'] == 2) // pregunta cerrada
+        {
+            if(count($opciones) >= 2)
+            {
+                $validate['validate'] = true;
+            }
+            else
+            {
+                $validate['message'] = 'Debe agregar al menos 2 opciones de respuesta';
+            }
+        }
+        else
+        {
+            $validate['validate'] = true;
+        }
+    
+        
+        return $validate;
+    }      
+    
+    /**
+     * Funcion para crear el formulario de busqueda de usuarios
+     * 
+     * @return Object formulario
+     */
+    private function createBusquedaForm()
+    {
+        $queries = $this->get('queries');
+        
+        $cargos = array(''=>'Ninguno') + $queries->getOrganizacionesArray();
+        $niveles = array(''=>'Ninguno') + $queries->getNivelesArray();
+        $departamentos = array(''=>'Ninguno') + $queries->getDepartamentosArray();
+        $organizaciones = array(''=>'Ninguno') + $queries->getOrganizacionesArray();
+        
+        $data = array(
+            'nombre' => null,
+            'apellido' => null,
+            'email' => null,
+            'cargo' => null,
+            'nivel' => null,
+            'departamento' => null,
+            'organizacion' => null
+        );
+        
+        $form = $this->createFormBuilder($data)  
+            ->add('nombre', 'text', array('required' => false))
+            ->add('apellido', 'text', array('required' => false))
+            ->add('email', 'email', array('required' => false))
+            ->add('cargo', 'choice', array('required' => false, 'choices' => $cargos))
+            ->add('nivel', 'choice', array('required' => false, 'choices' => $niveles))
+            ->add('departamento', 'choice', array('required' => false, 'choices' => $departamentos))
+            ->add('organizacion', 'choice', array('required' => false, 'choices' => $organizaciones))
+            ->getForm(); 
+        
+        return $form;
+    }
+    
+    /**
+     * Funcion para enviar notificacion por correo cuando se invitan usuarios a instrumentos
+     * 
+     * @param array $emails arreglo de emails 
+     * @param Object $instrumento entidad instrumento
+     * @param array $data datos del formulario de invitacion
+     */
+    private function enviarNotificacionInvitacion($emails, $instrumento, $data)
+    {
+        $mailer = $this->get('mail');
+        
+        $subject = 'Te han invitado a participar en '.$instrumento->getHerNombreHerramienta();
+        
+        $body = '';
+        
+        if(!empty($data['ini']) || !empty($data['fin']))
+        {
+            $body .= 'Podrás participar';
+            if(!empty($data['ini']))
+            {
+                $body .= ' desde '.$data['ini'];
+            }
+            if(!empty($data['fin']))
+            {
+                $body .= ' hasta '.$data['fin'];
+            }
+            $body .= '<br/><br/>';
+        }
+        
+        $body .= 'Para participar haz click en el siguiente enlace: ';
+        
+        $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('login');
+        
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $body,
+            'link' => $link,
+            'link_text' => 'Ingresar'
+        );
+        
+        $mailer->sendMail($emails, $subject, $dataRender, 'bcc');
+    }
 }   
+
 ?>

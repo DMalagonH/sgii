@@ -115,10 +115,14 @@ class ValidateService
         $return = false;
         if(!empty($strDate))
         {
+            $regex = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
+            
             if($format == 'dd/mm/yyyy')
-                if(preg_match('/^[0-9]{1,2}+\/[0-9]{1,2}+\/[0-9]{4}$/', $strDate)) $return = true;
-            else
-                if(preg_match('/[0-9]/', $strDate)) $return = true;
+                $regex = new Assert\Regex(Array('pattern'=>'/^[0-9]{1,2}+\/[0-9]{1,2}+\/[0-9]{4}$/'));
+            elseif($format == 'yyyy-mm-dd')
+                $regex = new Assert\Regex(Array('pattern'=>'/^[0-9]{4}+-[0-9]{1,2}+-[0-9]{1,2}$/'));
+                
+            if(count($this->validator->validateValue($strDate, $regex)) == 0) $return = true;
         }
         elseif(!$require) $return = true;
         

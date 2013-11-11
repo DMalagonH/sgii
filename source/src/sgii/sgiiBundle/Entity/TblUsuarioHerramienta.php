@@ -22,6 +22,27 @@ class TblUsuarioHerramienta
     private $id;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ush_fecha_activo_inicio", type="datetime", nullable=true)
+     */
+    private $ushFechaActivoInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ush_fecha_activo_fin", type="datetime", nullable=true)
+     */
+    private $ushFechaActivoFin;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ush_fecha_aplico", type="datetime", nullable=true)
+     */
+    private $ushFechaAplico;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="ush_aplico", type="boolean", nullable=true)
@@ -58,6 +79,75 @@ class TblUsuarioHerramienta
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set ushFechaActivoInicio
+     *
+     * @param \DateTime $ushFechaActivoInicio
+     * @return TblUsuarioHerramienta
+     */
+    public function setUshFechaActivoInicio($ushFechaActivoInicio)
+    {
+        $this->ushFechaActivoInicio = $ushFechaActivoInicio;
+    
+        return $this;
+    }
+
+    /**
+     * Get ushFechaActivoInicio
+     *
+     * @return \DateTime 
+     */
+    public function getUshFechaActivoInicio()
+    {
+        return $this->ushFechaActivoInicio;
+    }
+
+    /**
+     * Set ushFechaActivoFin
+     *
+     * @param \DateTime $ushFechaActivoFin
+     * @return TblUsuarioHerramienta
+     */
+    public function setUshFechaActivoFin($ushFechaActivoFin)
+    {
+        $this->ushFechaActivoFin = $ushFechaActivoFin;
+    
+        return $this;
+    }
+
+    /**
+     * Get ushFechaActivoFin
+     *
+     * @return \DateTime 
+     */
+    public function getUshFechaActivoFin()
+    {
+        return $this->ushFechaActivoFin;
+    }
+
+    /**
+     * Set ushFechaAplico
+     *
+     * @param \DateTime $ushFechaAplico
+     * @return TblUsuarioHerramienta
+     */
+    public function setUshFechaAplico($ushFechaAplico)
+    {
+        $this->ushFechaAplico = $ushFechaAplico;
+    
+        return $this;
+    }
+
+    /**
+     * Get ushFechaAplico
+     *
+     * @return \DateTime 
+     */
+    public function getUshFechaAplico()
+    {
+        return $this->ushFechaAplico;
     }
 
     /**

@@ -332,4 +332,143 @@ class InstrumentosService
             return false;
         }
     }
+    
+    /**
+     * Funcion para obtener los usuarios invitados a aplicar en un instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     */
+    public function getUsuariosInstrumento($instrumentoId)
+    {
+        $dql = "SELECT
+                    uh.id,
+                    u.id usuarioId,
+                    u.usuNombre,
+                    u.usuApellido,
+                    u.usuLog,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin,
+                    uh.ushFechaAplico,
+                    uh.ushAplico
+                FROM 
+                    sgiiBundle:TblUsuarioHerramienta uh
+                    JOIN sgiiBundle:TblUsuario u WITH u.id = uh.usuario
+                WHERE 
+                    uh.herramienta = :instrumentoId
+                ORDER BY u.usuApellido, u.usuNombre
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $instrumentoId);  
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para buscar usuarios
+     * 
+     * @param array $data arreglo con criterios de busqueda
+     * @param string $operador
+     * @return array arreglo de usuarios
+     */
+    public function buscarUsuario($data, $instrumentoId, $operador = 'OR')
+    {
+        // Preparacion de la consulta
+        $dql = "SELECT
+                    u.id,
+                    u.usuCedula,
+                    u.usuNombre,
+                    u.usuApellido,
+                    u.usuLog,
+                    c.carNombre,
+                    n.nivNombre,
+                    d.depNombre,
+                    o.orgNombre
+                FROM
+                    sgiiBundle:TblUsuario u
+                    LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
+                    LEFT JOIN sgiiBundle:TblNivel n WITH u.nivelId = n.id
+                    LEFT JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
+                    LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
+                    LEFT JOIN sgiiBundle:TblUsuarioHerramienta uh WITH u.id = uh.usuario AND uh.herramienta = :instrumentoId
+                WHERE
+                    uh.herramienta IS NULL";
+                    
+        $where = array();
+        
+        if(!empty($data['nombre']))
+        {
+            $where[] = " u.usuNombre LIKE :usuNombre ";
+        }
+        if(!empty($data['apellido']))
+        {
+            $where[] = " u.usuApellido LIKE :usuApellido ";
+        }
+        if(!empty($data['email']))
+        {
+            $where[] = " u.usuLog = :usuLog ";
+        }
+        if(!empty($data['cargo']))
+        {
+            $where[] = " u.cargoId = :cargoId ";
+        }
+        if(!empty($data['nivel']))
+        {
+            $where[] = " u.nivelId = :nivelId ";
+        }
+        if(!empty($data['departamento']))
+        {
+            $where[] = " u.departamentoId = :departamentoId ";
+        }
+        if(!empty($data['organizacion']))
+        {
+            $where[] = " u.organizacionId = :organizacionId ";
+        }
+        
+        if(count($where)>0)
+        {
+            $dql .= " AND ".implode($operador, $where);
+        }
+        
+        $dql .= " GROUP BY u.id
+                  ORDER BY u.usuApellido, u.usuNombre ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $instrumentoId);
+        
+        // paso de parametros a la consulta
+        if(!empty($data['nombre']))
+        {
+            $query->setParameter('usuNombre', '%'.$data['nombre'].'%');
+        }
+        if(!empty($data['apellido']))
+        {
+            $query->setParameter('usuApellido', '%'.$data['apellido'].'%');
+        }
+        if(!empty($data['email']))
+        {
+            $query->setParameter('usuLog', $data['email']);
+        }
+        if(!empty($data['cargo']))
+        {
+            $query->setParameter('cargoId', $data['cargo']);
+        }
+        if(!empty($data['nivel']))
+        {
+            $query->setParameter('nivelId', $data['nivel']);
+        }
+        if(!empty($data['departamento']))
+        {
+            $query->setParameter('departamentoId', $data['departamento']);
+        }
+        if(!empty($data['organizacion']))
+        {
+            $query->setParameter('organizacionId', $data['organizacion']);
+        }
+        
+        //Ejecucion de la consulta
+        $result = $query->getResult();
+        
+        return $result;
+    }
 }
