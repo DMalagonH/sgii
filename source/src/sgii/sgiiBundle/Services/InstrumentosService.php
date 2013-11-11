@@ -505,4 +505,81 @@ class InstrumentosService
         
         return false;
     }
+    
+    /**
+     * Funcion que obtiene una lista de instrumentos activos a los que fue invitado el usuario
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return array arreglo de instrumentos
+     */
+    public function getInstrumentosUsuario($usuarioId)
+    {
+        /**
+         * SELECT uh.* FROM 
+         * tbl_usuario_herramienta uh
+         * JOIN tbl_herramienta h ON uh.herramienta_id = h.id
+         * WHERE 
+         * uh.usuario_id = 1
+         * AND h.her_estado = 1
+         * AND uh.ush_aplico = 0
+         * AND (uh.ush_fecha_activo_inicio <= current_date() OR uh.ush_fecha_activo_inicio IS NULL)
+         * AND (uh.ush_fecha_activo_fin >= current_date() OR uh.ush_fecha_activo_fin IS NULL)
+         */
+        
+        $dql = "SELECT 
+                    h.herNombreHerramienta, 
+                    th.theNombreHerramienta,
+                    p.proNombre,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin
+                FROM 
+                    sgiiBundle:TblHerramienta h
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH h.id = uh.herramienta
+                    JOIN sgiiBundle:TblTipoHerramienta th WITH th.id = h.tipoHerramienta
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
+                WHERE 
+                    uh.usuario = :usuarioId
+                    AND h.herEstado = 1
+                    AND uh.ushAplico = 0
+                    AND (uh.ushFechaActivoInicio <= :current_date OR uh.ushFechaActivoInicio IS NULL)
+                    AND (uh.ushFechaActivoFin >= :current_date OR uh.ushFechaActivoFin IS NULL)";
+        
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $query->setParameter('current_date', new \DateTime());
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para obtener el historial de participaciones del usuario
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return array
+     */
+    public function getHistorialInstrumentosUsuario($usuarioId)
+    {
+        $dql = "SELECT
+                    h.herNombreHerramienta,
+                    p.proNombre,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin,
+                    uh.ushAplico,
+                    uh.ushFechaAplico
+                FROM
+                    sgiiBundle:TblHerramienta h
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH h.id = uh.herramienta
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
+                WHERE 
+                    uh.usuario = :usuarioId
+                " ;
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
 }

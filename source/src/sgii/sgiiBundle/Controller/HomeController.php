@@ -30,10 +30,20 @@ class HomeController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
        
+        $usuarioId = $security->getSessionValue('id');
         
+        $inst_serv = $this->get('instrumentos');
+        
+        $instrumentos = $inst_serv->getInstrumentosUsuario($usuarioId);
+        $notificaciones = $inst_serv->getHistorialInstrumentosUsuario($usuarioId);
+        
+//        $security->debug($instrumentos);
        
         
-        return array();
+        return array(
+            'instrumentos' => $instrumentos,
+            'notificaciones' => $notificaciones
+        );
     }
     
 }
