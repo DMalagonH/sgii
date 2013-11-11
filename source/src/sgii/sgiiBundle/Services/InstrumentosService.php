@@ -169,7 +169,7 @@ class InstrumentosService
         $query->getResult(); 
         
         // Eliminar usuarios asociados al instrumento
-        $dql = "DELETE FROM sgiiBundle:TblUsuarioHerramienta ui WHERE ui.herramientaId = :instrumentoId ";
+        $dql = "DELETE FROM sgiiBundle:TblUsuarioHerramienta ui WHERE ui.herramienta = :instrumentoId ";
         $query = $this->em->createQuery($dql);
         $query->setParameter('instrumentoId', $instrumentoId);
         $query->getResult(); 
@@ -343,16 +343,25 @@ class InstrumentosService
         $dql = "SELECT
                     uh.id,
                     u.id usuarioId,
+                    u.usuCedula,
                     u.usuNombre,
                     u.usuApellido,
                     u.usuLog,
                     uh.ushFechaActivoInicio,
                     uh.ushFechaActivoFin,
                     uh.ushFechaAplico,
-                    uh.ushAplico
+                    uh.ushAplico,
+                    c.carNombre,
+                    n.nivNombre,
+                    d.depNombre,
+                    o.orgNombre
                 FROM 
                     sgiiBundle:TblUsuarioHerramienta uh
                     JOIN sgiiBundle:TblUsuario u WITH u.id = uh.usuario
+                    LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
+                    LEFT JOIN sgiiBundle:TblNivel n WITH u.nivelId = n.id
+                    LEFT JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
+                    LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
                 WHERE 
                     uh.herramienta = :instrumentoId
                 ORDER BY u.usuApellido, u.usuNombre
@@ -470,5 +479,30 @@ class InstrumentosService
         $result = $query->getResult();
         
         return $result;
+    }
+    
+    /**
+     * Funcion para eliminar un usuario de un instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     * @param integer $usuarioId id de usuario
+     * @return boolean true si se realiza la eliminacion, false en caso contrario
+     */
+    public function deleteUsuarioInstrumento($instrumentoId, $usuarioId)
+    {
+        $usu_inst = $this->em->getRepository("sgiiBundle:TblUsuarioHerramienta")->findOneBy(array('herramienta'=>$instrumentoId, 'usuario'=>$usuarioId));
+        
+        if($usu_inst)
+        {
+            if($usu_inst->getUshAplico() != 1)
+            {
+                $this->em->remove($usu_inst);
+                $this->em->flush();
+                
+                return true;
+            }
+        }
+        
+        return false;
     }
 }

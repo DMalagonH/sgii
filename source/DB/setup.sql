@@ -8,7 +8,7 @@
 (7, 'tipo_investigacion', 1, 'tipoinvestigacion,tipoinvestigacion_show,tipoinvestigacion_new,tipoinvestigacion_edit,tipoinvestigacion_delete'),
 (8, 'errores', 1, 'errores'),
 (9, 'auditoria', 1, 'auditoria'),
-(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento'),
+(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento,restricciones_instrumento,delete_usuario_instrumento'),
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', '1', 'import,import_usuarios');
 

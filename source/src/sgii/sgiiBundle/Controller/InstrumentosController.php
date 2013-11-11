@@ -257,6 +257,7 @@ class InstrumentosController extends Controller
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$this->getRequest()->isXmlHttpRequest()) {throw $this->createNotFoundException();}
         
         $inst_serv = $this->get('instrumentos');
         
@@ -394,6 +395,7 @@ class InstrumentosController extends Controller
      * Accion ajax para eliminar una pregunta
      * 
      * @Route("/{pid}/delete_pregunta", name="delete_pregunta")
+     * @Method({"POST"})
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param integer $pid id de pregunta
      */
@@ -402,7 +404,8 @@ class InstrumentosController extends Controller
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
-                
+        if(!$this->getRequest()->isXmlHttpRequest()) {throw $this->createNotFoundException();}
+        
         $inst_serv = $this->get('instrumentos');
         
         $del = $inst_serv->deletePregunta($pid);        
@@ -440,7 +443,7 @@ class InstrumentosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $form = $this->createBusquedaForm();
         
@@ -476,13 +479,13 @@ class InstrumentosController extends Controller
      * @author Diego Malagón <diego-software@hotmail.com>
      * @param Request $request
      * @param $id id de instrumento
-     * @return Resonse
+     * @return Response
      */
     public function invitarUsuariosAction(Request $request, $id)
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         if($request->getMethod() == 'POST')
         {
@@ -505,11 +508,7 @@ class InstrumentosController extends Controller
                     $fecFin = null;
                                         
                     if(!empty($form['ini'])) $fecIni = new \DateTime($form['ini']);
-                    if(!empty($form['fin'])) 
-                    {
-                        $fecFin = new \DateTime($form['fin']);
-                        $fecFin->modify('+1 days');
-                    }
+                    if(!empty($form['fin'])) $fecFin = new \DateTime($form['fin']." 23:59:59");
                     
                     $emails = array();
                     foreach($usuarios as $u)
@@ -560,6 +559,127 @@ class InstrumentosController extends Controller
         
         return new Response();
     }
+        
+    /**
+     * Accion para cambiar las fechas de restriccion de participacion
+     * de los usuarios en el instrumento 
+     * 
+     * @Route("/{id}/edit_usuarios", name="restricciones_instrumento")
+     * @Template("sgiiBundle:Instrumentos:restricciones.html.twig")
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param Request $request
+     * @param $id id de instrumento
+     * @return Response
+     */
+    public function editRestriccionesAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $em = $this->getDoctrine()->getManager();
+        $inst_serv = $this->get('instrumentos');        
+        
+        $instrumento = $em->getRepository("sgiiBundle:TblHerramienta")->findOneById($id);
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form_usuarios = $request->get('usuarios');
+            $form = $request->get('form');
+            
+            if(count($form_usuarios)>0)
+            {
+                $validate = $this->get('validate');
+                
+                $val['ini'] = $validate->validateDateFormat($form['ini'], 'yyyy-mm-dd', false);
+                $val['fin'] = $validate->validateDateFormat($form['fin'], 'yyyy-mm-dd', false);
+                
+                
+                if($val['ini'] && $val['fin'])
+                {
+                    $fecIni = null;
+                    $fecFin = null;
+                                        
+                    if(!empty($form['ini'])) $fecIni = $form['ini']." 00:00:00";
+                    if(!empty($form['fin'])) $fecFin = $form['fin']." 23:59:59";
+                    
+                    $where = implode(" OR uh.usuario = ", $form_usuarios);
+                    
+                    $dql = "UPDATE sgiiBundle:TblUsuarioHerramienta uh
+                            SET uh.ushFechaActivoInicio = :fechaIni, uh.ushFechaActivoFin = :fechaFin
+                            WHERE 
+                                uh.herramienta = :instrumentoId
+                                AND (uh.ushAplico = 0 OR uh.ushAplico IS NULL)
+                                AND (uh.usuario = ".$where.") ";                    
+                    
+                    $query = $em->createQuery($dql);
+                    $query->setParameter('instrumentoId', $id);  
+                    $query->setParameter('fechaIni', $fecIni);  
+                    $query->setParameter('fechaFin', $fecFin);  
+
+                    $query->getResult();
+                    
+                    $security->setAuditoria('Cambio de restricciones en el instrumento: '.$id);
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Actualización realizada correctamente"));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Formato de fechas incorrecto"));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Debe seleccionar al menos un usuario"));            
+            }
+        }
+        
+        $usuarios = $inst_serv->getUsuariosInstrumento($id);
+        
+        return array(
+            'instrumento' => $instrumento,
+            'usuarios' => $usuarios,
+        );
+    }
+    
+    /**
+     * Accion ajax para eliminar un usuario de un instrumento
+     * 
+     * @Route("/{iid}/{uid}/delete_usuario_instrumento", name="delete_usuario_instrumento")
+     * @Method({"POST"})
+     * @param integer $iid id de instrumento
+     * @param integer $uid id de usuario
+     */
+    public function deleteUsuarioAction($iid, $uid)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$this->getRequest()->isXmlHttpRequest()) {throw $this->createNotFoundException();}
+        
+        $inst_serv = $this->get('instrumentos');
+        
+        $del = $inst_serv->deleteUsuarioInstrumento($iid, $uid);   
+        
+        if($del)
+        {
+            $security->setAuditoria('Eliminación de usuario '. $uid .' en instrumento: '.$iid);
+            print(json_encode(array(
+               'status' => 'success', 
+               'message' => 'Usuario eliminado correctamente' 
+            )));
+        }
+        else
+        {
+            print(json_encode(array(
+               'status' => 'warning', 
+               'message' => 'El usuario no se puede eliminar porque ya participo en el instrumento.' 
+            )));            
+        }
+        
+        return new Response();
+    }
+
+
     
     /**
      * Funcion para crear el formulario de creacion y edicion de instrumentos

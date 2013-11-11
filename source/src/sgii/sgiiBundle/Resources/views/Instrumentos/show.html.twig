@@ -18,6 +18,9 @@
 <div class="row-fluid">
     <div class="span8">
         <h1>{{ instrumento.theNombreHerramienta }}: {{ instrumento.herNombreHerramienta }}</h1>
+        <a class="btn btn-info " href="{{ path('edit_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Editar">
+            <i class="icon-edit icon-white"></i> Editar             
+        </a>
         {% if instrumento.proNombre %} En el proyecto: {{ instrumento.proNombre }}{% endif %}
     </div>
     <div class="span4">
@@ -74,7 +77,7 @@
                             <li>
                                 <input type="text" name="opciones[]" class="input-large span9" style="display:inline;"/>
                                 peso: 
-                                <input type="text" name="peso[]" value="0" class="input-large span1" style="display:inline;"/>
+                                <input type="text" name="peso[]" value="0" class="input-large span1 numeric-input" style="display:inline;"/>
                                 <i  data-rel="popover" data-placement="left" class="icon-info-sign help-tooltip icon icon-color icon-info" title="Opciones de respuesta" 
                                     data-content="Use el peso para indicar la(s) opcion(es) correcta(s). Así:
                                     <br/><b>Para una pregunta con única respuesta</b> ingrese la calificación de la pregunta en el campo 'peso' de la opción correcta y para las demás opciones ingrese 0. 
@@ -87,7 +90,7 @@
                             <li>
                                 <input type="text" name="opciones[]" class="input-large span9" style="display:inline;"/>
                                 peso:
-                                <input type="text" name="peso[]" value="0" class="input-large span1" style="display:inline;"/>
+                                <input type="text" name="peso[]" value="0" class="input-large span1 numeric-input" style="display:inline;"/>
                             </li>
                         </ol>
                     </div>
@@ -161,13 +164,64 @@
                 <a href="{{ path("import") }}" class="btn btn-info span6" style="margin-bottom: 10px;"><i class="icon-upload icon-white"></i>  Importar usuarios</a>
             </div>
             <div class="row-fluid">
+                <div class="span6"></div>
+                <a href="{{ path("restricciones_instrumento", {"id": instrumento.id}) }}" class="btn btn-danger span6" style="margin-bottom: 10px;"><i class="icon-wrench icon-white"></i>  Restricciones</a>
+            </div>
+            <div class="row-fluid">
             </div>
             {% if usuarios %}
-                <ol>
+                <table class="table table-striped">
                 {% for usu_ins in usuarios %}
-                    <li>{{ usu_ins.usuApellido ~ ' '~ usu_ins.usuNombre }} {% if usu_ins.ushAplico == 1 %}<span class="label label-success">{{ usu_ins.ushFechaAplico|date('d/m/Y H:i') }}</span>{% else %}<span class="label">No ha aplicado</span>{% endif %}</li>
+                    <tr>
+                        <td>
+                            {{ loop.index }}
+                        </td>
+                        <td>
+                            {{ usu_ins.usuApellido ~ ' '~ usu_ins.usuNombre }} 
+                        </td>
+                        <td>    
+                            {% if usu_ins.ushAplico == 1 %}<span class="label label-success">{{ usu_ins.ushFechaAplico|date('d/m/Y H:i') }}</span>{% else %}<span class="label">No ha aplicado</span>{% endif %}                            
+                        </td>
+                        <td>
+                            <a class="btn btn-success btn-mini" href="#modal-{{ usu_ins.usuarioId }}" role="button" data-toggle="modal" data-rel="tooltip" title="Editar">
+                                <i class="icon-zoom-in icon-white"></i>            
+                            </a>
+                            {# modal usuario #}
+                            <div class="modal hide fade" id="modal-{{ usu_ins.usuarioId }}">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">×</button>
+                                    <h3>{{ usu_ins.usuApellido ~ ' '~ usu_ins.usuNombre }}</h3>
+                                </div>
+                                <div class="modal-body">
+
+                                    {% if usu_ins.ushAplico == 1 %}
+                                        El usuario participó el {{ usu_ins.ushFechaAplico|date('d/m/Y H:i') }}
+                                    {% else %}
+                                        El usuario no ha participado
+                                    {% endif %}
+
+                                    {% if usu_ins.ushFechaActivoInicio or usu_ins.ushFechaActivoFin %}
+                                        <p>
+                                            Restricción de participación en el instrumento 
+                                            {% if usu_ins.ushFechaActivoInicio %} desde {{ usu_ins.ushFechaActivoInicio|date('Y-m-d') }} {% endif %}
+                                            {% if usu_ins.ushFechaActivoFin %} hasta {{ usu_ins.ushFechaActivoFin|date('Y-m-d') }} {% endif %}
+                                        </p>
+                                    {% else %}
+                                        <p>No hay restricción de participación en el instrumento.</p>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    {% if usu_ins.ushAplico != 1 %}
+                                        <a href="{{ path('delete_usuario_instrumento', {'iid': instrumento.id, 'uid':usu_ins.usuarioId } ) }}" class="btn btn-delete btn-danger" data-remove="tr">Eliminar usuario</a>
+                                    {% endif %}
+                                    <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+                                </div>
+                            </div>
+                            
+                        </td>
+                    </tr>
                 {% endfor %}
-                </ol>
+                </table>
             {% else %}
                 <div class="alert alert-danger">
                     Aun no hay usuarios invitados.
@@ -182,6 +236,21 @@
 {% block script %}
 <script>
     $(document).ready(function () {
+        
+        //Reset form
+        var val_tipo_preg = $('#form_tipoPregunta').val();
+        $("#form_pregunta").html("");
+        if(val_tipo_preg == 1) // preguntas abiertas
+        {
+            $(".div-opciones").hide();
+            $("#ol-opciones li input").removeAttr('required');
+        }
+        else // pregutnas cerradas
+        {
+            $(".div-opciones").show();
+            $("#ol-opciones li input").attr('required','required');
+        }
+        
         $('#form_tipoPregunta').on('change', function(){
             
             if($(this).val() == 1) // preguntas abiertas
@@ -201,7 +270,7 @@
         });
         
         $("#btn-add-opcion").on('click', function(){
-            $("#ol-opciones").append('<li><input type="text" name="opciones[]" required="required" class="input-large span9" style="display:inline;" required="required"/> peso: <input type="text" name="peso[]" value="0" class="input-large span1" style="display:inline;" required="required"/> <a class="btn btn-danger btn-mini btn-delete-opcion" data-rel="tooltip" title="Eliminar"><i class="icon-trash icon-white"></i></a></li>');
+            $("#ol-opciones").append('<li><input type="text" name="opciones[]" required="required" class="input-large span9" style="display:inline;" required="required"/> peso: <input type="text" name="peso[]" value="0" class="input-large span1 numeric-input" style="display:inline;" required="required"/> <a class="btn btn-danger btn-mini btn-delete-opcion" data-rel="tooltip" title="Eliminar"><i class="icon-trash icon-white"></i></a></li>');
         });
     });
 </script>
