@@ -1,1 +1,18 @@
+{% extends "::base.html.twig" %}
 
+{% block menu %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+
+{% if participo %}
+<div class="row-fluid sortable">		
+    <a class="well span12 top-block" style="height: 150px; padding-top: 35px;">
+        <div style="font-size:16px; padding-top: 15px;">Gracias por participar</div>
+        <div style="font-weight: normal; font-size: 12px; line-height: 15px;">Su información ya ha sido registrada.</div>
+    </a>
+</div>
+{% endif %}
+
+{% endblock body %}
