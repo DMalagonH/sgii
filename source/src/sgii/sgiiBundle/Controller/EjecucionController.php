@@ -31,22 +31,36 @@ class EjecucionController extends Controller
         $usuarioId = $security->getSessionValue('id');
         
         $participo = $this->usuarioParticipoInstrumento($id, $usuarioId);
+        $instrumento = false;
         
-        if(!$participo['invitado'])
+        if(!$participo['invitado']) // si no esta invitado al instrumento
         {
             throw $this->createNotFoundException("Acceso denegado");
         }
         
-        if(!$participo['participo'])
+        if(!$participo['participo']) // si no ha participado
         {
-            // codigo ...
+            $instrumento = $this->getInstrumento($id);
+            
+            if($instrumento)
+            {
+                
+            }
         }
         
         return array(
-            'participo' => $participo['participo']
+            'participo' => $participo['participo'],
+            'instrumento' => $instrumento
         );
     }
     
+    /**
+     * Funcion que obtiene si el usuario esta invitado y/o participado en un instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     * @param integer $usuarioId id de usuario
+     * @return array
+     */
     private function usuarioParticipoInstrumento($instrumentoId, $usuarioId)
     {
         $participo = false;
@@ -77,9 +91,58 @@ class EjecucionController extends Controller
         );
     }
     
-    private function estaActivoInstrumento($id)
+    /**
+     * Funcion que retorna un instrumento si esta activo
+     * 
+     * @param integer $id id de instrumento
+     * @return array|false
+     */
+    private function getInstrumento($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $dql = "SELECT
+                    h.herNombreHerramienta,
+                    th.theNombreHerramienta,
+                    p.proNombre
+                FROM 
+                    sgiiBundle:TblHerramienta h
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH uh.herramienta = h.id
+                    JOIN sgiiBundle:TblTipoHerramienta th WITH h.tipoHerramienta = th.id
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
+                WHERE
+                    h.id = :instrumentoId
+                    AND h.herEstado = 1
+                    AND (uh.ushFechaActivoInicio <= :current_date OR uh.ushFechaActivoInicio IS NULL)
+                    AND (uh.ushFechaActivoFin >= :current_date OR uh.ushFechaActivoFin IS NULL)
+                ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('instrumentoId', $id);
+        $query->setParameter('current_date', new \DateTime());
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $return = false;
+        
+        if(count($result)>0)
+        {
+            $return = $result[0];
+        }
+        
+        
+        return $return;
+    }
+        
+    /**
+     * Funcion para obtener las preguntas del instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     * @return array arreglo de preguntas
+     */
+    private function getPreguntas($instrumentoId)
     {
         
     }
+    
 }
 
