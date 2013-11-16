@@ -47,23 +47,45 @@
     </div>
 </div>
 
+<form action="{{ path('procesar_ejecucion_instrumento', {'id': id}) }}" method="POST">
+{% for pregunta in preguntas %}
+
 <div class="row-fluid">
     <div class="box span12">
         <div class="box-header well">
-            <h2>*Pregunta 1 <small>pregunta Abierta</small></h2>
+            <h2>{% if pregunta.preObligatoria %}*{% endif %} Pregunta {{ loop.index }} <small>Pregunta {{ pregunta.tprTipoPregunta }}</small></h2>
             <div class="box-icon">
                 <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
             </div>
         </div>
         <div class="box-content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc facilisis, nibh fermentum adipiscing tristique, quam arcu bibendum purus</p>
+            <p>{{ pregunta.prePregunta }}</p>
             <div class="control-group" style="margin-right: 10px;">
-                <textarea style="width: 100%;" ></textarea>                
+                {% if pregunta.tipoId == 1 %} {# pregunta abierta #}
+                    <textarea name="preguntas[{{ pregunta.id }}]" {% if pregunta.preObligatoria %}required="required"{% endif %} style="width: 100%;" ></textarea> 
+                {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
+                    {% for opcion in pregunta.opciones %}
+                        <label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria %}required="required"{% endif %}/>{{ opcion.resRespuesta }}</label>
+                    {% endfor %}
+                {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
+                    {% if pregunta.opciones is defined %}
+                        {% for opcion in pregunta.opciones %}
+                            <label><input type="checkbox" name="preguntas[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if pregunta.preObligatoria %}required="required"{% endif %}/>{{ opcion.resRespuesta }}</label>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
+{% endfor %}
+{{ form_errors(form) }}
+{{ form_widget(form._token) }}
+<div style="text-align: right;">
+    <button type="submit" class="btn btn-primary btn-info btn-large">Enviar respuestas</button>
+</div>
+</form>
 {% else %}
     <div class="row-fluid sortable">		
         <a class="well span12 top-block" style="height: 150px; padding-top: 35px;">

@@ -75,7 +75,7 @@ class InstrumentosController extends Controller
         }
         
         return array(
-            'form'=>$form->createView(), 
+            'form' => $form->createView(), 
             'proyectos' => $proyectos,
             'instrumentos' => $instrumentos
         ); 
@@ -129,7 +129,7 @@ class InstrumentosController extends Controller
                     $em->persist($pregunta);
                     $em->flush();
                     
-                    if($data['tipoPregunta'] == 2) // Cerradas
+                    if($data['tipoPregunta'] != 1) // Cerradas
                     {                    
                         foreach($opciones as $ko => $o)
                         {
@@ -348,7 +348,7 @@ class InstrumentosController extends Controller
                     $query->getResult();
                     
                     // Registrar las nuevas opciones de respuesta
-                    if($pregunta->getTipoPregunta() == 2) // Cerradas
+                    if($pregunta->getTipoPregunta() != 2) // Cerradas
                     {                    
                         foreach($opciones as $ko => $o)
                         {

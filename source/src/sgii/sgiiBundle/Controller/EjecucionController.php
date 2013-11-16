@@ -22,7 +22,7 @@ class EjecucionController extends Controller
      * @author Diego Malagón <diego-software@hotmail.com>
      * @return Response
      */
-    public function indexAction($id)
+    public function indexAction(Request $request, $id)
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
@@ -32,6 +32,7 @@ class EjecucionController extends Controller
         
         $participo = $this->usuarioParticipoInstrumento($id, $usuarioId);
         $instrumento = false;
+        $preguntas = false;
         
         if(!$participo['invitado']) // si no esta invitado al instrumento
         {
@@ -44,14 +45,51 @@ class EjecucionController extends Controller
             
             if($instrumento)
             {
-                
+                $preguntas = $this->getPreguntas($id);
             }
+            
+            $form = $this->createFormBuilder()->getForm(); 
+            
+            
         }
         
         return array(
+            'id' => $id,
+            'form' => $form->createView(), 
             'participo' => $participo['participo'],
-            'instrumento' => $instrumento
+            'instrumento' => $instrumento,
+            'preguntas' => $preguntas
         );
+    }
+    
+    /**
+     * Accion para procesar el formulario del cuestionario
+     * 
+     * @Route("/{id}/procesar", name="procesar_ejecucion_instrumento")
+     * @Method({"POST"})
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @return Response
+     */
+    public function procesarAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $form = $this->createFormBuilder()->getForm();
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $request->get('preguntas');
+                echo "correcto";
+                $security->debug($data);
+            }
+        }        
+        
+        return new Response();
     }
     
     /**
@@ -141,7 +179,64 @@ class EjecucionController extends Controller
      */
     private function getPreguntas($instrumentoId)
     {
+        $preguntas = array();
         
+        $em = $this->getDoctrine()->getManager();
+        
+        $dql = "SELECT
+                    p.id,
+                    p.prePregunta,
+                    p.preObligatoria,
+                    tp.id tipoId,
+                    tp.tprTipoPregunta
+                FROM
+                    sgiiBundle:TblPregunta p
+                    JOIN sgiiBundle:TblTipoPregunta tp WITH p.tipoPregunta = tp.id
+                WHERE 
+                    p.herramienta = :instrumentoId
+                    AND p.preEstado = 1
+                ORDER BY p.preOrden
+                    ";
+        $query = $em->createQuery($dql);
+        $query->setParameter("instrumentoId", $instrumentoId);
+        $result_preguntas = $query->getResult();
+        
+        
+        
+        // Crear array con ids por keys y array de ids para consultar preguntas
+        if(count($result_preguntas)>0)
+        {
+            $ids = array();
+            foreach($result_preguntas as $p)
+            {
+                $preguntas[$p['id']] = $p;
+                $ids[] = $p['id'];
+            }
+            
+            // Consultar las opciones de respuesta de las preguntas
+            $dql = "SELECT
+                        r.id,
+                        r.resRespuesta,
+                        r.pregunta
+                    FROM
+                        sgiiBundle:TblRespuesta r
+                    WHERE 
+                        (r.pregunta = ".implode(" OR r.pregunta = ", $ids).") ";
+            $query = $em->createQuery($dql);
+            $result_opciones = $query->getResult();
+            
+            
+            // Agregar resultado de respuestas a cada pregunta
+            
+            foreach($result_opciones as $o)
+            {
+                $preguntas[$o['pregunta']]['opciones'][] = $o; 
+            }            
+        }
+        
+        
+        
+        return $preguntas;
     }
     
 }

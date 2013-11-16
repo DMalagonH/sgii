@@ -11,7 +11,7 @@
 (10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento,restricciones_instrumento,delete_usuario_instrumento'),
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', '1', 'import,import_usuarios'),
-(13, 'ejecucion_instrumento', '1', 'ejecucion_instrumento');
+(13, 'ejecucion_instrumento', '1', 'ejecucion_instrumento,procesar_ejecucion_instrumento');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
