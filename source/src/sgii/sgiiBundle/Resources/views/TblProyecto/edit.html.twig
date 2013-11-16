@@ -1,0 +1,73 @@
+ {% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_proyectos' %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Nuevo proyecto</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content" style='padding-top:30px;'>
+                <form class="form-horizontal" action="{{ path('proyectos_edit', {'id': entity.id }) }}" method="POST" {{ form_enctype(form) }}>
+                    <fieldset>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Nombre: </label>
+                            <div class="controls span10">{{ form_widget(form.proNombre, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Descripción: </label>
+                            <div class="controls span10">{{ form_widget(form.proDescripcion, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Pregunta problema: </label>
+                            <div class="controls span10">{{ form_widget(form.proProblema, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Conclusiones: </label>
+                            <div class="controls span10">{{ form_widget(form.proConclusiones, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Demostraciones: </label>
+                            <div class="controls span10">{{ form_widget(form.proDemostraciones, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Recomendaciones: </label>
+                            <div class="controls span10">{{ form_widget(form.proRecomendaciones, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Estado del proyecto: </label>
+                            <div class="controls span10">{{ form_widget(form.estadoProyectoId, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Tipo de investigación: </label>
+                            <div class="controls span10">{{ form_widget(form.tipoInvestigacionId, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Línea de investigación: </label>
+                            <div class="controls span10">{{ form_widget(form.lineaInvestigacionId, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                        <div class="control-group row-fluid">
+                            <label class="control-label span2" for="typeahead">Estado: </label>
+                            <div class="controls span10">{{ form_widget(form.proEstado, {'attr': {'class':'span10'}} ) }}</div>
+                        </div>
+                            
+                        {{ form(form) }}
+                        {{ form_errors(form) }}
+                        {{ form_widget(form._token) }}
+                        <div class="form-actions center">
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            <a href="{{ path('proyectos') }}" class="btn">Cancelar</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>                
+    </div>
+{% endblock %}

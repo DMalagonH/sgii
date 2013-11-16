@@ -328,6 +328,22 @@ class GenericQueriesService
     }
     
     /**
+     * Borrar Usuarios del proyecto
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $proyectoId Id del proyecto
+     */
+    public function deletUsuariosProyecto($proyectoId)
+    {
+        $dql = "DELETE FROM sgiiBundle:TblUsuarioProyecto up
+            WHERE up.proyectoId =:proyectoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        $query->getResult();
+    }
+    
+    /**
      * Funcion que obtiene los perfiles retornandolas como array
      * - acceso desde TblUsuarioController
      * 
@@ -471,6 +487,127 @@ class GenericQueriesService
             }
         }
         return $ArrayNiv;
+    }
+    
+    /**
+     * Funcion que obtiene los Estados de proyecto
+     * - acceso desde TblProyectosController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array En donde la clave es el Id del estado
+     */
+    public function getEstadoProyectoArray()
+    {
+        $dql = "SELECT ep.id, ep.eprEstadoProyecto
+            FROM sgiiBundle:TblEstadoProyecto ep
+            WHERE ep.eprEstado = 1";
+        $query = $this->em->createQuery($dql);
+        $estadoProyecto = $query->getResult();
+        
+        $ArrayEp = Array();
+        if ($estadoProyecto) {
+            foreach ($estadoProyecto as $ep){
+                $ArrayEp[$ep['id']] = $ep['eprEstadoProyecto'];
+            }
+        }
+        return $ArrayEp;
+    }
+    
+    /**
+     * Funcion que obtiene los Tipos de investigación
+     * - acceso desde TblProyectosController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array En donde la clave es el Id del tipo de investigación
+     */
+    public function getTipoInvestigacionArray()
+    {
+        $dql = "SELECT ti.id, ti.tinNombreTipo
+            FROM sgiiBundle:TblTipoInvestigacion ti
+            WHERE ti.tinEstado = 1";
+        $query = $this->em->createQuery($dql);
+        $tipoInvestigacion = $query->getResult();
+        
+        $ArrayTi = Array();
+        if ($tipoInvestigacion) {
+            foreach ($tipoInvestigacion as $ti){
+                $ArrayTi[$ti['id']] = $ti['tinNombreTipo'];
+            }
+        }
+        return $ArrayTi;
+    }
+    
+    /**
+     * Funcion que obtiene las lineas de investigación
+     * - acceso desde TblProyectosController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @return array En donde la clave es el Id de las lineas de investigación
+     */
+    public function getLineasInvestigacionArray()
+    {
+        $dql = "SELECT li.id, li.linNombreInvestigacion
+            FROM sgiiBundle:TblLineaInvestigacion li
+            WHERE li.linEstado = 1";
+        $query = $this->em->createQuery($dql);
+        $lineaInvestigacion = $query->getResult();
+        
+        $ArrayLi = Array();
+        if ($lineaInvestigacion) {
+            foreach ($lineaInvestigacion as $li){
+                $ArrayLi[$li['id']] = $li['linNombreInvestigacion'];
+            }
+        }
+        return $ArrayLi;
+    }
+    
+    /**
+     * Funcion que obtiene los proyectos
+     * - Acceso desde TblProyectosController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param integer $id id del proyecto si busca uno en específico
+     * @return array
+     */
+    public function getProyectos($id = null)
+    {
+        $return = false;
+        $dql = "SELECT p.id, p.proNombre, p.proDescripcion, p.proProblema, p.proFechaCreacion, p.proConclusiones, 
+                    p.proDemostraciones, p.proRecomendaciones, p.proEstado, 
+                    p.usuarioId, u.usuNombre, u.usuApellido,
+                    p.lineaInvestigacionId, ti.tinNombreTipo,
+                    p.estadoProyectoId, ep.eprEstadoProyecto,
+                    p.tipoInvestigacionId, li.linNombreInvestigacion
+                FROM sgiiBundle:TblProyecto p
+                LEFT JOIN sgiiBundle:TblEstadoProyecto ep WITH ep.id = p.estadoProyectoId
+                LEFT JOIN sgiiBundle:TblLineaInvestigacion li WITH li.id = p.lineaInvestigacionId
+                LEFT JOIN sgiiBundle:TblTipoInvestigacion ti WITH ti.id = p.tipoInvestigacionId
+                LEFT JOIN sgiiBundle:TblUsuario u WITH u.id = p.usuarioId
+                ";
+        if($id != null) {
+            $dql .= " WHERE p.id = :id";
+        }
+        
+        $query = $this->em->createQuery($dql);
+        if($id != null) {
+            $query->setParameter('id', $id);
+            $query->setMaxResults(1);
+        }
+        $result = $query->getResult();
+        
+        if(count($result)>0) {
+            if($id != null) {
+                $return = $result[0];
+            }
+            else {
+                $return = $result;
+            }
+        }
+        return $return;
     }
 }
 ?>
