@@ -1,0 +1,48 @@
+<?php
+
+namespace sgii\sgiiBundle\Services;
+
+class MailService
+{
+    protected $mailer;
+    protected $templating; 
+    
+    function __construct($mailer, $templating)
+    {
+        $this->mailer = $mailer;
+        $this->templating = $templating;
+    }
+    
+    /**
+     * Funcion para enviar un correo
+     * 
+     * @param string|array $email correo o lista de correos
+     * @param string $subject asunto
+     * @param array $data arreglo de datos para la vista del email
+     * @param string $tipo forma de envio: to|cc|bcc
+     */
+    public function sendMail($email, $subject, $data, $tipo = 'to')
+    {
+        $mail = \Swift_Message::newInstance()
+            ->setSubject($subject)
+            ->setFrom('no_reply@sgii.com', 'SGII')
+            ->setBody($this->templating->render('::mail.html.twig', $data), 'text/html');
+        
+        if($tipo == 'to')
+        {
+            $mail->setTo($email);
+        }
+        elseif($tipo == 'cc')
+        {
+            $mail->setCc($email);
+        }
+        elseif($tipo == 'bcc')
+        {
+            $mail->setBcc($email);
+        }
+        
+        
+        $this->mailer->send($mail);
+    }
+}
+?>

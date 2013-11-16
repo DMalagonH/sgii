@@ -1,0 +1,96 @@
+{% extends "::base.html.twig" %}
+
+{% block menu %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row-fluid">
+    <div class="box span6">
+        <div class="box-header well" data-original-title>
+            <h2><i class="icon-upload"></i> Importar usuarios</h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <form class="form-horizontal" action="{{ path('import') }}" method="POST" style="margin-bottom: 0px;" {{ form_enctype(form) }}>
+                <fieldset>
+                    <div class="control-group" style="display: none; margin-bottom: 8px;">
+                        Tabla:
+                        {{ form_widget(form.tabla, {'attr':{'class':'input-large span12'} }) }}                                
+                    </div>
+                    <div class="control-group" style="margin-bottom: 8px;">
+                        Archivo (.xlsx unicamente):
+                        {{ form_widget(form.file, {'attr':{'class':'input-large span12', 'accept':'.xlsx'} }) }} 
+                        <i  data-rel="popover" data-placement="bottom" class="icon-info-sign help-tooltip icon icon-color icon-info" title="Indicaciones para el archivo de importación" data-content="
+                            <b>El archivo para importar usuarios debe contener las siguientes columnas en el mismo orden:</b><br/>
+                            <ul>
+                                <li>Cédula</li>
+                                <li>Nombres (Obligatorio)</li>
+                                <li>Apellidos (Obligatorio)</li>
+                                <li>Email (Obligatorio)</li>
+                                <li>Cargo</li>
+                                <li>Nivel</li>
+                                <li>Departamento/Area</li>
+                                <li>Organización</li>
+                            </ul>">                                
+                        </i>
+                    </div>
+                    <div class="control-group" style="margin-bottom: 8px;">
+                        Número de filas a leer del archivo:
+                        {{ form_widget(form.filas, {'attr':{'class':'input-large span2'} }) }}                                
+                    </div>
+                    {{ form_errors(form) }}
+                    {{ form_widget(form._token) }}
+                    <div class="control-group" style="margin-bottom: 8px; text-align: right;">
+                        <input type="submit" value="Importar" class="btn btn-primary btn-info"/>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="box span6">
+        <div class="box-header well" data-original-title>
+            <h2><i class="icon-bell"></i> Resultados de la importación</h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            {% if import_result %}
+                <div class="alert alert-info">
+                    <b>Registros importados:</b> {{ import_result.importados }}<br/>
+                    <b>Registros no importados:</b> {{ import_result.no_importados }}<br/>
+                    <b>Resultados:</b><br/>
+                    <ul>                    
+                    {% for msg in import_result.msg %}
+                        <li>{{ msg }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Aquí se mostrarán los resultados de la importación.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="modal hide fade" id="modal-info" data-backdrop="static" data-keyboard="false">
+    <div class="modal-header">
+        <h3>Importación en ejecución</h3>
+    </div>
+    <div class="modal-body" style="text-align: center;">
+        <p>Esto puede tomar algunos minutos, por favor espere...</p>
+        <img src="{{ asset('img/ajax-loaders/ajax-loader-7.gif') }}" title="img/ajax-loaders/ajax-loader-7.gif">
+    </div>
+</div>
+{% endblock body %}
+{% block script %}
+<script>
+    $(".box-content").on('submit', 'form', function(){
+        $("#modal-info").modal('show');
+    });
+</script>
+{% endblock script %}

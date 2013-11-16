@@ -4,6 +4,9 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="ushFechaActivoInicio" type="datetime" column="ush_fecha_activo_inicio" nullable="true"/>
+    <field name="ushFechaActivoFin" type="datetime" column="ush_fecha_activo_fin" nullable="true"/>
+    <field name="ushFechaAplico" type="datetime" column="ush_fecha_aplico" nullable="true"/>
     <field name="ushAplico" type="boolean" column="ush_aplico" nullable="true"/>
     <many-to-one field="usuario" target-entity="TblUsuario">
       <join-columns>

@@ -21,6 +21,7 @@ $(document).ready(function () {
                 dataType: "json",
                 success: function (response){
                     if(response.status === "success"){
+                        $(".modal").modal('hide');
                         parent.remove();
                     }
                     noty({"text":response.message,"layout":"topCenter","type":response.status});

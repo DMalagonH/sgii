@@ -23,6 +23,7 @@ class GenericQueriesService
     /**
      * Funcion que obtiene las organizaciones
      * 
+     * @author Diego Malagón <diego-software@hotmail.com>
      * @param integer $id id de organizacion si busca una en especifico
      * @return array
      */
@@ -71,6 +72,7 @@ class GenericQueriesService
     /**
      * Funcion que obtiene los cargos
      * 
+     * @author Diego Malagón <diego-software@hotmail.com>
      * @param integer $id id de cargo uno en especifico
      * @return array
      */
@@ -118,6 +120,7 @@ class GenericQueriesService
     /**
      * Funcion que obtiene los departamentos/areas
      * 
+     * @author Diego Malagón <diego-software@hotmail.com>
      * @param integer $id id de departamento si busca uno en especifico
      * @return array
      */
@@ -136,6 +139,54 @@ class GenericQueriesService
         if($id != null)
         {
             $dql .= "WHERE d.id = :id";
+        }
+        
+        $query = $this->em->createQuery($dql);
+        
+        if($id != null)
+        {
+            $query->setParameter('id', $id);
+            $query->setMaxResults(1);
+        }
+        $result = $query->getResult();
+        
+        if(count($result)>0)
+        {
+            if($id != null)
+            {
+                $return = $result[0];
+            }
+            else
+            {
+                $return = $result;
+            }
+        }
+        
+        return $return;
+    }
+    
+    /**
+     * Funcion que obtiene los niveles
+     * 
+     * @author Diego Malagón <diego-software@hotmail.com>
+     * @param integer $id id de nivel si busca uno en especifico
+     * @return array
+     */
+    public function getNiveles($id = null)
+    {
+        $return = false;
+        
+        $dql = "SELECT 
+                    n.id,
+                    n.nivNombre,
+                    n.nivDescripcion
+                FROM 
+                    sgiiBundle:TblNivel n
+        ";
+        
+        if($id != null)
+        {
+            $dql .= "WHERE n.id = :id";
         }
         
         $query = $this->em->createQuery($dql);
@@ -199,7 +250,8 @@ class GenericQueriesService
             
     /**
      * Funcion que verifica si existe un usuario registrado con el email
-     * 
+     *     
+     * @author Diego Malagón <diego-software@hotmail.com>
      * @param string $email email a verificar
      * @param integer $id id de usuario, se usa en caso de verificar que no exista un usuario con el mismo correo a excepcion del usuario con este id
      */
@@ -475,11 +527,7 @@ class GenericQueriesService
      */
     public function getNivelesArray()
     {
-        $dql = "SELECT n.id, n.nivNombre
-            FROM sgiiBundle:TblNivel n";
-        $query = $this->em->createQuery($dql);
-        $niveles = $query->getResult();
-        
+        $niveles = $this->getNiveles();        
         $ArrayNiv = Array();
         if ($niveles) {
             foreach ($niveles as $niv){

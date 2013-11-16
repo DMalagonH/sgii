@@ -364,7 +364,7 @@ COMMENT = 'TABLA REFENCIAL DE PREGUNTAS';
 CREATE TABLE IF NOT EXISTS `tbl_respuesta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `res_respuesta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Respuesta',
-  `res_peso` INT(3) NOT NULL DEFAULT 0,
+  `res_peso` FLOAT NOT NULL DEFAULT 0,
   `res_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `pregunta_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -515,6 +515,9 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_herramienta` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `herramienta_id` INT NOT NULL COMMENT 'id de la herramienta',
   `usuario_id` INT NOT NULL COMMENT 'id del usuario invitado a contestar la herramienta\n',
+  `ush_fecha_activo_inicio` DATETIME NULL COMMENT 'fecha de inicio para poder aplicar',
+  `ush_fecha_activo_fin` DATETIME NULL COMMENT 'fecha fin para poder aplicar',
+  `ush_fecha_aplico` DATETIME NULL COMMENT 'fecha en la que aplica',
   `ush_aplico` TINYINT(1) NULL COMMENT 'indica si el usuario ya aplico a la herramienta',
   INDEX `fk_tbl_herramienta_has_tbl_usuario_tbl_usuario1_idx` (`usuario_id` ASC),
   INDEX `fk_tbl_herramienta_has_tbl_usuario_tbl_herramienta1_idx` (`herramienta_id` ASC),

@@ -169,7 +169,7 @@ class InstrumentosService
         $query->getResult(); 
         
         // Eliminar usuarios asociados al instrumento
-        $dql = "DELETE FROM sgiiBundle:TblUsuarioHerramienta ui WHERE ui.herramientaId = :instrumentoId ";
+        $dql = "DELETE FROM sgiiBundle:TblUsuarioHerramienta ui WHERE ui.herramienta = :instrumentoId ";
         $query = $this->em->createQuery($dql);
         $query->setParameter('instrumentoId', $instrumentoId);
         $query->getResult(); 
@@ -331,5 +331,257 @@ class InstrumentosService
         {
             return false;
         }
+    }
+    
+    /**
+     * Funcion para obtener los usuarios invitados a aplicar en un instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     */
+    public function getUsuariosInstrumento($instrumentoId)
+    {
+        $dql = "SELECT
+                    uh.id,
+                    u.id usuarioId,
+                    u.usuCedula,
+                    u.usuNombre,
+                    u.usuApellido,
+                    u.usuLog,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin,
+                    uh.ushFechaAplico,
+                    uh.ushAplico,
+                    c.carNombre,
+                    n.nivNombre,
+                    d.depNombre,
+                    o.orgNombre
+                FROM 
+                    sgiiBundle:TblUsuarioHerramienta uh
+                    JOIN sgiiBundle:TblUsuario u WITH u.id = uh.usuario
+                    LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
+                    LEFT JOIN sgiiBundle:TblNivel n WITH u.nivelId = n.id
+                    LEFT JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
+                    LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
+                WHERE 
+                    uh.herramienta = :instrumentoId
+                ORDER BY u.usuApellido, u.usuNombre
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $instrumentoId);  
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para buscar usuarios
+     * 
+     * @param array $data arreglo con criterios de busqueda
+     * @param string $operador
+     * @return array arreglo de usuarios
+     */
+    public function buscarUsuario($data, $instrumentoId, $operador = 'OR')
+    {
+        // Preparacion de la consulta
+        $dql = "SELECT
+                    u.id,
+                    u.usuCedula,
+                    u.usuNombre,
+                    u.usuApellido,
+                    u.usuLog,
+                    c.carNombre,
+                    n.nivNombre,
+                    d.depNombre,
+                    o.orgNombre
+                FROM
+                    sgiiBundle:TblUsuario u
+                    LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
+                    LEFT JOIN sgiiBundle:TblNivel n WITH u.nivelId = n.id
+                    LEFT JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
+                    LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
+                    LEFT JOIN sgiiBundle:TblUsuarioHerramienta uh WITH u.id = uh.usuario AND uh.herramienta = :instrumentoId
+                WHERE
+                    uh.herramienta IS NULL";
+                    
+        $where = array();
+        
+        if(!empty($data['nombre']))
+        {
+            $where[] = " u.usuNombre LIKE :usuNombre ";
+        }
+        if(!empty($data['apellido']))
+        {
+            $where[] = " u.usuApellido LIKE :usuApellido ";
+        }
+        if(!empty($data['email']))
+        {
+            $where[] = " u.usuLog = :usuLog ";
+        }
+        if(!empty($data['cargo']))
+        {
+            $where[] = " u.cargoId = :cargoId ";
+        }
+        if(!empty($data['nivel']))
+        {
+            $where[] = " u.nivelId = :nivelId ";
+        }
+        if(!empty($data['departamento']))
+        {
+            $where[] = " u.departamentoId = :departamentoId ";
+        }
+        if(!empty($data['organizacion']))
+        {
+            $where[] = " u.organizacionId = :organizacionId ";
+        }
+        
+        if(count($where)>0)
+        {
+            $dql .= " AND ".implode($operador, $where);
+        }
+        
+        $dql .= " GROUP BY u.id
+                  ORDER BY u.usuApellido, u.usuNombre ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('instrumentoId', $instrumentoId);
+        
+        // paso de parametros a la consulta
+        if(!empty($data['nombre']))
+        {
+            $query->setParameter('usuNombre', '%'.$data['nombre'].'%');
+        }
+        if(!empty($data['apellido']))
+        {
+            $query->setParameter('usuApellido', '%'.$data['apellido'].'%');
+        }
+        if(!empty($data['email']))
+        {
+            $query->setParameter('usuLog', $data['email']);
+        }
+        if(!empty($data['cargo']))
+        {
+            $query->setParameter('cargoId', $data['cargo']);
+        }
+        if(!empty($data['nivel']))
+        {
+            $query->setParameter('nivelId', $data['nivel']);
+        }
+        if(!empty($data['departamento']))
+        {
+            $query->setParameter('departamentoId', $data['departamento']);
+        }
+        if(!empty($data['organizacion']))
+        {
+            $query->setParameter('organizacionId', $data['organizacion']);
+        }
+        
+        //Ejecucion de la consulta
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para eliminar un usuario de un instrumento
+     * 
+     * @param integer $instrumentoId id de instrumento
+     * @param integer $usuarioId id de usuario
+     * @return boolean true si se realiza la eliminacion, false en caso contrario
+     */
+    public function deleteUsuarioInstrumento($instrumentoId, $usuarioId)
+    {
+        $usu_inst = $this->em->getRepository("sgiiBundle:TblUsuarioHerramienta")->findOneBy(array('herramienta'=>$instrumentoId, 'usuario'=>$usuarioId));
+        
+        if($usu_inst)
+        {
+            if($usu_inst->getUshAplico() != 1)
+            {
+                $this->em->remove($usu_inst);
+                $this->em->flush();
+                
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Funcion que obtiene una lista de instrumentos activos a los que fue invitado el usuario
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return array arreglo de instrumentos
+     */
+    public function getInstrumentosUsuario($usuarioId)
+    {
+        /**
+         * SELECT uh.* FROM 
+         * tbl_usuario_herramienta uh
+         * JOIN tbl_herramienta h ON uh.herramienta_id = h.id
+         * WHERE 
+         * uh.usuario_id = 1
+         * AND h.her_estado = 1
+         * AND uh.ush_aplico = 0
+         * AND (uh.ush_fecha_activo_inicio <= current_date() OR uh.ush_fecha_activo_inicio IS NULL)
+         * AND (uh.ush_fecha_activo_fin >= current_date() OR uh.ush_fecha_activo_fin IS NULL)
+         */
+        
+        $dql = "SELECT 
+                    h.id,
+                    h.herNombreHerramienta, 
+                    th.theNombreHerramienta,
+                    p.proNombre,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin
+                FROM 
+                    sgiiBundle:TblHerramienta h
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH h.id = uh.herramienta
+                    JOIN sgiiBundle:TblTipoHerramienta th WITH th.id = h.tipoHerramienta
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
+                WHERE 
+                    uh.usuario = :usuarioId
+                    AND h.herEstado = 1
+                    AND uh.ushAplico = 0
+                    AND (uh.ushFechaActivoInicio <= :current_date OR uh.ushFechaActivoInicio IS NULL)
+                    AND (uh.ushFechaActivoFin >= :current_date OR uh.ushFechaActivoFin IS NULL)";
+        
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $query->setParameter('current_date', new \DateTime());
+        
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para obtener el historial de participaciones del usuario
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return array
+     */
+    public function getHistorialInstrumentosUsuario($usuarioId)
+    {
+        $dql = "SELECT
+                    h.id,
+                    h.herNombreHerramienta,
+                    p.proNombre,
+                    uh.ushFechaActivoInicio,
+                    uh.ushFechaActivoFin,
+                    uh.ushAplico,
+                    uh.ushFechaAplico
+                FROM
+                    sgiiBundle:TblHerramienta h
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH h.id = uh.herramienta
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
+                WHERE 
+                    uh.usuario = :usuarioId
+                " ;
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        
+        $result = $query->getResult();
+        
+        return $result;
     }
 }

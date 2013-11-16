@@ -101,7 +101,7 @@ class PerfilController extends Controller
                 $queries = $this->get('queries');
                 if(!$queries->existsEmail($data['correo'], $usuarioId))
                 {
-                    $em = $this->getDoctrine()->getEntityManager();
+                    $em = $this->getDoctrine()->getManager();
                     $usuario = $em->getRepository('sgiiBundle:TblUsuario')->findOneById($usuarioId);
 
                     $usuario->setUsuNombre($data['nombre']);
@@ -147,7 +147,7 @@ class PerfilController extends Controller
     private function getUsuario($usuarioId)
     {
         $return = false;
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getManager();
         $dql = "SELECT 
                     u.id,
                     u.usuCedula,
@@ -217,7 +217,7 @@ class PerfilController extends Controller
             {
                 $data = $form->getData();
                 
-                $em = $this->getDoctrine()->getEntityManager();
+                $em = $this->getDoctrine()->getManager();
                 $dql = "SELECT COUNT(u.id) c FROM sgiiBundle:TblUsuario u
                         WHERE u.id = :usuarioId AND u.usuPassword = :pass";
                 $query = $em->createQuery($dql);

@@ -29,9 +29,9 @@ class TblRespuesta
     private $resRespuesta;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="res_peso", type="integer", nullable=false)
+     * @ORM\Column(name="res_peso", type="float", nullable=false)
      */
     private $resPeso;
 
@@ -87,7 +87,7 @@ class TblRespuesta
     /**
      * Set resPeso
      *
-     * @param integer $resPeso
+     * @param float $resPeso
      * @return TblRespuesta
      */
     public function setResPeso($resPeso)

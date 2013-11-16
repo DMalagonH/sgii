@@ -8,9 +8,11 @@
 (7, 'tipo_investigacion', 1, 'tipoinvestigacion,tipoinvestigacion_show,tipoinvestigacion_new,tipoinvestigacion_edit,tipoinvestigacion_delete'),
 (8, 'errores', 1, 'errores'),
 (9, 'auditoria', 1, 'auditoria'),
-(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta'),
+(10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento,restricciones_instrumento,delete_usuario_instrumento'),
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
-(12, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete');
+(12, 'import', 1, 'import,import_usuarios'),
+(13, 'ejecucion_instrumento', 1, 'ejecucion_instrumento'),
+(14, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -44,7 +46,14 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('3', '11'),
 ('1', '12'),
 ('2', '12'),
-('3', '12');
+('3', '12'),
+('1', '13'),
+('2', '13'),
+('3', '13'),
+('4', '13'),
+('1', '14'),
+('2', '14'),
+('3', '14');
 
 INSERT INTO `tbl_usuario`
 (`id`,
@@ -127,3 +136,10 @@ INSERT INTO `tbl_tipo_investigacion` (`id`, `tin_nombre_tipo`, `tin_estado`) VAL
 
 INSERT INTO `tbl_linea_investigacion` (`id`, `lin_nombre_investigacion`, `lin_estado`) VALUES 
 (1, 'En el ámbito de la Didáctica y la Organización Escolar', '1');
+
+INSERT INTO `tbl_estado_proyecto` (`id`, `epr_estado_proyecto`, `epr_estado`) VALUES 
+(1, 'En proceso', '1'),
+(2, 'En seguimiento', '1'),
+(3, 'En riesgo', '1'),
+(4, 'Terminado', '1');
+

@@ -3,6 +3,8 @@ parameters:
     validate.class: sgii\sgiiBundle\Services\ValidateService
     instrumentos.class: sgii\sgiiBundle\Services\InstrumentosService
     queries.class:  sgii\sgiiBundle\Services\GenericQueriesService
+    import.class:  sgii\sgiiBundle\Services\ImportService
+    mail.class:  sgii\sgiiBundle\Services\MailService
 
 services:
 # SERVICES
@@ -10,14 +12,20 @@ services:
         class: %security.class%
         arguments: ["@doctrine", "@session"]
     validate:
-        class: %security.class%
+        class: %validate.class%
+        arguments: ["@validator"]
     queries:
         class: %queries.class%
         arguments: ["@doctrine", "@session"]
     instrumentos:
         class: %instrumentos.class%
         arguments: ["@doctrine", "@session"]
-        
+    import:
+        class: %import.class%
+        arguments: ["@service_container"]
+    mail:
+        class: %mail.class%
+        arguments: ["@mailer", "@templating"]
         
     kernel.listener.listener:
         class: sgii\sgiiBundle\EventListener\sgiiExceptionListener
