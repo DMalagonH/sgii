@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use sgii\sgiiBundle\Entity\TblProyecto;
+use sgii\sgiiBundle\Entity\TblHipotesis;
 use sgii\sgiiBundle\Entity\TblUsuarioProyecto;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -62,6 +63,7 @@ class TblProyectoController extends Controller
         }
         
         $integrantes = $this->get('queries')->getUsuariosProyecto($id);
+        $hipotesis = $this->get('queries')->getHipotesisProyecto($id);
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -69,6 +71,7 @@ class TblProyectoController extends Controller
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
             'integrantes' => $integrantes,
+            'hipotesis'   => $hipotesis,
         );
     }
 
@@ -287,7 +290,7 @@ class TblProyectoController extends Controller
      * @version 1
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response 0=>Exitoso 1=>Error
-     * @Route("/cambioPryUser", name="crud_proyecto_usuario")
+     * @Route("/PryUser", name="crud_proyecto_usuario")
      * @Method("POST")
      */
     public function changeEstadoUserProyectoAction(Request $request)
@@ -362,8 +365,77 @@ class TblProyectoController extends Controller
         }
         return new response($btn);
     }
-    
-    
+
+    /**
+     * CRUD de hipotesis de proyecto por POST
+     * 
+     * Agregar hipotesis al proyecto, y eliminarlas.
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response 0=>Exitoso 1=>Error
+     * @Route("/hipotesis", name="crud_hipotesis")
+     * @Method("POST")
+     */
+    public function CrudHipotesisAction(Request $request)
+    {
+        $security = $this->get('security');
+        $authen = $security->autentication();
+        $acceso = $security->autorization($this->getRequest()->get('_route'));
+
+        $NoError = 1;
+        $renderNewHip = '';
+        if($request->isXmlHttpRequest() && ($request->getMethod() == 'POST') && $acceso && $authen)
+        {
+            $hipotesis = $request->request->get('hipotesis');
+            $estado = $request->request->get('estado');
+            $proyectoId = $request->request->get('proyectoId');
+            $accion = $request->request->get('accion');
+            $em = $this->getDoctrine()->getManager();
+            
+            if ($hipotesis != '') {
+                if ($accion == 'add') {
+                    $nHipotesis = New TblHipotesis();
+                    $nHipotesis->setHipHipotesis($hipotesis);
+                    $nHipotesis->setHipEstado($estado);
+                    $nHipotesis->setProyectoId($proyectoId);
+                    
+                    $em->persist($nHipotesis);
+                    $em->flush();
+
+                    $renderNewHip =  $this->renderView('sgiiBundle:TblProyecto:showHipotesis.html.twig', 
+                            array('hipotesis'=>$hipotesis, 'hipEstado'=>$estado, 'hipid' => $nHipotesis->getId()));
+                    $NoError = 0;
+                }
+                
+                if ($accion == 'delete') {
+                    $hip = $em->getRepository('sgiiBundle:TblHipotesis')->findOneById($hipotesis);
+                    if ($hip) {
+                        $em->remove($hip);
+                        $em->flush();
+                        $NoError = 0;
+                    }
+                }
+            }
+            
+            if ($NoError) {
+                if ($accion == 'add') {
+                    $renderNewHip = "<span STYLE='display:block;text-align:center;' class='label label-important'>Error al agregar</span>";
+                }
+                if ($accion == 'delete') {
+                    $renderNewHip = 1;
+                }
+            }
+        }
+        else {
+            $renderNewHip = "<span STYLE='display:block;text-align:center;' class='label label-important'>Error en solicitud</span>";
+        }
+        
+        return new response($renderNewHip);
+    }
+
+
     //--------------------------------------------/
     //--  M E T O D O S  y   F U N C I O N E S  --/
     //--------------------------------------------/

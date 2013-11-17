@@ -1,4 +1,4 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+﻿SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
@@ -386,8 +386,8 @@ CREATE TABLE IF NOT EXISTS `tbl_hipotesis` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hip_hipotesis` VARCHAR(500) NOT NULL DEFAULT '0',
   `hip_estado` TINYINT(1) NOT NULL DEFAULT '0',
-  `hip_srguimiento` LONGTEXT NOT NULL,
-  `estado_hipotesis_id` INT NOT NULL COMMENT 'Id estado hipotesis',
+  `hip_srguimiento` LONGTEXT NULL,
+  `estado_hipotesis_id` INT NULL COMMENT 'Id estado hipotesis',
   `proyecto_id` INT NOT NULL COMMENT 'Id proyecto de investigacion',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_thipotesis_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),

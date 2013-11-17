@@ -1,0 +1,14 @@
+<li STYLE='display:block;' id='hip_{{ hipid }}'>
+    <div STYLE='text-align:right;padding-bottom:3px;'>
+        {% if hipEstado == 1 %}
+            <span class="label label-success">Activo</span>
+        {% else %}
+            <span class="label">Inactivo</span>
+        {% endif %}
+        &nbsp;
+        <a class="btn btn-danger btn-mini deleteHipotesis" data-id='{{ hipid }}'>
+            <i class="icon-trash icon-white"></i>
+        </a>
+    </div>
+    {{ hipotesis }}
+</li>

@@ -12,7 +12,7 @@
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', 1, 'import,import_usuarios'),
 (13, 'ejecucion_instrumento', 1, 'ejecucion_instrumento'),
-(14, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete,proyectos_addUsers,crud_proyecto_usuario');
+(14, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete,proyectos_addUsers,crud_proyecto_usuario,crud_hipotesis');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');

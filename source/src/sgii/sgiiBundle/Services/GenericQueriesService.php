@@ -701,5 +701,24 @@ class GenericQueriesService
         $query->setParameter('proyectoId', $proyectoId);
         return $query->getResult();
     }
+    
+    /**
+     * Funcion que retorna el listado de hipotesis incluidos en el proyecto
+     * - acceso desde TblProyectoController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Integer $proyectoId Id del proyecto
+     * @return Array Arreglo de hipotesis del poyecto que ingresa por parametro
+     */
+    public function getHipotesisProyecto($proyectoId)
+    {
+        $dql = 'SELECT h.hipHipotesis, h.hipEstado, h.id
+                FROM sgiiBundle:TblHipotesis h
+                WHERE h.proyectoId =:proyectoId';
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        return $query->getResult();
+    }
 }
 ?>
