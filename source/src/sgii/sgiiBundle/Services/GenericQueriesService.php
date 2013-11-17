@@ -657,5 +657,49 @@ class GenericQueriesService
         }
         return $return;
     }
+    
+    /**
+     * Funcion que retorna el listado de usuarios incluidos en el proyecto
+     * - acceso desde TblProyectoController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Integer $proyectoId Id del proyecto
+     * @return Array Arreglo de usuarios del poyecto que ingresa por parametro
+     */
+    public function getUsuariosProyecto($proyectoId)
+    {
+        $dql = 'SELECT up.id, up.usuarioProyectoTipo, u.usuLog, u.usuNombre, u.usuApellido, u.id AS usuarioId
+                FROM sgiiBundle:TblUsuarioProyecto up
+                JOIN sgiiBundle:TblUsuario u WITH u.id = up.usuarioId
+                WHERE up.proyectoId =:proyectoId
+                ORDER BY up.usuarioProyectoTipo';
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        return $query->getResult();
+    }
+    
+    /**
+     * Funcion que retorna el listado de usuarios que no pertenecen al proyecto excepto usuarios tipo Usuario
+     * - acceso desde TblProyectoController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Integer $proyectoId Id del proyecto
+     * @return Array Arreglo de usuarios que no pertenecen al poyecto que ingresa por parametro
+     */
+    public function getNoUsuariosProyecto($proyectoId)
+    {
+        $dql = 'SELECT up.id, up.usuarioProyectoTipo, 
+                    u.id AS usuarioId, u.usuLog, u.usuNombre, u.usuApellido, u.usuCedula, u.usuEstado, tup.perfilId
+                FROM sgiiBundle:TblUsuario u
+                LEFT JOIN sgiiBundle:TblUsuarioProyecto up WITH u.id = up.usuarioId AND up.proyectoId =:proyectoId
+                LEFT JOIN sgiiBundle:TblUsuarioPerfil tup WITH tup.usuarioId = u.id
+                WHERE up IS NULL AND tup.perfilId != 4
+                GROUP BY u.id';
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        return $query->getResult();
+    }
 }
 ?>

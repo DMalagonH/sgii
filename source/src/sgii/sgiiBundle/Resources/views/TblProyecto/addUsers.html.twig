@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_proyectos' %}
+    {% include '::menu_admin.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+    <div class="row-fluid sortable">
+        <div class="box span12">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-user"></i> Usuarios</h2>
+                <div class="box-icon">
+                    <a href="{{ path('proyectos_show', {'id': proyectoId}) }}" class="btn btn-round btn-text"><i class="icon-backward"></i> Volver</a>
+                    <a href="{{ path('usuarios_new') }}" class="btn btn-round btn-text"><i class="icon-plus"></i> Nuevo</a>
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                {% if entities %}
+                    <table class="table table-striped table-bordered bootstrap-datatable datatable" id='dt_users'>
+                        <thead>
+                            <tr>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Cedula</th>
+                                <th>Email</th><!-- log -->
+                                <th>Estado</th>
+                                <th>Tipo</th>
+                                <th style='text-align:center;'>Opciones</th>
+                                {#<th>Fecha de creación</th>
+                                <th>Organizacion</th>
+                                <th>Departamento</th>
+                                <th>Cargo</th>
+                                <th>Nivel</th>#}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in entities %}
+                                <tr id='user_{{ entity.usuarioId }}'>
+                                    <td>{{ entity.usuApellido }}</td>
+                                    <td>{{ entity.usuNombre }}</td>
+                                    <td>{{ entity.usuCedula }}</td>
+                                    <td>{{ entity.usuLog }}</td>
+                                    <td style='text-align:center;'>
+                                        {% if entity.usuEstado == 1 %}
+                                            <span class="label label-success">Activo</span>
+                                        {% else %}
+                                            <span class="label">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td id='userTipo_{{ entity.usuarioId }}'>
+                                        <select>
+                                            <option value='Investigador'>Investigador</option>
+                                            <option value='Asesor'>Asesor</option>
+                                        </select>
+                                    </td>
+                                    <td style='text-align:center;'>
+                                        <a data-id="{{ entity.usuarioId }}" class="btn btn-success btn-mini addUser"><i class="icon-plus icon-white"></i> Incluir</a>
+                                    </td>
+                                    {#<td>{% if entity.usuFechaCreacion %}{{ entity.usuFechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                    <td>{{ entity.orgNombre }}</td>
+                                    <td>{{ entity.depNombre }}</td>
+                                    <td>{{ entity.carNombre }}</td>
+                                    <td>{{ entity.nivNombre }}</td>
+                                    <td class="center" style="font-size: 10px; width: 95px;text-align:center;">
+                                        <a class="btn btn-success btn-mini" href="{{ path('usuarios_show', {'id': entity.id }) }}" data-rel="tooltip" title="Ver">
+                                            <i class="icon-zoom-in icon-white"></i>        
+                                        </a>
+                                        <a class="btn btn-info btn-mini" href="{{ path('usuarios_edit', {'id': entity.id }) }}" data-rel="tooltip" title="Editar">
+                                            <i class="icon-edit icon-white"></i>            
+                                        </a>
+                                    </td>#}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    No se hay usuarios por agregar a este proyecto
+                {% endif %}
+            </div>
+        </div><!--/span-->
+    </div><!--/row-->    
+{% endblock body %}
+    
+{% block script %}
+    <script>
+        $('.addUser').click(function(){
+            var usuarioId = $(this).data('id');
+            var proyectoId = {{ proyectoId }};
+            var userTipo =  $('#userTipo_'+usuarioId+' option:selected').val();
+            var posActual = $(this).parent();
+            posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/spinner-mini.gif')}}"></div>');
+            $.post('{{ path('crud_proyecto_usuario')}}', { id: usuarioId, tipo: userTipo, accion: 'add', proyectoId: proyectoId },
+                function(data){
+                    posActual.html(data);
+                    $('#userTipo_'+usuarioId+' select').attr('DISABLED', 'DISABLED');
+                }
+            );
+        });
+    </script>
+{% endblock script %}

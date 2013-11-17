@@ -2,6 +2,7 @@
 
 namespace sgii\sgiiBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -59,15 +60,18 @@ class TblProyectoController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find TblProyecto entity.');
         }
+        
+        $integrantes = $this->get('queries')->getUsuariosProyecto($id);
 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'integrantes' => $integrantes,
         );
     }
-    
+
     /**
      * Agregar proyecto
      *
@@ -247,6 +251,118 @@ class TblProyectoController extends Controller
         }
         return $this->redirect($this->generateUrl('proyectos'));
     }
+    
+    /**
+     * Agregar usuarios al proyecto
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @Method("GET")
+     * @return Render ViewRender de listado de usuarios que no pertenecen al proyecto
+     * @Template("sgiiBundle:TblProyecto:addUsers.html.twig")
+     * @Route("/{id}/newUser", name="proyectos_addUsers")
+     */
+    public function addUsersAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $entity = $this->get('queries')->getProyectos($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find TblProyecto entity.');
+        }
+        
+        $entities = $this->get('queries')->getNoUsuariosProyecto($id);
+        return array( 'entities' => $entities, 'proyectoId' => $id);
+    }
+    
+    /**
+     * CRUD de usuarios de proyecto por POST
+     * 
+     * Agregar usuarios al proyecto, modificarles el tipo a los usuario, y eliminar esta relación
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response 0=>Exitoso 1=>Error
+     * @Route("/cambioPryUser", name="crud_proyecto_usuario")
+     * @Method("POST")
+     */
+    public function changeEstadoUserProyectoAction(Request $request)
+    {
+        $security = $this->get('security');
+        $authen = $security->autentication();
+        $acceso = $security->autorization($this->getRequest()->get('_route'));
+
+        $NoError = 1;
+        if($request->isXmlHttpRequest() && ($request->getMethod() == 'POST') && $acceso && $authen)
+        {
+            $usuarioId = $request->request->get('id');
+            $tipo = $request->request->get('tipo');
+            $accion = $request->request->get('accion');
+            $proyectoId = $request->request->get('proyectoId');
+            $em = $this->getDoctrine()->getManager();
+
+            new Response();
+            if ($tipo == 'Investigador' || $tipo == 'Asesor') {
+                if ($accion == 'add') {
+                    $nUserPry = New TblUsuarioProyecto();
+                    $nUserPry->setProyectoId($proyectoId);
+                    $nUserPry->setUsuarioId($usuarioId);
+                    $nUserPry->setUsuarioProyectoTipo($tipo);
+                    $em->persist($nUserPry);
+                    $em->flush();
+                    $NoError = 0;
+                }
+                if ($accion == 'edit') {
+                    $nUserPry = $em->getRepository('sgiiBundle:TblUsuarioProyecto')->findOneBy(Array('proyectoId'=>$proyectoId, 'usuarioId' => $usuarioId));
+                    if ($nUserPry) {
+                        $nUserPry->setUsuarioProyectoTipo($tipo);
+                        $em->persist($nUserPry);
+                        $em->flush();
+                        $NoError = 0;
+                    }
+                }
+                if ($accion == 'delete') {
+                    $nUserPry = $em->getRepository('sgiiBundle:TblUsuarioProyecto')->findOneBy(Array('proyectoId'=>$proyectoId, 'usuarioId' => $usuarioId));
+                    if ($nUserPry) {
+                        $em->remove($nUserPry);
+                        $em->flush();
+                        $NoError = 0;
+                    }
+                }
+            }
+            
+            $btn = '';
+            if ($accion == 'add') {
+                if ($NoError) {
+                    $btn = '<a class="btn btn-danger btn-mini"><i class="icon-user icon-white"></i> Usuario no incluido</a>';
+                } else {
+                    $btn = '<a class="btn btn-defailt btn-mini"><i class="icon-user icon-black"></i> Usuario incluido</a>';
+                }
+            }
+
+            if ($accion == 'edit') {
+                if ($NoError) {
+                    $btn = "<span id='tipoUser_".$usuarioId."' class='label label-danger ctlBasic_".$usuarioId."'>Error en edición</span>";
+                } else {
+                    $classLabel = ($tipo == 'Investigador') ? 'label-success' : 'label-info';
+                    $btn = "<span id='tipoUser_".$usuarioId."' class='label ".$classLabel." ctlBasic_".$usuarioId."'>".$tipo."</span>";
+                    
+                }
+            }
+            
+            if ($accion == 'delete') {
+                $btn = $NoError;
+            }
+        } else {
+            $btn = '<a class="btn btn-danger btn-mini"><i class="icon-user icon-white"></i> Error en solicitud</a>';
+        }
+        return new response($btn);
+    }
+    
     
     //--------------------------------------------/
     //--  M E T O D O S  y   F U N C I O N E S  --/
