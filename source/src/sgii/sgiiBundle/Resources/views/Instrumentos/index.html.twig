@@ -67,7 +67,7 @@
             {# Formulario de instrumento #}
             <form class="form-horizontal" action="{{ path('instrumentos') }}" method="POST" style="margin-bottom: 0px;">
                 <fieldset>
-                    <div class="control-group" style="margin-bottom: 8px;">
+                    <div class="control-group" style="margin-bottom: 8px; display:none;">
                         Tipo de instrumento:
                         {{ form_widget(form.tipoInstrumento, {'attr':{'class':'input-large span12'} }) }}                                
                     </div>

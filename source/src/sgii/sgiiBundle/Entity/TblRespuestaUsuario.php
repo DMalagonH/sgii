@@ -31,30 +31,21 @@ class TblRespuestaUsuario
     /**
      * @var \TblPregunta
      *
-     * @ORM\ManyToOne(targetEntity="TblPregunta")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
      */
     private $pregunta;
 
     /**
      * @var \TblUsuario
      *
-     * @ORM\ManyToOne(targetEntity="TblUsuario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
     private $usuario;
 
     /**
      * @var \TblRespuesta
      *
-     * @ORM\ManyToOne(targetEntity="TblRespuesta")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="respuesta_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="respuesta_id", type="integer", nullable=true)
      */
     private $respuesta;
 
@@ -99,7 +90,7 @@ class TblRespuestaUsuario
      * @param \sgii\sgiiBundle\Entity\TblPregunta $pregunta
      * @return TblRespuestaUsuario
      */
-    public function setPregunta(\sgii\sgiiBundle\Entity\TblPregunta $pregunta = null)
+    public function setPregunta($pregunta = null)
     {
         $this->pregunta = $pregunta;
     
@@ -109,7 +100,7 @@ class TblRespuestaUsuario
     /**
      * Get pregunta
      *
-     * @return \sgii\sgiiBundle\Entity\TblPregunta 
+     * @return integer 
      */
     public function getPregunta()
     {
@@ -122,7 +113,7 @@ class TblRespuestaUsuario
      * @param \sgii\sgiiBundle\Entity\TblUsuario $usuario
      * @return TblRespuestaUsuario
      */
-    public function setUsuario(\sgii\sgiiBundle\Entity\TblUsuario $usuario = null)
+    public function setUsuario($usuario = null)
     {
         $this->usuario = $usuario;
     
@@ -132,7 +123,7 @@ class TblRespuestaUsuario
     /**
      * Get usuario
      *
-     * @return \sgii\sgiiBundle\Entity\TblUsuario 
+     * @return integer
      */
     public function getUsuario()
     {
@@ -145,7 +136,7 @@ class TblRespuestaUsuario
      * @param \sgii\sgiiBundle\Entity\TblRespuesta $respuesta
      * @return TblRespuestaUsuario
      */
-    public function setRespuesta(\sgii\sgiiBundle\Entity\TblRespuesta $respuesta = null)
+    public function setRespuesta($respuesta = null)
     {
         $this->respuesta = $respuesta;
     
@@ -155,7 +146,7 @@ class TblRespuestaUsuario
     /**
      * Get respuesta
      *
-     * @return \sgii\sgiiBundle\Entity\TblRespuesta 
+     * @return integer 
      */
     public function getRespuesta()
     {

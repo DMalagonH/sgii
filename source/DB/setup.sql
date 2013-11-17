@@ -11,7 +11,8 @@
 (10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento,restricciones_instrumento,delete_usuario_instrumento'),
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', '1', 'import,import_usuarios'),
-(13, 'ejecucion_instrumento', '1', 'ejecucion_instrumento,procesar_ejecucion_instrumento');
+(13, 'ejecucion_instrumento', '1', 'ejecucion_instrumento,procesar_ejecucion_instrumento'),
+(14, 'resultados_instrumento', '1', 'resultados_instrumento,resultados_usuario_instrumento');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -49,7 +50,10 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('1', '13'),
 ('2', '13'),
 ('3', '13'),
-('4', '13');
+('4', '13'),
+('1', '14'),
+('2', '14'),
+('3', '14');
 
 
 INSERT INTO `tbl_usuario`
@@ -107,7 +111,7 @@ INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('1', '1');
 INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('2', '1');
 
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('1', 'Cuestionario', '1');
-INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('2', 'Encuesta', '1');
+
 
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');

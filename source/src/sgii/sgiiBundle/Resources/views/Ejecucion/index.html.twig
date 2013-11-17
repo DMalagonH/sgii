@@ -11,6 +11,10 @@
         margin-left: 40px;
         text-transform: lowercase;
     }
+    
+    .error{
+        color: #ff0000;
+    }
 </style>
 {% endblock style %}
 
@@ -46,8 +50,8 @@
         </div>
     </div>
 </div>
-
-<form action="{{ path('procesar_ejecucion_instrumento', {'id': id}) }}" method="POST">
+<div class="form-content">
+<form action="{{ path('procesar_ejecucion_instrumento', {'id': id}) }}" method="POST" id="form">
 {% for pregunta in preguntas %}
 
 <div class="row-fluid">
@@ -65,13 +69,15 @@
                     <textarea name="preguntas[{{ pregunta.id }}]" {% if pregunta.preObligatoria %}required="required"{% endif %} style="width: 100%;" ></textarea> 
                 {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
                     {% for opcion in pregunta.opciones %}
-                        <label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria %}required="required"{% endif %}/>{{ opcion.resRespuesta }}</label>
+                        <label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
                     {% endfor %}
+                    <label for="preguntas[{{ pregunta.id }}]" class="error" style="display:none;"></label>
                 {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
                     {% if pregunta.opciones is defined %}
                         {% for opcion in pregunta.opciones %}
-                            <label><input type="checkbox" name="preguntas[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if pregunta.preObligatoria %}required="required"{% endif %}/>{{ opcion.resRespuesta }}</label>
+                            <label><input type="checkbox" name="preguntas[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
                         {% endfor %}
+                        <label for="preguntas[{{ pregunta.id }}][]" class="error" style="display:none;"></label>
                     {% endif %}
                 {% endif %}
             </div>
@@ -86,14 +92,29 @@
     <button type="submit" class="btn btn-primary btn-info btn-large">Enviar respuestas</button>
 </div>
 </form>
+</div>
 {% else %}
     <div class="row-fluid sortable">		
         <a class="well span12 top-block" style="height: 150px; padding-top: 35px;">
             <div style="font-size:16px; padding-top: 15px;">¡El instrumento no esta disponible!</div>
-            <div style="font-weight: normal; font-size: 12px; line-height: 15px;">El instrumento no esta disponible porque ha sido desactivado o la fecha límite ha pasado.</div>
+            <div style="font-weight: normal; font-size: 12px; line-height: 15px;">El instrumento no esta disponible porque ha sido desactivado o la fecha de participación aun no inicia o ya finalizó.</div>
         </a>
     </div>
 {% endif %}
 {% endif %}
 
 {% endblock body %}
+
+{% block script %}
+<script src="{{ asset('js/jquery.validate.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        
+        $.extend(jQuery.validator.messages, {
+            required: "Esta pregunta es obligatoria.",
+        });
+        
+        $("#form").validate();
+    });
+</script>
+{% endblock script %}

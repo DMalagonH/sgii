@@ -20,19 +20,21 @@ class EjecucionController extends Controller
      * @Route("/{id}", name="ejecucion_instrumento")
      * @Template("sgiiBundle:Ejecucion:index.html.twig")
      * @author Diego Malagón <diego-software@hotmail.com>
+     * @param integer $id id del instrumento
      * @return Response
      */
-    public function indexAction(Request $request, $id)
+    public function indexAction($id)
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $usuarioId = $security->getSessionValue('id');
         
         $participo = $this->usuarioParticipoInstrumento($id, $usuarioId);
         $instrumento = false;
         $preguntas = false;
+        $form = $this->createFormBuilder()->getForm();
         
         if(!$participo['invitado']) // si no esta invitado al instrumento
         {
@@ -41,16 +43,12 @@ class EjecucionController extends Controller
         
         if(!$participo['participo']) // si no ha participado
         {
-            $instrumento = $this->getInstrumento($id);
+            $instrumento = $this->getInstrumento($id, $usuarioId);
             
             if($instrumento)
             {
                 $preguntas = $this->getPreguntas($id);
             }
-            
-            $form = $this->createFormBuilder()->getForm(); 
-            
-            
         }
         
         return array(
@@ -68,13 +66,17 @@ class EjecucionController extends Controller
      * @Route("/{id}/procesar", name="procesar_ejecucion_instrumento")
      * @Method({"POST"})
      * @author Diego Malagón <diego-software@hotmail.com>
+     * @param Request $request
+     * @param integer $id id del instrumento
      * @return Response
      */
     public function procesarAction(Request $request, $id)
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $usuarioId = $security->getSessionValue('id');
         
         $form = $this->createFormBuilder()->getForm();
         
@@ -83,13 +85,80 @@ class EjecucionController extends Controller
             $form->bind($request);
             if ($form->isValid())
             {
-                $data = $request->get('preguntas');
-                echo "correcto";
-                $security->debug($data);
+                $em = $this->getDoctrine()->getManager();
+
+                $usuarioHerramienta = $em->getRepository("sgiiBundle:TblUsuarioHerramienta")->findOneBy(array('usuario'=>$usuarioId, 'herramienta'=>$id));
+                if($usuarioHerramienta)
+                {
+                    // Obtener preguntas del cuestionario
+                    $preguntas = $this->getPreguntas($id);                
+                    $respuestas = $request->get('preguntas');
+//                    
+//                    $security->debug($preguntas);
+//                    $security->debug($respuestas);
+
+                    // Recorrer preguntas del formulario
+                    foreach($respuestas as $preguntaId => $respuesta)
+                    {
+                        switch($preguntas[$preguntaId]['tipoId'])
+                        {
+                            case 1: // Pregunta abierta
+                            {
+                                $respuesta_usuario = new \sgii\sgiiBundle\Entity\TblRespuestaUsuario();                    
+                                $respuesta_usuario->setPregunta($preguntaId);
+                                $respuesta_usuario->setUsuario($usuarioId);
+                                $respuesta_usuario->setRusRespuestaTextual($respuesta);
+
+                                $em->persist($respuesta_usuario);
+                                break;
+                            }
+                            case 2: // Unica respuesta
+                            {
+                                $respuesta_usuario = new \sgii\sgiiBundle\Entity\TblRespuestaUsuario();                    
+                                $respuesta_usuario->setPregunta($preguntaId);
+                                $respuesta_usuario->setUsuario($usuarioId);
+                                $respuesta_usuario->setRespuesta($respuesta);
+
+                                $em->persist($respuesta_usuario);
+                                break;
+                            }
+                            case 3: // Multiple respuesta
+                            {
+                                if(is_array($respuesta))
+                                {
+                                    foreach($respuesta as $r)
+                                    {
+                                        $respuesta_usuario = new \sgii\sgiiBundle\Entity\TblRespuestaUsuario();                    
+                                        $respuesta_usuario->setPregunta($preguntaId);
+                                        $respuesta_usuario->setUsuario($usuarioId);
+                                        $respuesta_usuario->setRespuesta($r);
+
+                                        $em->persist($respuesta_usuario);
+                                    }
+                                }
+                                break;
+                            } 
+                        }
+                    }                
+                
+                    // Insertar fecha de participacion del usuario
+                    $usuarioHerramienta->setUshFechaAplico(new \DateTime());
+                    $usuarioHerramienta->setUshAplico(1);
+
+                    $em->persist($usuarioHerramienta);
+
+                    $em->flush(); // commit transaccion de inserts  
+                    
+                    $security->setAuditoria('Contesto el instrumento: '.$id);
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Cuestionario enviado correctamente"));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "No puede registrar información en este instrumento"));
+                }                
             }
         }        
-        
-        return new Response();
+        return $this->redirect($this->generateUrl('ejecucion_instrumento', array('id'=>$id)));
     }
     
     /**
@@ -133,9 +202,10 @@ class EjecucionController extends Controller
      * Funcion que retorna un instrumento si esta activo
      * 
      * @param integer $id id de instrumento
+     * @param integer $usuarioId id de usuario
      * @return array|false
      */
-    private function getInstrumento($id)
+    private function getInstrumento($id, $usuarioId)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -145,7 +215,7 @@ class EjecucionController extends Controller
                     p.proNombre
                 FROM 
                     sgiiBundle:TblHerramienta h
-                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH uh.herramienta = h.id
+                    JOIN sgiiBundle:TblUsuarioHerramienta uh WITH (uh.herramienta = h.id AND uh.usuario = :usuarioId)
                     JOIN sgiiBundle:TblTipoHerramienta th WITH h.tipoHerramienta = th.id
                     LEFT JOIN sgiiBundle:TblProyecto p WITH h.proyecto = p.id
                 WHERE
@@ -156,6 +226,7 @@ class EjecucionController extends Controller
                 ";
         $query = $em->createQuery($dql);
         $query->setParameter('instrumentoId', $id);
+        $query->setParameter('usuarioId', $usuarioId);
         $query->setParameter('current_date', new \DateTime());
         $query->setMaxResults(1);
         $result = $query->getResult();

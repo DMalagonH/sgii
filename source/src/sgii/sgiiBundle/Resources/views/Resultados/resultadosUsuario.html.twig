@@ -1,0 +1,118 @@
+{% extends "::base.html.twig" %}
+
+{% block menu %}
+    {% set origen = 'instrumentos' %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block style %}
+<style>
+    small{
+        color: rgb(153, 153, 153); 
+        text-transform: lowercase;
+    }
+    
+    .div-pregunta{
+        border-bottom: solid 1px #eee;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock style %}
+
+
+{% block body %}
+<h2>{{ instrumento.theNombreHerramienta }}: {{ instrumento.herNombreHerramienta }}<small>{% if instrumento.proNombre %} En el proyecto: {{ instrumento.proNombre }}{% endif %}</small></h2><br/>
+<a class="btn " href="{{ path('show_instrumento', {'id': instrumento.id }) }}">
+    <i class="icon-edit "></i> Volver al instrumento             
+</a>
+<a class="btn " href="{{ path('resultados_instrumento', {'id': instrumento.id }) }}">
+    <i class="icon-th-list "></i> Volver a resultados            
+</a>
+<div class="row-fluid">   
+    {# TABLA DE PREGUNTAS #}
+    <div class="span8">        
+        <div class="row-fluid">        
+            <div class="box span12">
+                <div class="box-header well" data-original-title>
+                    <h2><i class="icon-tasks"></i> Preguntas</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    {% for pregunta in preguntas %}
+                        <div class="div-pregunta">
+                            <div class="row-fluid">
+                                <div class="span10">
+                                    <b style="font-size:16px;">{{ loop.index }}</b>. <span>{{ pregunta.prePregunta }}</span><br/>
+                                    <small>Pregunta {{ pregunta.tprTipoPregunta }}</small>
+                                </div>
+                                <div class="span2" style="text-align:center; font-size:16px; color: #1B00AC;">
+                                    <b>{{ pregunta.puntajeUsuario }} / {{ pregunta.puntajeTotal }}</b>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12" style="padding: 30px;">
+                                    <b>Respuesta de usuario: </b>
+                                        {% if pregunta.tipoId == 1 %} {# pregunta abierta #}
+                                            {{ pregunta.respuestas.0.rusRespuestaTextual }}
+                                        {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
+                                            {{ pregunta.respuestas.0.resRespuesta }}
+                                        {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
+                                            <ul>
+                                            {% for respuesta in pregunta.respuestas %}
+                                                <li>{{ respuesta.resRespuesta }}</li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        <div class="row-fluid">
+            <div class="box span12">
+                <div class="box-header well" data-original-title>
+                    <h2><i class="icon-user"></i> Usuario</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <img class="" src="{{ gravatar(usuario.usuLog, 60) }}" style="width:60px; height: 60px;">
+                        </div>
+                        <div class="span9">
+                            <b>{{ usuario.usuNombre~ ' ' ~usuario.usuApellido }}</b><br/>
+                            {% if usuario.carNombre %}Cargo: {{ usuario.carNombre }}{% endif %}<br/>
+                            {% if usuario.nivNombre %}Nivel: {{ usuario.nivNombre }}{% endif %}<br/>
+                            {% if usuario.depNombre %}Departamento: {{ usuario.depNombre }}{% endif %}<br/>
+                            {% if usuario.orgNombre %}Organización: {{ usuario.orgNombre }}{% endif %}<br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="box span12">
+                <div class="box-header well" data-original-title>
+                    <h2><i class="icon-flag"></i> Puntaje total</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                    </div>
+                </div>
+                <div class="box-content" style="text-align: center; font-size: 40px; padding: 40px; color: #1B00AC;">
+                    {{ puntajeUsuario }} / {{ puntajeTotal }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
