@@ -213,8 +213,11 @@ class InstrumentosService
         $dql = "SELECT
                     p.id,
                     p.prePregunta,
+                    p.preObligatoria,
+                    p.preEstado,
                     p.preOrden,
-                    tp.tprTipoPregunta
+                    tp.tprTipoPregunta,
+                    tp.id tipoId
                 FROM
                     sgiiBundle:TblPregunta p
                     JOIN sgiiBundle:TblTipoPregunta tp WITH p.tipoPregunta = tp.id
@@ -237,6 +240,7 @@ class InstrumentosService
                     r.id,
                     r.resRespuesta,
                     r.resPeso,
+                    r.resEstado,
                     p.id preguntaId
                 FROM
                     sgiiBundle:TblRespuesta r

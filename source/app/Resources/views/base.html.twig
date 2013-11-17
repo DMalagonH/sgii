@@ -9,7 +9,7 @@
         
     <title>{% block title %}SGII{% endblock %}</title>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" />
         
 	<!-- The styles -->
 	<link id="bs-css" href="{{ asset('css/bootstrap-spacelab.css') }}" rel="stylesheet">
@@ -68,8 +68,7 @@
                         <span class="icon-bar"></span>
                     </a>
                     <a class="" href="{{ path("homepage") }}" style=" font-family:Tahoma; font-size:15px; text-decoration:none;"> 
-						<img alt="Logo" src="{{ asset('img/sgii.png') }}" />
-						<span>Sistema de Gestión de Instrumentos de Investigación</span>
+						<img alt="Logo" src="{{ asset('img/sgii.png') }}" />                        
 					</a>
 
                     <!-- theme selector starts 
@@ -226,6 +225,13 @@
 	<script src="{{ asset('js/script.js') }}"></script>
 
 	<script src="{{ asset('js/fieldvalidation.js') }}"></script>
+    
+    <script>
+        if($.browser.msie){
+            var html = 'Para disfrutar de todas las funcionalidades de la aplicación use <a href="http://www.google.com/intl/es-419/chrome/" target="_blank"> <img src="{{ asset('img/chrome.png') }}" style="width:30px; height:30px;"> Google Chrome</a>';
+            noty({"text":html,"layout":"top","type":"alert"});
+        }
+    </script>
     
     {% block script %}{% endblock %}
     

@@ -29,7 +29,9 @@
         <a class="btn btn-info " href="{{ path('resultados_instrumento', {'id': instrumento.id }) }}" data-rel="tooltip" title="Ver resultados">
             <i class="icon-th-list icon-white"></i> Ver resultados            
         </a>
-        
+        <a class="btn btn-info " href="#modal-duplicar" role="button" data-toggle="modal" data-rel="tooltip" title="Copiar instrumento">
+            <span title=".icon  .icon-white  .icon-copy " class="icon icon-white icon-copy"></span> Copiar instrumento            
+        </a>        
     </div>
     <div class="span4">
         {% if instrumento.herEstado %}<span class="label label-success">Activo</span>{% else %}<span class="label label-inverse">Inactivo</span>{% endif %}
@@ -237,9 +239,27 @@
                 </div>
             {% endif %}
         </div>
-    </div>
-    
+    </div>    
 </div>
+{# modal usuario #}
+<div class="modal hide fade" id="modal-duplicar">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Copiar instrumento</h3>
+    </div>
+    <form action="{{ path('duplicar_instrumento', {'id': instrumento.id}) }}" method="POST" style="margin:0px;">
+    <div class="modal-body">
+        Copiar instrumento al proyecto:
+       {{ form_widget(duplicar_form.proyecto, {'attr':{'class':'span10'} }) }} 
+       {{ form_widget(duplicar_form._token) }}
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Cerrar</a>
+        <button type="submit" class="btn btn-primary">Copiar</button>
+    </div>
+    </form>
+</div>
+
 {% endblock body %}
 
 {% block script %}

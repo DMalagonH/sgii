@@ -5,8 +5,8 @@ parameters:
     database_port: 3306
     database_name: db_sgii
     database_user: root
-    database_password: null
-    mailer_transport: smtp
+    database_password: root
+    mailer_transport: mail
     mailer_host: localhost
     mailer_user: null
     mailer_password: null

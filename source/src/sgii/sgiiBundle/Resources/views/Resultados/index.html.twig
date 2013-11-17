@@ -111,9 +111,11 @@
                                     {% if usu_ins.ushAplico == 1 %}<span class="label label-success">{{ usu_ins.ushFechaAplico|date('d/m/Y H:i') }}</span>{% else %}<span class="label">No ha aplicado</span>{% endif %}                            
                                 </td>
                                 <td>
+                                    {% if usu_ins.ushAplico == 1 %}
                                     <a class="btn btn-info btn-mini" href="{{ path('resultados_usuario_instrumento', {'iid': instrumento.id, 'uid':usu_ins.usuarioId }) }}" data-rel="tooltip" title="Ver resultados">
                                         <i class="icon-th-list icon-white"></i>            
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}

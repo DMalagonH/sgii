@@ -113,4 +113,38 @@
     </div>
 </div>
 
+
+{% if acciones_usuario <= 1 %}
+<div class="modal hide fade" id="habeas-data-modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>AVISO DE PROTECCIÓN DE DATOS PERSONALES</h3>
+    </div>
+    <div class="modal-body">
+        <p style="text-align: justify;">
+            SGII en cumplimiento de la Ley 1581 de 2012 por la cual se establece el Régimen general de protección de datos y el Decreto Reglamentario 1377 de 2013,
+            es responsable del tratamiento de los datos personales y solicita la autorización de los titulares de los datos personales para continuar con el tratamiento de sus datos personales, 
+            tratamiento que podrá implicar la recolección, almacenamiento, uso, circulación y supresión, 
+            los cuales realizará a través de sí misma, con finalidad de recolección de datos estadísticos.
+        </p>
+        <p style="text-align: justify;">
+            Los titulares de los datos personales tiene el derecho a conocer, actualizar, rectificar o suprimir frente a los responsables del tratamiento, la información recolectada
+            en las bases de datos o archivos en los términos establecidos en la norma vigente.
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Aceptar</a>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
+
+
+{% block script %}
+{% if acciones_usuario <= 1 %}
+<script>
+    $("#habeas-data-modal").modal('show');
+</script>
+{% endif %}
+{% endblock script %}

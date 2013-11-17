@@ -35,16 +35,37 @@ class HomeController extends Controller
         
         $instrumentos = $inst_serv->getInstrumentosUsuario($usuarioId);
         $notificaciones = $inst_serv->getHistorialInstrumentosUsuario($usuarioId);
-        
+        $acciones_usuario = $this->countAuditoriaUsuario($usuarioId);
 //        $security->debug($instrumentos);
        
-        
+        $security->setAuditoria('Ingreso a la página principal');
         return array(
             'instrumentos' => $instrumentos,
-            'notificaciones' => $notificaciones
+            'notificaciones' => $notificaciones,
+            'acciones_usuario' => $acciones_usuario
         );
     }
     
+    
+    private function countAuditoriaUsuario($usuarioId)
+    {
+        $count = 0;
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $dql = "SELECT COUNT(a.id) c FROM sgiiBundle:TblAuditoria a"
+                . " WHERE a.audUsuarioId = :usuarioId";
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        
+        if(isset($result[0]['c']))
+        {
+            $count = $result[0]['c'];
+        }
+        
+        return $count;
+    }
 }
 
 ?>

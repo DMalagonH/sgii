@@ -162,15 +162,15 @@ class InstrumentosController extends Controller
             }
         }
         
-        $preguntas = $inst_serv->getPreguntasInstrumento($id);
-        
+        $preguntas = $inst_serv->getPreguntasInstrumento($id);        
         $usuarios = $inst_serv->getUsuariosInstrumento($id);
         
         return array(
             'instrumento' => $instrumento,
             'form' => $form->createView(),
             'preguntas' => $preguntas,
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'duplicar_form' => $this->createDuplicarForm()->createView()
         );
     }
     
@@ -679,6 +679,87 @@ class InstrumentosController extends Controller
         return new Response();
     }
 
+    /**
+     * Accion para duplicar un instrumento
+     * 
+     * @Route("/{id}/duplicar", name="duplicar_instrumento")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param integer $id id de instrumento
+     */
+    public function duplicarAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $form = $this->createDuplicarForm();
+        
+        if($request->getMethod() == 'POST')
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $inst_serv = $this->get('instrumentos');
+                
+                // Consultar contenido del instrumento a duplicar
+                $instrumento = $em->getRepository("sgiiBundle:TblHerramienta")->findOneById($id);                
+                $preguntas = $inst_serv->getPreguntasInstrumento($id);
+                
+                
+                // Crear nuevo instrumento
+                $newInstrumento = new \sgii\sgiiBundle\Entity\TblHerramienta();
+                $newInstrumento->setHerNombreHerramienta($instrumento->getHerNombreHerramienta());
+                $newInstrumento->setHerEstado($instrumento->getHerEstado());
+                $newInstrumento->setTipoHerramienta($instrumento->getTipoHerramienta());
+                $newInstrumento->setProyecto($data['proyecto']);
+                
+                $em->persist($newInstrumento);
+                $em->flush();
+                
+                // Recorrer preguntas y duplicarlas
+                foreach($preguntas as $p)
+                {
+                    $newPregunta = new \sgii\sgiiBundle\Entity\TblPregunta();
+                    $newPregunta->setPrePregunta($p['prePregunta']);
+                    $newPregunta->setPreObligatoria($p['preObligatoria']);
+                    $newPregunta->setPreEstado($p['preEstado']);
+                    $newPregunta->setPreOrden($p['preOrden']);
+                    $newPregunta->setHerramienta($newInstrumento->getId());
+                    $newPregunta->setTipoPregunta($p['tipoId']);
+                    
+                    $em->persist($newPregunta);
+                    $em->flush();
+                    
+                    if(isset($p['opciones']))
+                    {
+                        foreach($p['opciones'] as $opc)
+                        {
+                            $newOpcion = new \sgii\sgiiBundle\Entity\TblRespuesta();
+                            $newOpcion->setResRespuesta($opc['resRespuesta']);
+                            $newOpcion->setResPeso($opc['resPeso']);
+                            $newOpcion->setResEstado($opc['resEstado']);
+                            $newOpcion->setPregunta($newPregunta->getId());
+                            
+                            $em->persist($newOpcion);
+                        }
+                        $em->flush();
+                    }
+                }
+                
+                $security->setAuditoria('Duplicación de instrumento: '.$id.", nuevo instrumento: ".$newInstrumento->getId());
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "text" => "Instrumento duplicado correctamente"));
+                   
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
+        
+        return $this->redirect($this->generateUrl('show_instrumento', array('id'=>$id)));
+    }
 
     
     /**
@@ -882,6 +963,33 @@ class InstrumentosController extends Controller
         );
         
         $mailer->sendMail($emails, $subject, $dataRender, 'bcc');
+    }
+    
+    /**
+     * Funcion para crear el formulario de duplicacion de instrumento
+     * 
+     * @return Object formulario
+     */
+    private function createDuplicarForm()
+    {
+        $inst_serv = $this->get('instrumentos');
+        $proyectos = $inst_serv->getProyectos();
+        $choice_proyectos = array();
+        
+        foreach($proyectos as $p)
+        {
+            $choice_proyectos[$p['id']] = $p['proNombre'];
+        }    
+        
+        $data = array(
+            'proyecto' => null
+        );
+        
+        $form = $this->createFormBuilder($data)
+            ->add('proyecto', 'choice', array('required' => true, 'choices' => $choice_proyectos))
+            ->getForm();
+        
+        return $form;
     }
 }   
 
