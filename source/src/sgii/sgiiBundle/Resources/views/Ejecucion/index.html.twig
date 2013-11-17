@@ -1,1 +1,120 @@
+{% extends "::base.html.twig" %}
 
+{% block menu %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+
+{% block style %}
+<style>
+    .box-header small{
+        font-size: 14px;
+        margin-left: 40px;
+        text-transform: lowercase;
+    }
+    
+    .error{
+        color: #ff0000;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+
+{% if participo %}
+<div class="row-fluid sortable">		
+    <a class="well span12 top-block" style="height: 150px; padding-top: 35px;">
+        <div style="font-size:16px; padding-top: 15px;">Gracias por participar</div>
+        <div style="font-weight: normal; font-size: 12px; line-height: 15px;">Su información ya ha sido registrada.</div>
+    </a>
+</div>
+{% else %}
+{% if instrumento %}
+
+<div class="row-fluid">
+    <div class="box span12">
+        <div class="box-header well">
+            <h2><i class="icon-info-sign"></i> Instrucciones</h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <h1>{{ instrumento.theNombreHerramienta }} <small>{{ instrumento.herNombreHerramienta }}</small></h1>
+            <p>El instrumento cuenta con varias preguntas que pueden ser de 3 tipos:</p>
+            <ol>
+                <li>Preguntas Abiertas <i data-rel="popover" data-content="Ingrese su respuesta en el campo de texto" title="Preguntas abiertas" class="icon-info-sign help-tooltip icon icon-color icon-info"></i></li>
+                <li>Preguntas de opción múltiple con única respuesta <i data-rel="popover" data-content="Marque la casilla de verificación de la opción que considera correcta" title="Única respuesta" class="icon-info-sign help-tooltip icon icon-color icon-info"></i></li>
+                <li>Preguntas de opción múltiple con múltiple respuesta <i data-rel="popover" data-content="Marque la casilla de verificación de las opciones que considera correctas" title="Múltiple respuesta" class="icon-info-sign help-tooltip icon icon-color icon-info"></i></li>
+            </ol>
+            <p>Las preguntas con (*) son preguntas obligatorias, por lo tanto, no se permitirá el envío del cuestionario si no ingresa o selecciona una respuesta.</p>
+        </div>
+    </div>
+</div>
+<div class="form-content">
+<form action="{{ path('procesar_ejecucion_instrumento', {'id': id}) }}" method="POST" id="form">
+{% for pregunta in preguntas %}
+
+<div class="row-fluid">
+    <div class="box span12">
+        <div class="box-header well">
+            <h2>{% if pregunta.preObligatoria %}*{% endif %} Pregunta {{ loop.index }} <small>Pregunta {{ pregunta.tprTipoPregunta }}</small></h2>
+            <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            </div>
+        </div>
+        <div class="box-content">
+            <p>{{ pregunta.prePregunta }}</p>
+            <div class="control-group" style="margin-right: 10px;">
+                {% if pregunta.tipoId == 1 %} {# pregunta abierta #}
+                    <textarea name="preguntas[{{ pregunta.id }}]" {% if pregunta.preObligatoria %}required="required"{% endif %} style="width: 100%;" ></textarea> 
+                {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
+                    {% for opcion in pregunta.opciones %}
+                        <label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
+                    {% endfor %}
+                    <label for="preguntas[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+                {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
+                    {% if pregunta.opciones is defined %}
+                        {% for opcion in pregunta.opciones %}
+                            <label><input type="checkbox" name="preguntas[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
+                        {% endfor %}
+                        <label for="preguntas[{{ pregunta.id }}][]" class="error" style="display:none;"></label>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+{{ form_errors(form) }}
+{{ form_widget(form._token) }}
+<div style="text-align: right;">
+    <button type="submit" class="btn btn-primary btn-info btn-large">Enviar respuestas</button>
+</div>
+</form>
+</div>
+{% else %}
+    <div class="row-fluid sortable">		
+        <a class="well span12 top-block" style="height: 150px; padding-top: 35px;">
+            <div style="font-size:16px; padding-top: 15px;">¡El instrumento no esta disponible!</div>
+            <div style="font-weight: normal; font-size: 12px; line-height: 15px;">El instrumento no esta disponible porque ha sido desactivado o la fecha de participación aun no inicia o ya finalizó.</div>
+        </a>
+    </div>
+{% endif %}
+{% endif %}
+
+{% endblock body %}
+
+{% block script %}
+<script src="{{ asset('js/jquery.validate.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        
+        $.extend(jQuery.validator.messages, {
+            required: "Esta pregunta es obligatoria.",
+        });
+        
+        $("#form").validate();
+    });
+</script>
+{% endblock script %}

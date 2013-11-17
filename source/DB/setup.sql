@@ -11,8 +11,9 @@
 (10, 'instrumentos', 1, 'instrumentos,show_instrumento,edit_instrumento,delete_instrumento,edit_pregunta,delete_pregunta,buscar_instrumento,invitar_instrumento,restricciones_instrumento,delete_usuario_instrumento'),
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', 1, 'import,import_usuarios'),
-(13, 'ejecucion_instrumento', 1, 'ejecucion_instrumento'),
-(14, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete,proyectos_addUsers,crud_proyecto_usuario,crud_hipotesis');
+(13, 'ejecucion_instrumento', 1, 'ejecucion_instrumento,procesar_ejecucion_instrumento'),
+(14, 'resultados_instrumento', 1, 'resultados_instrumento,resultados_usuario_instrumento'),
+(15, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete,proyectos_addUsers,crud_proyecto_usuario,crud_hipotesis');
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -53,7 +54,10 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('4', '13'),
 ('1', '14'),
 ('2', '14'),
-('3', '14');
+('3', '14'),
+('1', '15'),
+('2', '15'),
+('3', '15');
 
 INSERT INTO `tbl_usuario`
 (`id`,
@@ -110,7 +114,7 @@ INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('1', '1');
 INSERT INTO `tbl_usuario_perfil` (`usuario_id`, `perfil_id`) VALUES ('2', '1');
 
 INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('1', 'Cuestionario', '1');
-INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`) VALUES ('2', 'Encuesta', '1');
+
 
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');
@@ -142,4 +146,3 @@ INSERT INTO `tbl_estado_proyecto` (`id`, `epr_estado_proyecto`, `epr_estado`) VA
 (2, 'En seguimiento', '1'),
 (3, 'En riesgo', '1'),
 (4, 'Terminado', '1');
-
