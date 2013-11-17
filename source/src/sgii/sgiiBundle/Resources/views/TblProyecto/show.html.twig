@@ -1,0 +1,202 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+    {% set origen = 'acceso_proyectos' %}
+    {% include '::menu_principal.html.twig' %}
+{% endblock menu %}
+ 
+{% block style %}
+    <style>
+        .padd{
+            padding: 10px 10px 30px 40px;
+        }
+        .madd {
+            margin-bottom: 0px;
+            font:bold;
+            padding-left: 10px;
+            font-size: 17px;
+            line-height: 21px;
+            color: black;
+            width: 95%;
+        }
+    </style>
+{% endblock style %}
+
+{% block body -%}
+    <div class="row-fluid sortable">
+        <div class="box span8">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-list-alt"></i> Detalles del proyecto</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                <div STYLE='text-align:right;'>
+                    {% if entity.proEstado == 1 %}
+                        <span class="label label-success">Activo</span>
+                    {% else %}
+                        <span class="label">Inactivo</span>
+                    {% endif %}
+                </div>
+                <div class='row-fluid'>
+                    <legend class='madd'><b>Nombre</b></legend>
+                    <div class='padd'>{{ entity.proNombre }}</div>
+                </div>
+                {% if entity.proDescripcion %}
+                    <div class='row-fluid'>
+                        <legend class='madd'><b>Descripción</b></legend>
+                        <div class='padd'>{{ entity.proDescripcion }}</div>
+                    </div>
+                {% endif %}
+                {% if entity.proProblema %}
+                    <div class='row-fluid'>
+                        <legend class='madd'><b>Pregunta Problema</b></legend>
+                        <div class='padd'>{{ entity.proProblema }}</div>
+                    </div>
+                {% endif %}
+                {% if entity.proConclusiones %}
+                    <div class='row-fluid'>
+                        <legend class='madd'><b>Conclusiones</b></legend>
+                        <div class='padd'>{{ entity.proConclusiones }}</div>
+                    </div>
+                {% endif %}
+                {% if entity.proDemostraciones %}
+                    <div class='row-fluid'>
+                        <legend class='madd'><b>Demostración</b></legend>
+                        <div class='padd'>{{ entity.proDemostraciones }}</div>
+                    </div>
+                {% endif %}
+                {% if entity.proRecomendaciones %}
+                    <div class='row-fluid'>
+                        <legend class='madd'><b>Recomendaciones</b></legend>
+                        <div class='padd'>{{ entity.proRecomendaciones }}</div>
+                    </div>
+                {% endif %}
+                <div class='row-fluid'>
+                    <legend class='madd'><b>Estado del proyecto</b></legend>
+                    <div class='padd'>{{ entity.eprEstadoProyecto }}</div>
+                </div>
+                <div class='row-fluid'>
+                    <legend class='madd'><b>Tipo de investigación</b></legend>
+                    <div class='padd'>{{ entity.tinNombreTipo }}</div>
+                </div>
+                <div class='row-fluid'>
+                    <legend class='madd'><b>Línea de investigación</b></legend>
+                    <div class='padd'>{{ entity.linNombreInvestigacion }}</div>
+                </div>
+                <div class='row-fluid'>
+                    <legend class='madd'><b>Creado por</b></legend>
+                    <div class='padd'>{{ entity.usuApellido ~ ' ' ~ entity.usuNombre }}<br>{{ entity.proFechaCreacion|date('Y-m-d H:i:s') }}</div>
+                </div>
+                <div class="control-group" style="margin-bottom: 8px; text-align: right;">
+                    <a href="{{ path('proyectos') }}" class="btn btn-primary"/>Volver al listado</a>
+                    <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdelete'}}) }}</div>
+                    <a href="{{ path('proyectos_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-info"/>Editar</a>
+                </div>
+            </div>
+        </div>
+        <div class="box span4">
+            <div class="box-header well" data-original-title>
+                <h2><i class="icon-users"></i> Integrantes del proyecto</h2>
+                <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="box-content">
+                {% if integrantes %}
+                    <ul class="dashboard-list">
+                        {% for user in integrantes %}
+                            <li STYLE='display:block;' id='user_{{ user.usuarioId }}'>
+                                <img class="dashboard-avatar" src="{{ gravatar(user.usuLog, 200) }}">
+                                <strong>Nombre:</strong> {{ user.usuApellido ~ ' ' ~ user.usuNombre }}<br>
+                                {% set classLabel = (user.usuarioProyectoTipo == 'Investigador') ? 'label-success' : 'label-info' %}
+                                <strong></strong> <div><span id='tipoUser_{{ user.usuarioId }}' class="label {{ classLabel }} ctlBasic_{{ user.usuarioId }}">{{ user.usuarioProyectoTipo }}</span></div>
+                                <select STYLE='font-size:11px;width:100px;height:28px;margin-top:4px;display:none;' class='ctlEdit_{{ user.usuarioId }}' id='userTipo_{{ user.usuarioId }}'>
+                                    <option value='Investigador' {% if user.usuarioProyectoTipo == 'Investigador' %}SELECTED{% endif %}>Investigador</option>
+                                    <option value='Asesor' {% if user.usuarioProyectoTipo == 'Asesor' %}SELECTED{% endif %}>Asesor</option>
+                                </select>
+                                <div STYLE='text-align:right;'>
+                                    <a class="btn btn-info btn-mini btn-edit ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-rel="tooltip" data-original-title="Editar">
+                                        <i class="icon-edit icon-white"></i>
+                                    </a>&nbsp;
+                                    <a class="btn btn-danger btn-mini deleteUser ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-original-title="Eliminar">
+                                        <i class="icon-trash icon-white"></i>
+                                    </a>&nbsp;
+                                    <a class="btn btn-default btn-mini btn-cancel ctlEdit_{{ user.usuarioId }}" STYLE="display:none;" data-id='{{ user.usuarioId }}'>
+                                        <i class=" icon-share icon-black"></i> Cancelar
+                                    </a>&nbsp;
+                                    <a class="btn btn-success btn-mini editUser ctlEdit_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' STYLE="display:none;">
+                                        <i class="icon-check icon-white"></i> Guardar
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+					</ul>
+                {% endif %}
+                <br>
+                <div class="control-group" style="margin-bottom: 8px; text-align: right;">
+                    <a href="{{ path('proyectos_addUsers', { 'id': entity.id }) }}" class="btn btn-primary btn-info"/>Agregar usuarios</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+{% endblock %}
+    
+{% block script %}
+    <script>
+        // Confirmacion de eliminar un proyecto
+        $('.confirm').click(function(){
+            if (confirm('¿Desea eliminar este proyecto?')) {
+                $('#formdelete').submit();
+            }
+        });
+        
+        $('.btn-edit').click(function(){    
+            $('.ctlEdit_'+$(this).data('id')).css('display', 'inline');
+            $('.ctlBasic_'+$(this).data('id')).css('display', 'none');
+        });
+        $('.btn-cancel').click(function(){    
+            $('.ctlEdit_'+$(this).data('id')).css('display', 'none');
+            $('.ctlBasic_'+$(this).data('id')).css('display', 'inline');
+        });
+        
+        $('.editUser').click(function(){
+            var usuarioId = $(this).data('id');
+            var proyectoId = {{ entity.id }};
+            var userTipo =  $('#userTipo_'+usuarioId+' option:selected').val();
+
+            $('.ctlEdit_'+$(this).data('id')).css('display', 'none');
+            $('.ctlBasic_'+$(this).data('id')).css('display', 'inline');
+
+            var posActual = $('#tipoUser_'+usuarioId).parent();
+            posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/spinner-mini.gif')}}"></div>');
+            $.post('{{ path('crud_proyecto_usuario')}}', { id: usuarioId, tipo: userTipo, accion: 'edit', proyectoId: proyectoId },
+                function(data){
+                    posActual.html(data);
+                }
+            );
+        });
+        
+        $('.deleteUser').click(function(){
+            var usuarioId = $(this).data('id');
+            var proyectoId = {{ entity.id }};
+            var posActual = $('#user_'+usuarioId);
+            //var auxPosActual = posActual.get(0).outerHTML;
+            
+            posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/spinner-mini.gif')}}"></div>');
+            $.post('{{ path('crud_proyecto_usuario')}}', { id: usuarioId, tipo: 'Investigador', accion: 'delete', proyectoId: proyectoId },
+                function(data){
+                    if (data == 0) {
+                        posActual.html("<span STYLE='display:block;text-align:center;' class='label label-success'>Usuario eliminado</span>");
+                        setTimeout(function(){ posActual.html(''); posActual.hide('slow'); }, 1000);
+                    } else {
+                        posActual.html("<span STYLE='display:block;text-align:center;' class='label label-important'>Error al eliminar</span>");
+                        //setTimeout(function(){ posActual.html(auxPosActual); posActual.show('slow');  }, 1000);
+                    }
+                    
+                }
+            );
+        });
+    </script>
+{% endblock script %}

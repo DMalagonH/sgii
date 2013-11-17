@@ -12,7 +12,9 @@
 (11, 'usuarios', 1, 'usuarios,usuarios_show,usuarios_new,usuarios_edit,usuarios_delete'),
 (12, 'import', '1', 'import,import_usuarios'),
 (13, 'ejecucion_instrumento', '1', 'ejecucion_instrumento,procesar_ejecucion_instrumento'),
-(14, 'resultados_instrumento', '1', 'resultados_instrumento,resultados_usuario_instrumento');
+(14, 'resultados_instrumento', '1', 'resultados_instrumento,resultados_usuario_instrumento'),
+(15, 'proyectos', 1, 'proyectos,proyectos_show,proyectos_new,proyectos_edit,proyectos_delete,proyectos_addUsers,crud_proyecto_usuario');
+
 
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (1, 'Superadministrador', '1');
 INSERT INTO `tbl_perfil` (`id`, `per_perfil`, `per_estado`) VALUES (2, 'Administrador', '1');
@@ -53,8 +55,10 @@ INSERT INTO `tbl_perfil_modulo` (`perfil_id`, `modulo_id`) VALUES
 ('4', '13'),
 ('1', '14'),
 ('2', '14'),
-('3', '14');
-
+('3', '14'),
+('1', '15'),
+('2', '15'),
+('3', '15');
 
 INSERT INTO `tbl_usuario`
 (`id`,
@@ -116,4 +120,31 @@ INSERT INTO `tbl_tipo_herramienta` (`id`, `the_nombre_herramienta`, `the_estado`
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('1', 'Abierta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('2', 'De opción múltiple con única respuesta', '1');
 INSERT INTO `tbl_tipo_pregunta` (`id`, `tpr_tipo_pregunta`, `tpr_estado`) VALUES ('3', 'De opción múltiple con múltiple respuesta', '1');
+
+INSERT INTO `tbl_tipo_investigacion` (`id`, `tin_nombre_tipo`, `tin_estado`) VALUES 
+(1, 'Investigación básica', '1'),
+(2, 'Investigación analítica', '1'),
+(3, 'Investigación de campo', '1'),
+(4, 'Investigación censal', '1'),
+(5, 'Investigación de caso', '1'),
+(6, 'Investigación experimental', '1'),
+(7, 'Investigación semiexperimental', '1'),
+(8, 'Investigación simple', '1'),
+(9, 'Investigación compleja', '1'),
+(10, 'Investigación cuantitativa', '1'),
+(11, 'Investigación cualitativa', '1'),
+(12, 'Investigación cualicuantitativa', '1'),
+(13, 'Investigación descriptiva', '1'),
+(14, 'Investigación explicativa', '1'),
+(15, 'Investigación inferencial', '1'),
+(16, 'Investigación predictiva', '1');
+
+INSERT INTO `tbl_linea_investigacion` (`id`, `lin_nombre_investigacion`, `lin_estado`) VALUES 
+(1, 'En el ámbito de la Didáctica y la Organización Escolar', '1');
+
+INSERT INTO `tbl_estado_proyecto` (`id`, `epr_estado_proyecto`, `epr_estado`) VALUES 
+(1, 'En proceso', '1'),
+(2, 'En seguimiento', '1'),
+(3, 'En riesgo', '1'),
+(4, 'Terminado', '1');
 
