@@ -94,9 +94,9 @@ class EjecucionController extends Controller
                     $preguntas = $this->getPreguntas($id);                
                     $respuestas = $request->get('preguntas');
 //                    
-//                    $security->debug($preguntas);
-//                    $security->debug($respuestas);
-
+                    $security->debug($preguntas);
+                    $security->debug($respuestas);
+//                    die;
                     // Recorrer preguntas del formulario
                     foreach($respuestas as $preguntaId => $respuesta)
                     {
@@ -113,6 +113,7 @@ class EjecucionController extends Controller
                                 break;
                             }
                             case 2: // Unica respuesta
+                            case 4: // Cuadricula
                             {
                                 $respuesta_usuario = new \sgii\sgiiBundle\Entity\TblRespuestaUsuario();                    
                                 $respuesta_usuario->setPregunta($preguntaId);
@@ -144,7 +145,7 @@ class EjecucionController extends Controller
                     // Insertar fecha de participacion del usuario
                     $usuarioHerramienta->setUshFechaAplico(new \DateTime());
                     $usuarioHerramienta->setUshAplico(1);
-
+                    
                     $em->persist($usuarioHerramienta);
 
                     $em->flush(); // commit transaccion de inserts  

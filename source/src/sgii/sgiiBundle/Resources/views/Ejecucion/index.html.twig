@@ -15,6 +15,14 @@
     .error{
         color: #ff0000;
     }
+    
+    
+    .cuadricula td{
+        text-align: center;
+        padding: 5px;
+        border: 1px solid #eee;
+        min-width: 40px;
+    }
 </style>
 {% endblock style %}
 
@@ -52,8 +60,10 @@
 </div>
 <div class="form-content">
 <form action="{{ path('procesar_ejecucion_instrumento', {'id': id}) }}" method="POST" id="form">
-{% for pregunta in preguntas %}
+{% set cuadricula = false %}
 
+{% for pregunta in preguntas %}
+ 
 <div class="row-fluid">
     <div class="box span12">
         <div class="box-header well">
@@ -63,27 +73,48 @@
             </div>
         </div>
         <div class="box-content">
-            <p>{{ pregunta.prePregunta }}</p>
             <div class="control-group" style="margin-right: 10px;">
                 {% if pregunta.tipoId == 1 %} {# pregunta abierta #}
+                    <p>{{ pregunta.prePregunta }}</p>
                     <textarea name="preguntas[{{ pregunta.id }}]" {% if pregunta.preObligatoria %}required="required"{% endif %} style="width: 100%;" ></textarea> 
                 {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
+                    <p>{{ pregunta.prePregunta }}</p>
                     {% for opcion in pregunta.opciones %}
                         <label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
                     {% endfor %}
                     <label for="preguntas[{{ pregunta.id }}]" class="error" style="display:none;"></label>
                 {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
+                    <p>{{ pregunta.prePregunta }}</p>
                     {% if pregunta.opciones is defined %}
                         {% for opcion in pregunta.opciones %}
                             <label><input type="checkbox" name="preguntas[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/>{{ opcion.resRespuesta }}</label>
                         {% endfor %}
                         <label for="preguntas[{{ pregunta.id }}][]" class="error" style="display:none;"></label>
                     {% endif %}
-                {% endif %}
+                {% elseif pregunta.tipoId == 4 %} {# multiple respuesta #}
+                    <table class="cuadricula">
+                        <tr>
+                            <td rowspan="2" style="width:200px;">{{ pregunta.prePregunta }}</td>
+                            {% if pregunta.opciones is defined %}
+                                {% for opcion in pregunta.opciones %}
+                                    <td>{{ opcion.resRespuesta }}</td>
+                                {% endfor %}
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            {% if pregunta.opciones is defined %}
+                                {% for opcion in pregunta.opciones %}
+                                    <td><label><input type="radio" name="preguntas[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if pregunta.preObligatoria and loop.index ==1 %}required{% endif %}/></td>
+                                {% endfor %}
+                            {% endif %}                            
+                        </tr>
+                    </table>
+                    <label for="preguntas[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+                {% endif %}                
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 {% endfor %}
 {{ form_errors(form) }}

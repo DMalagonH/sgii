@@ -690,7 +690,7 @@ class InstrumentosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $form = $this->createDuplicarForm();
         

@@ -58,7 +58,7 @@
                                     {% if pregunta.respuestas is defined %}
                                         {% if pregunta.tipoId == 1 %} {# pregunta abierta #}
                                             {{ pregunta.respuestas.0.rusRespuestaTextual }}
-                                        {% elseif pregunta.tipoId == 2 %} {# unica respuesta #}
+                                        {% elseif pregunta.tipoId == 2 or pregunta.tipoId == 4%} {# unica respuesta y cuadricula #}
                                             {{ pregunta.respuestas.0.resRespuesta }}
                                         {% elseif pregunta.tipoId == 3 %} {# multiple respuesta #}
                                             <ul>
