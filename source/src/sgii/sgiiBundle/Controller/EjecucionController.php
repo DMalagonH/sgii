@@ -94,8 +94,8 @@ class EjecucionController extends Controller
                     $preguntas = $this->getPreguntas($id);                
                     $respuestas = $request->get('preguntas');
 //                    
-                    $security->debug($preguntas);
-                    $security->debug($respuestas);
+//                    $security->debug($preguntas);
+//                    $security->debug($respuestas);
 //                    die;
                     // Recorrer preguntas del formulario
                     foreach($respuestas as $preguntaId => $respuesta)
