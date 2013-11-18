@@ -59,6 +59,7 @@ class InstrumentosController extends Controller
                 $instrumento->setTipoHerramienta($data['tipoInstrumento']);
                 $instrumento->setHerFechaInicio($fechaInicio);
                 $instrumento->setHerFechaFin($fechaFin);
+                $instrumento->setUsuarioId($usuarioId);
                 
                 $em = $this->getDoctrine()->getManager();
                 
