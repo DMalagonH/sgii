@@ -1,4 +1,4 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+﻿SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
@@ -239,7 +239,7 @@ CREATE TABLE IF NOT EXISTS `tbl_objetivo` (
   `obj_objetivo` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Objetivo',
   `obj_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'estado del registro',
   `proyecto_id` INT NOT NULL COMMENT 'FK con la tabla proyecto investigacion',
-  `estado_objetivo_id` INT NOT NULL COMMENT 'FK con la tabla estado de objetivo',
+  `estado_objetivo_id` INT NULL COMMENT 'FK con la tabla estado de objetivo',
   `objetivo_id` INT NULL COMMENT 'FK de esta tabla copn sigo mismo para la relación genérico - especifico',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_robjetivo_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
@@ -297,7 +297,6 @@ CREATE TABLE IF NOT EXISTS `tbl_herramienta` (
   `her_estado` TINYINT(4) NOT NULL COMMENT 'Estado del registro',
   `tipo_herramienta_id` INT NOT NULL COMMENT 'FK con la tabla tipo de herramienta',
   `proyecto_id` INT NULL,
-  `usuario_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_therramienta_tbl_tipo_herramienta1_idx` (`tipo_herramienta_id` ASC),
   INDEX `fk_tbl_herramienta_tbl_proyecto1_idx` (`proyecto_id` ASC),
@@ -365,7 +364,7 @@ COMMENT = 'TABLA REFENCIAL DE PREGUNTAS';
 CREATE TABLE IF NOT EXISTS `tbl_respuesta` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `res_respuesta` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Respuesta',
-  `res_peso` INT(3) NOT NULL DEFAULT 0,
+  `res_peso` FLOAT NOT NULL DEFAULT 0,
   `res_estado` TINYINT(1) NOT NULL COMMENT 'Estado del registro',
   `pregunta_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -387,8 +386,8 @@ CREATE TABLE IF NOT EXISTS `tbl_hipotesis` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hip_hipotesis` VARCHAR(500) NOT NULL DEFAULT '0',
   `hip_estado` TINYINT(1) NOT NULL DEFAULT '0',
-  `hip_srguimiento` LONGTEXT NOT NULL,
-  `estado_hipotesis_id` INT NOT NULL COMMENT 'Id estado hipotesis',
+  `hip_srguimiento` LONGTEXT NULL,
+  `estado_hipotesis_id` INT NULL COMMENT 'Id estado hipotesis',
   `proyecto_id` INT NOT NULL COMMENT 'Id proyecto de investigacion',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_thipotesis_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
@@ -409,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuario_proyecto` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `usuario_id` INT NOT NULL COMMENT 'FK con la tabla usuario; Equipo de coinvestigadores',
   `proyecto_id` INT NOT NULL COMMENT 'FK con la tabla rproyecto_investigacion',
-  `usuario_proyecto_tipo` VARCHAR(45) NOT NULL COMMENT 'Asesor|Investigador',
+  `usuario_proyecto_tipo` VARCHAR(45) NULL COMMENT 'Asesor|Investigador',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_uusario_proyecto_tbl_usuario1_idx` (`usuario_id` ASC),
   INDEX `fk_tbl_uusario_proyecto_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),

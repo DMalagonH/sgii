@@ -1,0 +1,23 @@
+<li STYLE='display:block;padding-left:15px;' id='obj_{{ objid }}'>
+    <div STYLE='text-align:right;padding-bottom:3px;'>
+        {% if objEstado == 1 %}
+            <span class="label label-success">Activo</span>
+        {% else %}
+            <span class="label">Inactivo</span>
+        {% endif %}
+        &nbsp;
+        <a class="btn btn-info btn-mini" data-rel="tooltip" data-original-title="Editar" href='{{ path('objetivo_edit', {'id':objid, 'proyectoId':proyectoId})}}'>
+            <i class="icon-edit icon-white"></i>
+        </a>
+        <a class="btn btn-danger btn-mini deleteObjetivo" data-id='{{ objid }}'>
+            <i class="icon-trash icon-white"></i>
+        </a>
+    </div>
+        
+    {% if objObjetivoId %}
+        <div STYLE='padding-left:20px;'><i class='icon-arrow-right'></i>  {{ objetivo }}</div>
+    {% else %}
+        <b>{{ objetivo }}</b>
+    {% endif %}
+    
+</li>

@@ -720,5 +720,41 @@ class GenericQueriesService
         $query->setParameter('proyectoId', $proyectoId);
         return $query->getResult();
     }
+    
+    /**
+     * Funcion que retorna el listado de objetivos general y específicos en el proyecto
+     * - acceso desde TblProyectoController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Integer $proyectoId Id del proyecto
+     * @return Array Arreglo de objetivos del poyecto que ingresa por parametro
+     */
+    public function getObjetivosProyecto($proyectoId)
+    {
+        $dql = 'SELECT o.objObjetivo, o.objEstado, o.proyectoId, o.objetivoId, o.id
+                FROM sgiiBundle:TblObjetivo o
+                WHERE o.proyectoId =:proyectoId';
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        return $query->getResult();
+    }
+    
+    /**
+     * Funcion que elimina los objetivos específicos del proyecto, entrando como parametro el Id del obj. general
+     * - acceso desde TblProyectoController
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Integer $objGeneral Id del objetivo gneral
+     */
+    public function deleteObjetivosEspecificos($objGeneral)
+    {
+        $dql = 'DELETE FROM sgiiBundle:TblObjetivo o
+                WHERE o.objetivoId =:objetivoId';
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('objetivoId', $objGeneral);
+        return $query->getResult();
+    }
 }
 ?>

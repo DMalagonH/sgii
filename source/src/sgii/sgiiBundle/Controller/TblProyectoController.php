@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use sgii\sgiiBundle\Entity\TblProyecto;
 use sgii\sgiiBundle\Entity\TblHipotesis;
+use sgii\sgiiBundle\Entity\TblObjetivo;
 use sgii\sgiiBundle\Entity\TblUsuarioProyecto;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,6 +65,7 @@ class TblProyectoController extends Controller
         
         $integrantes = $this->get('queries')->getUsuariosProyecto($id);
         $hipotesis = $this->get('queries')->getHipotesisProyecto($id);
+        $objetivos = $this->get('queries')->getObjetivosProyecto($id);
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -72,6 +74,7 @@ class TblProyectoController extends Controller
             'delete_form' => $deleteForm->createView(),
             'integrantes' => $integrantes,
             'hipotesis'   => $hipotesis,
+            'objetivos' => $objetivos
         );
     }
 
@@ -155,6 +158,7 @@ class TblProyectoController extends Controller
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @param \Symfony\Component\HttpFoundation\Request $request Form del proyecto a editar
+     * @param $id Id del proyecto
      * @return Render Formulario del proyecto a editar
      * @Template("sgiiBundle:TblProyecto:edit.html.twig")
      * @Route("/{id}/edit", name="proyectos_edit")
@@ -318,6 +322,7 @@ class TblProyectoController extends Controller
                     $em->persist($nUserPry);
                     $em->flush();
                     $NoError = 0;
+                    $security->setAuditoria('Usuario incluido en proyecto: P='.$proyectoId.'/ID'.$nUserPry->getId());
                 }
                 if ($accion == 'edit') {
                     $nUserPry = $em->getRepository('sgiiBundle:TblUsuarioProyecto')->findOneBy(Array('proyectoId'=>$proyectoId, 'usuarioId' => $usuarioId));
@@ -326,6 +331,7 @@ class TblProyectoController extends Controller
                         $em->persist($nUserPry);
                         $em->flush();
                         $NoError = 0;
+                        $security->setAuditoria('Usuario incluido en proyecto editado: P='.$proyectoId.'/ID'.$nUserPry->getId());
                     }
                 }
                 if ($accion == 'delete') {
@@ -334,6 +340,7 @@ class TblProyectoController extends Controller
                         $em->remove($nUserPry);
                         $em->flush();
                         $NoError = 0;
+                        $security->setAuditoria('Usuario eliminado del proyecto: '.$proyectoId. ' usuario: '.$usuarioId);
                     }
                 }
             }
@@ -404,6 +411,7 @@ class TblProyectoController extends Controller
                     $em->persist($nHipotesis);
                     $em->flush();
 
+                    $security->setAuditoria('Hipotesis nueva: P'.$proyectoId.''.$nHipotesis->getId());
                     $renderNewHip =  $this->renderView('sgiiBundle:TblProyecto:showHipotesis.html.twig', 
                             array('hipotesis'=>$hipotesis, 'hipEstado'=>$estado, 'hipid' => $nHipotesis->getId()));
                     $NoError = 0;
@@ -415,6 +423,7 @@ class TblProyectoController extends Controller
                         $em->remove($hip);
                         $em->flush();
                         $NoError = 0;
+                        $security->setAuditoria('Hipotesis eliminada: P='.$proyectoId.'/HIP'.$hipotesis);
                     }
                 }
             }
@@ -434,8 +443,154 @@ class TblProyectoController extends Controller
         
         return new response($renderNewHip);
     }
+    
+    /**
+     * Nuevo y eliminar de objetivos por POST
+     * 
+     * Agregar objetivo al proyecto, y eliminarlas.
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response 0=>Exitoso 1=>Error, 2=>Delete All
+     * @Route("/objetivos", name="crud_objetivos")
+     * @Method("POST")
+     */
+    public function CrudObjetivosAction(Request $request)
+    {
+        $security = $this->get('security');
+        $authen = $security->autentication();
+        $acceso = $security->autorization($this->getRequest()->get('_route'));
+        
+        $NoError = 1;
+        $renderNewObj = '';
+        if($request->isXmlHttpRequest() && ($request->getMethod() == 'POST') && $acceso && $authen)
+        {
+            $objetivo = $request->request->get('objetivo');
+            $estado = $request->request->get('estado');
+            $proyectoId = $request->request->get('proyectoId');
+            $accion = $request->request->get('accion');
+            $em = $this->getDoctrine()->getManager();
+            
+            if ($objetivo != '') {
+                if ($accion == 'add') {
+                    
+                    $nObjetivo = New TblObjetivo();
+                    $nObjetivo->setObjObjetivo($objetivo);
+                    $nObjetivo->setObjEstado($estado);
+                    $nObjetivo->setProyectoId($proyectoId);
+                    
+                    $objetivos = $this->get('queries')->getObjetivosProyecto($proyectoId);
+                    $idObj = 0;
+                    if (count($objetivos)>0) {
+                        $idObj = $objetivos[0]['id'];
+                        $nObjetivo->setObjetivoId($idObj);
+                    }
+                    
+                    $em->persist($nObjetivo);
+                    $em->flush();
+                    
+                    $security->setAuditoria('Objetivo nuevo: P'.$proyectoId.'/OBJ='.$nObjetivo->getId());
+                    $renderNewObj =  $this->renderView('sgiiBundle:TblProyecto:showObjetivos.html.twig', 
+                        array('objid'=>$nObjetivo->getId() , 'objetivo'=> $objetivo, 'objEstado' => $estado, 'objObjetivoId' => $idObj, 'proyectoId'=> $proyectoId));
+                    $NoError = 0;
+                }
+                
+                if ($accion == 'delete') {
+                    $obj = $em->getRepository('sgiiBundle:TblObjetivo')->findOneById($objetivo);
+                    if ($obj) {
+                        $NoError = 0;
+                        if (!$obj->getObjetivoId()) {
+                            $this->get('queries')->deleteObjetivosEspecificos($obj->getId());
+                            $NoError = 2;
+                            $security->setAuditoria('Objetivos eliminado en cascada: P'.$proyectoId.'/OBJ='.$obj->getId());
+                        } else {
+                            $security->setAuditoria('Objetivo eliminado: P'.$proyectoId.'/OBJ='.$obj->getId());
+                        }
+                        $em->remove($obj);
+                        $em->flush();
+                    }
+                }
+                    
+                if ($NoError) {
+                    if ($accion == 'add') {
+                        $renderNewObj = 1;
+                    }
+                    if ($accion == 'delete') {
+                        $renderNewObj = $NoError;
+                    }
+                }
+            }
+        } else {
+            $renderNewObj = "<span STYLE='display:block;text-align:center;' class='label label-important'>Error en solicitud</span>";
+        }
 
+        return new response($renderNewObj);
+    }
 
+    /**
+     * Editar Ojetivo
+     *
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param \Symfony\Component\HttpFoundation\Request $request Form del proyecto a editar
+     * @param $id Id del objetivo
+     * @param $proyectoId Id del proyecto
+     * @return Render Formulario del objetivo a editar
+     * @Template("sgiiBundle:TblProyecto:editObjetivo.html.twig")
+     * @Route("/{proyectoId}/{id}/editObject", name="objetivo_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editObjetivoAction(Request $request, $proyectoId, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
+        $em = $this->getDoctrine()->getManager();
+        $nObj = $em->getRepository('sgiiBundle:TblObjetivo')->findOneBy(Array('id'=>$id, 'proyectoId'=> $proyectoId));
+        
+        if (!$nObj) {
+            throw $this->createNotFoundException('Unable to find TblProyecto entity.');
+        }
+        
+        $form = $this->objetivoForm($nObj);
+        
+        if ($request->getMethod() == "POST")
+        {
+            $form->bind($request);
+            if ($form->isvalid()) {
+                $dataForm = $form->getData();
+                
+                if($dataForm['objObjetivo']){
+                    $nObj->setObjObjetivo($dataForm['objObjetivo']);
+                    $nObj->setObjEstado($dataForm['objEstado']);
+                    
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->persist($nObj);
+                    $em->flush();
+
+                    $security->setAuditoria('Editar Objetivo: P='.$proyectoId.'/OBJ='.$nObj->getId());
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Objetivo editado correctamente"));
+                    return $this->redirect($this->generateUrl('proyectos_show', array('id' => $nObj->getProyectoId())));
+                }
+                else {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+                }
+            }
+            else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
+            }
+        }
+            
+        return array(
+            'entity' => $nObj,
+            'form'   => $form->createView(),
+            'proyectoId' => $proyectoId,
+        );
+    }
+    
+    
     //--------------------------------------------/
     //--  M E T O D O S  y   F U N C I O N E S  --/
     //--------------------------------------------/
@@ -454,6 +609,28 @@ class TblProyectoController extends Controller
             ->setMethod('DELETE')
             ->add('submit', 'button', array('label' => 'Eliminar', 'attr' => array('class' => 'btn btn-primary confirm')))
             ->getForm();
+    }
+    
+    /**
+     * Funcion para crear el formulario de editar objetivo
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $usuario Objeto TblObjetivo
+     * @return Object Formulario
+     */
+    private function objetivoForm($objetivo)
+    {
+        $formData = array(
+            'objObjetivo' => ($objetivo) ? $objetivo->getObjObjetivo() : null,
+            'objEstado' => ($objetivo) ? $objetivo->getObjEstado() : null,
+        );
+        
+        $form = $this->createFormBuilder($formData)
+           ->add('objObjetivo', 'textarea', array('required' => true))
+           ->add('objEstado', 'checkbox', array('required' => false))
+           ->getForm();
+        return $form;
     }
     
     /**
