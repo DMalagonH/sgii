@@ -135,7 +135,7 @@ class TblUsuarioController extends Controller
                         
                         $security->setAuditoria('Nuevo Usuario: '.$nUser->getId());
                         $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo usuario agregado"));
-                        //return $this->redirect($this->generateUrl('usuarios_show', array('id' => $nUser->getId())));
+                        return $this->redirect($this->generateUrl('usuarios_show', array('id' => $nUser->getId())));
                     }
                     else {
                         $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));

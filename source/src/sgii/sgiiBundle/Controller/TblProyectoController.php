@@ -475,6 +475,7 @@ class TblProyectoController extends Controller
         $proyectoId = $request->request->get('proyectoId');
         $entity = $this->get('queries')->getProyectos($proyectoId);
         if (!$entity) { $acceso = false; }
+        $permisoCRUD = $this->get('queries')->permisoCRUDHipObjIntPry($entity['proEstado']);
         
         $NoError = 1;
         $renderNewObj = '';
