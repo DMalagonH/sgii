@@ -36,7 +36,9 @@ class TblProyectoController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        //$perfilId = $security->getSessionValue('perfilId');
         $entities = $this->get('queries')->getProyectos();
+
         return array( 'entities' => $entities );
     }
 
@@ -58,14 +60,13 @@ class TblProyectoController extends Controller
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $entity = $this->get('queries')->getProyectos($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find TblProyecto entity.');
-        }
+        if (!$entity) { throw $this->createNotFoundException('Acceso denegado');  }
         
         $integrantes = $this->get('queries')->getUsuariosProyecto($id);
         $hipotesis = $this->get('queries')->getHipotesisProyecto($id);
         $objetivos = $this->get('queries')->getObjetivosProyecto($id);
+        
+        $permisoCRUD = $this->get('queries')->permisoCRUDHipObjIntPry($entity['proEstado']);
 
         $deleteForm = $this->createDeleteForm($id);
 
@@ -74,7 +75,8 @@ class TblProyectoController extends Controller
             'delete_form' => $deleteForm->createView(),
             'integrantes' => $integrantes,
             'hipotesis'   => $hipotesis,
-            'objetivos' => $objetivos
+            'objetivos' => $objetivos,
+            'permisoEdicion' => $permisoCRUD,
         );
     }
 
@@ -170,12 +172,11 @@ class TblProyectoController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $entity = $this->get('queries')->getProyectos($id);
+        if (!$entity) { throw $this->createNotFoundException('Acceso denegado');  }
+        
         $em = $this->getDoctrine()->getManager();
         $nPry = $em->getRepository('sgiiBundle:TblProyecto')->find($id);
-        
-        if (!$nPry) {
-            throw $this->createNotFoundException('Unable to find TblProyecto entity.');
-        }
         
         $form = $this->proyectoForm($nPry);
         
@@ -229,7 +230,7 @@ class TblProyectoController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar del proyecto
      * @param Int $id Id del proyecto a eliminar
      * @return Redirect Redirigir a listado de proyectos
-     * @Route("/{id}", name="proyectos_delete")
+     * @Route("/{id}/del", name="proyectos_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -238,6 +239,9 @@ class TblProyectoController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $entity = $this->get('queries')->getProyectos($id);
+        if (!$entity) { throw $this->createNotFoundException('Acceso denegado');  }
+        
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -245,11 +249,9 @@ class TblProyectoController extends Controller
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('sgiiBundle:TblProyecto')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find TblProyecto entity.');
-            }
-            
-            $this->get('queries')->deletUsuariosProyecto($id);
+            $this->get('queries')->deleteUsuariosProyecto($id);
+            $this->get('queries')->deleteHipotesis($id);
+            $this->get('queries')->deleteObjetivos($id);
             $em->remove($entity);
             $em->flush();
             
@@ -276,13 +278,12 @@ class TblProyectoController extends Controller
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $entity = $this->get('queries')->getProyectos($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find TblProyecto entity.');
-        }
+        if (!$entity) { throw $this->createNotFoundException('Acceso denegado');  }
+        $permisoCRUD = $this->get('queries')->permisoCRUDHipObjIntPry($entity['proEstado']);
         
         $entities = $this->get('queries')->getNoUsuariosProyecto($id);
-        return array( 'entities' => $entities, 'proyectoId' => $id);
+        
+        return array( 'entities' => $entities, 'proyectoId' => $id, 'permisoEdicion' => $permisoCRUD,);
     }
     
     /**
@@ -304,16 +305,20 @@ class TblProyectoController extends Controller
         $acceso = $security->autorization($this->getRequest()->get('_route'));
 
         $NoError = 1;
+        $proyectoId = $request->request->get('proyectoId');
+        $entity = $this->get('queries')->getProyectos($proyectoId);
+        if (!$entity) { $acceso = false; }
+        
         if($request->isXmlHttpRequest() && ($request->getMethod() == 'POST') && $acceso && $authen)
         {
             $usuarioId = $request->request->get('id');
             $tipo = $request->request->get('tipo');
             $accion = $request->request->get('accion');
-            $proyectoId = $request->request->get('proyectoId');
+
             $em = $this->getDoctrine()->getManager();
 
             new Response();
-            if ($tipo == 'Investigador' || $tipo == 'Asesor') {
+            if ($tipo == 'Investigador' || $tipo == 'Director') {
                 if ($accion == 'add') {
                     $nUserPry = New TblUsuarioProyecto();
                     $nUserPry->setProyectoId($proyectoId);
@@ -390,6 +395,11 @@ class TblProyectoController extends Controller
         $security = $this->get('security');
         $authen = $security->autentication();
         $acceso = $security->autorization($this->getRequest()->get('_route'));
+        
+        $proyectoId = $request->request->get('proyectoId');
+        $entity = $this->get('queries')->getProyectos($proyectoId);
+        if (!$entity) { $acceso = false; }
+        $permisoCRUD = $this->get('queries')->permisoCRUDHipObjIntPry($entity['proEstado']);
 
         $NoError = 1;
         $renderNewHip = '';
@@ -397,7 +407,7 @@ class TblProyectoController extends Controller
         {
             $hipotesis = $request->request->get('hipotesis');
             $estado = $request->request->get('estado');
-            $proyectoId = $request->request->get('proyectoId');
+            //$proyectoId = $request->request->get('proyectoId');
             $accion = $request->request->get('accion');
             $em = $this->getDoctrine()->getManager();
             
@@ -410,10 +420,10 @@ class TblProyectoController extends Controller
                     
                     $em->persist($nHipotesis);
                     $em->flush();
-
+                    
                     $security->setAuditoria('Hipotesis nueva: P'.$proyectoId.''.$nHipotesis->getId());
                     $renderNewHip =  $this->renderView('sgiiBundle:TblProyecto:showHipotesis.html.twig', 
-                            array('hipotesis'=>$hipotesis, 'hipEstado'=>$estado, 'hipid' => $nHipotesis->getId()));
+                            array('hipotesis'=>$hipotesis, 'hipEstado'=>$estado, 'hipid' => $nHipotesis->getId(), 'permisoEdicion' => $permisoCRUD));
                     $NoError = 0;
                 }
                 
@@ -462,13 +472,17 @@ class TblProyectoController extends Controller
         $authen = $security->autentication();
         $acceso = $security->autorization($this->getRequest()->get('_route'));
         
+        $proyectoId = $request->request->get('proyectoId');
+        $entity = $this->get('queries')->getProyectos($proyectoId);
+        if (!$entity) { $acceso = false; }
+        
         $NoError = 1;
         $renderNewObj = '';
         if($request->isXmlHttpRequest() && ($request->getMethod() == 'POST') && $acceso && $authen)
         {
             $objetivo = $request->request->get('objetivo');
             $estado = $request->request->get('estado');
-            $proyectoId = $request->request->get('proyectoId');
+            //$proyectoId = $request->request->get('proyectoId');
             $accion = $request->request->get('accion');
             $em = $this->getDoctrine()->getManager();
             
@@ -490,9 +504,11 @@ class TblProyectoController extends Controller
                     $em->persist($nObjetivo);
                     $em->flush();
                     
+                    
                     $security->setAuditoria('Objetivo nuevo: P'.$proyectoId.'/OBJ='.$nObjetivo->getId());
                     $renderNewObj =  $this->renderView('sgiiBundle:TblProyecto:showObjetivos.html.twig', 
-                        array('objid'=>$nObjetivo->getId() , 'objetivo'=> $objetivo, 'objEstado' => $estado, 'objObjetivoId' => $idObj, 'proyectoId'=> $proyectoId));
+                        array('objid'=>$nObjetivo->getId() , 'objetivo'=> $objetivo, 'objEstado' => $estado, 'objObjetivoId' => $idObj, 
+                                'proyectoId'=> $proyectoId, 'permisoEdicion' => $permisoCRUD));
                     $NoError = 0;
                 }
                 
@@ -547,6 +563,10 @@ class TblProyectoController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $entity = $this->get('queries')->getProyectos($proyectoId);
+        if (!$entity) { throw $this->createNotFoundException('Acceso denegado');  }
+        $permisoCRUD = $this->get('queries')->permisoCRUDHipObjIntPry($entity['proEstado']);
+        
         $em = $this->getDoctrine()->getManager();
         $nObj = $em->getRepository('sgiiBundle:TblObjetivo')->findOneBy(Array('id'=>$id, 'proyectoId'=> $proyectoId));
         
@@ -582,14 +602,14 @@ class TblProyectoController extends Controller
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
             }
         }
-            
+        
         return array(
             'entity' => $nObj,
             'form'   => $form->createView(),
             'proyectoId' => $proyectoId,
+            'permisoEdicion' => $permisoCRUD
         );
     }
-    
     
     //--------------------------------------------/
     //--  M E T O D O S  y   F U N C I O N E S  --/

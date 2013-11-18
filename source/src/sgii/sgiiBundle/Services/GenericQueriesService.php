@@ -381,15 +381,55 @@ class GenericQueriesService
     
     /**
      * Borrar Usuarios del proyecto
+     * - Acceso desde tblProyectos
      * 
      * @author Camilo Quijano <camiloquijano31@hotmail.com>
      * @version 1
      * @param Int $proyectoId Id del proyecto
      */
-    public function deletUsuariosProyecto($proyectoId)
+    public function deleteUsuariosProyecto($proyectoId)
     {
         $dql = "DELETE FROM sgiiBundle:TblUsuarioProyecto up
             WHERE up.proyectoId =:proyectoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        $query->getResult();
+    }
+    
+    /**
+     * Borrar Objetivos
+     * - Acceso desde tblProyectos
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $proyectoId Id del proyecto
+     */
+    public function deleteObjetivos($proyectoId)
+    {
+        $dql = "DELETE FROM sgiiBundle:TblObjetivo o
+            WHERE o.proyectoId =:proyectoId AND o.objetivoId IS NOT NULL";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        $query->getResult();
+        $dql = "DELETE FROM sgiiBundle:TblObjetivo o
+            WHERE o.proyectoId =:proyectoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('proyectoId', $proyectoId);
+        $query->getResult();
+    }
+    
+    /**
+     * Borrar Hipotesis
+     * - Acceso desde tblProyectos
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param Int $proyectoId Id del proyecto
+     */
+    public function deleteHipotesis($proyectoId)
+    {
+        $dql = "DELETE FROM sgiiBundle:TblHipotesis h
+            WHERE h.proyectoId =:proyectoId";
         $query = $this->em->createQuery($dql);
         $query->setParameter('proyectoId', $proyectoId);
         $query->getResult();
@@ -623,37 +663,113 @@ class GenericQueriesService
      */
     public function getProyectos($id = null)
     {
+        $sess_usuario = $this->session->get('sess_usuario');
+        $usuarioId = $sess_usuario['id'];
+        
         $return = false;
         $dql = "SELECT p.id, p.proNombre, p.proDescripcion, p.proProblema, p.proFechaCreacion, p.proConclusiones, 
                     p.proDemostraciones, p.proRecomendaciones, p.proEstado, 
                     p.usuarioId, u.usuNombre, u.usuApellido,
                     p.lineaInvestigacionId, ti.tinNombreTipo,
                     p.estadoProyectoId, ep.eprEstadoProyecto,
-                    p.tipoInvestigacionId, li.linNombreInvestigacion
+                    p.tipoInvestigacionId, li.linNombreInvestigacion,
+                    SUM(CASE WHEN (tup.usuarioId =:usuarioId AND tup.proyectoId = p.id) THEN 1 ELSE 0 END) AS pertenece
                 FROM sgiiBundle:TblProyecto p
                 LEFT JOIN sgiiBundle:TblEstadoProyecto ep WITH ep.id = p.estadoProyectoId
                 LEFT JOIN sgiiBundle:TblLineaInvestigacion li WITH li.id = p.lineaInvestigacionId
                 LEFT JOIN sgiiBundle:TblTipoInvestigacion ti WITH ti.id = p.tipoInvestigacionId
                 LEFT JOIN sgiiBundle:TblUsuario u WITH u.id = p.usuarioId
+                LEFT JOIN sgiiBundle:TblUsuarioProyecto tup WITH tup.proyectoId = p.id
                 ";
         if($id != null) {
             $dql .= " WHERE p.id = :id";
         }
-        
+        $dql .= " GROUP BY p.id";
         $query = $this->em->createQuery($dql);
+        
         if($id != null) {
             $query->setParameter('id', $id);
             $query->setMaxResults(1);
         }
+        $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
         
         if(count($result)>0) {
             if($id != null) {
-                $return = $result[0];
+                //Validar a que proyectos tiene acceso
+                $auxResult = $this->getProyectosAcceso($result);
+                if (count($auxResult)>0) {
+                    $return = $auxResult[0];
+                }
             }
             else {
-                $return = $result;
+                //Validar a que proyectos tiene acceso
+                $return = $this->getProyectosAcceso($result);
+                //$return = $result;
             }
+        }
+        return $return;
+    }
+    
+    /**
+     * Funcion que obtiene los proyectos a los que se tiene acceso
+     * - Acceso desde TblProyectosController
+     * Acceso
+     * - Si es admin o superadmin = All
+     * - Si es investigador = Pry en los que pertenece
+     * - Si es estudiante = Ninguno
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @version 1
+     * @param integer $id id del proyecto si busca uno en específico
+     * @return array
+     */
+    public function getProyectosAcceso($proyectos)
+    {
+        $sess_usuario = $this->session->get('sess_usuario');
+        $perfilId = $sess_usuario['perfilId'];
+        if ($perfilId == 4)
+        {
+            return false;
+        } 
+        elseif ($perfilId == 3)
+        {
+            $arrayPry = Array();
+            foreach($proyectos as $pry){
+                if ($pry['pertenece'] == 1){
+                    $arrayPry[] = $pry;
+                }
+            }
+            return $arrayPry;
+        }
+        elseif ($perfilId == 2 || $perfilId == 1){
+            return $proyectos;
+        }
+    }
+    
+    /**
+     * Permiso de CRUD DE hipotesis, objetivos e integrantes y eliminacion del proyecto
+     * 
+     * Funcion que retorna si el usuario tiene acceso a
+     * - CRUD OBJETIVOS
+     * - CRUD INTEGRANTE
+     * - CRUD HIPOTESIS
+     * Se valida de la siguiente forma
+     * Si el proyecto esta abierto, tiene permiso o
+     * si el usuario tiene un rol diferente a investigador (admin o superadmin)
+     * 
+     * @param type $estado Estado actual del proyecto
+     * @return boolean 1=> Permiso Activo 0=>No activo
+     */
+    public function permisoCRUDHipObjIntPry($estado)
+    {
+        $sess_usuario = $this->session->get('sess_usuario');
+        $perfilId = $sess_usuario['perfilId'];
+        
+        //{% if (entity.proEstado == 1) or (sess_usuario.perfilId != 3) %}
+        $return = false;
+        if (($estado == 1) or ($perfilId != 3)) {
+            $return = true;
         }
         return $return;
     }
@@ -755,6 +871,143 @@ class GenericQueriesService
         $query = $this->em->createQuery($dql);
         $query->setParameter('objetivoId', $objGeneral);
         return $query->getResult();
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad de usuarios de la organización
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id de organizacion
+     * @return Int cantidad de usuarios
+     */
+    public function getCountOrganizacion($id)
+    {
+        $dql = "SELECT COUNT(u.id) AS cantidad 
+                FROM sgiiBundle:TblUsuario u
+                JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
+                WHERE o.id=:organizacionId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('organizacionId', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad de usuarios con este cargos
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id de cargo
+     * @return Int cantidad de usuarios
+     */
+    public function getCountCargo($id)
+    {
+        $dql = "SELECT COUNT(u.id) AS cantidad 
+                FROM sgiiBundle:TblUsuario u
+                JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
+                WHERE c.id=:cargoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('cargoId', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad usuarios del departamento
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id de departamento
+     * @return Int cantidad de usuarios
+     */
+    public function getCountDepartamento($id)
+    {
+        $dql = "SELECT COUNT(u.id) AS cantidad 
+                FROM sgiiBundle:TblUsuario u
+                JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
+                WHERE d.id=:departamentoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('departamentoId', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad proyectos que tienen este estado
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id de estado de proyecto
+     * @return Int cantidad de proyectos
+     */
+    public function getCountEstadosProyecto($id)
+    {
+        $dql = "SELECT COUNT(p.id) AS cantidad 
+                FROM sgiiBundle:TblProyecto p
+                WHERE p.estadoProyectoId=:id";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('id', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad proyectos que tienen esta linea de investigación
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id de la linea de investigacion
+     * @return Int cantidad de proyectos
+     */
+    public function getCountLineaInvestigacion($id)
+    {
+        $dql = "SELECT COUNT(p.id) AS cantidad 
+                FROM sgiiBundle:TblProyecto p
+                WHERE p.lineaInvestigacionId=:id";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('id', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad proyectos que tienen este tipo de investigación
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id del tipo de investigacion
+     * @return Int cantidad de proyectos
+     */
+    public function getCountTipoInvestigacion($id)
+    {
+        $dql = "SELECT COUNT(p.id) AS cantidad 
+                FROM sgiiBundle:TblProyecto p
+                WHERE p.tipoInvestigacionId=:id";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('id', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
+    }
+    
+    /**
+     * Funcion que obtiene la cantidad proyectos en lo que esta un usuario
+     * 
+     * @author Camilo Quijano <camiloquijano31@hotmail.com>
+     * @param integer $id id del usuario
+     * @return Int cantidad de proyectos
+     */
+    public function getCountProyectos($id)
+    {
+        $dql = "SELECT COUNT(p.id) AS cantidad 
+                FROM sgiiBundle:TblUsuarioProyecto up
+                JOIN sgiiBundle:TblProyecto p WITH p.id = up.proyectoId
+                WHERE up.usuarioId=:id OR p.usuarioId=:id";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('id', $id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        return $result[0]['cantidad'];
     }
 }
 ?>

@@ -38,10 +38,6 @@
                             <div class="controls span10">{{ form_widget(form.proDemostraciones, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
                         <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Recomendaciones: </label>
-                            <div class="controls span10">{{ form_widget(form.proRecomendaciones, {'attr': {'class':'span10'}} ) }}</div>
-                        </div>
-                        <div class="control-group row-fluid">
                             <label class="control-label span2" for="typeahead">Estado del proyecto: </label>
                             <div class="controls span10">{{ form_widget(form.estadoProyectoId, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
@@ -53,12 +49,18 @@
                             <label class="control-label span2" for="typeahead">Línea de investigación: </label>
                             <div class="controls span10">{{ form_widget(form.lineaInvestigacionId, {'attr': {'class':'span10'}} ) }}</div>
                         </div>
-                        <div class="control-group row-fluid">
-                            <label class="control-label span2" for="typeahead">Estado: </label>
-                            <div class="controls span10">{{ form_widget(form.proEstado, {'attr': {'class':'span10'}} ) }}</div>
-                        </div>
+                        {% if sess_usuario.perfilId != 3 %}
+                            <div class="control-group row-fluid">
+                                <label class="control-label span2" for="typeahead">Recomendaciones: </label>
+                                <div class="controls span10">{{ form_widget(form.proRecomendaciones, {'attr': {'class':'span10'}} ) }}</div>
+                            </div>
+                            <div class="control-group row-fluid">
+                                <label class="control-label span2" for="typeahead">Estado: </label>
+                                <div class="controls span10">{{ form_widget(form.proEstado, {'attr': {'class':'span10'}} ) }}</div>
+                            </div>
+                        {% endif %}
                             
-                        {{ form(form) }}
+                        {# form(form) #}
                         {{ form_errors(form) }}
                         {{ form_widget(form._token) }}
                         <div class="form-actions center">

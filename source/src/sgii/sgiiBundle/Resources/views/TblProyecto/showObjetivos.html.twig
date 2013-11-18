@@ -5,13 +5,15 @@
         {% else %}
             <span class="label">Inactivo</span>
         {% endif %}
-        &nbsp;
-        <a class="btn btn-info btn-mini" data-rel="tooltip" data-original-title="Editar" href='{{ path('objetivo_edit', {'id':objid, 'proyectoId':proyectoId})}}'>
-            <i class="icon-edit icon-white"></i>
-        </a>
-        <a class="btn btn-danger btn-mini deleteObjetivo" data-id='{{ objid }}'>
-            <i class="icon-trash icon-white"></i>
-        </a>
+        {% if permisoEdicion %}
+            &nbsp;
+            <a class="btn btn-info btn-mini" data-rel="tooltip" data-original-title="Editar" href='{{ path('objetivo_edit', {'id':objid, 'proyectoId':proyectoId})}}'>
+                <i class="icon-edit icon-white"></i>
+            </a>
+            <a class="btn btn-danger btn-mini deleteObjetivo" data-id='{{ objid }}'>
+                <i class="icon-trash icon-white"></i>
+            </a>
+        {% endif %}
     </div>
         
     {% if objObjetivoId %}

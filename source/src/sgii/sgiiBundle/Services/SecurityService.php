@@ -167,12 +167,14 @@ class SecurityService
     public function login($user, $pass)
     {
         $dql = "SELECT u.id, u.usuCedula, u.usuNombre, u.usuApellido, u.usuFechaCreacion, u.usuLog, u.usuEstado,
-                c.carNombre, d.depNombre, o.orgNombre
+                c.carNombre, d.depNombre, o.orgNombre, tup.id AS perfilId
                 FROM sgiiBundle:TblUsuario u 
                 LEFT JOIN sgiiBundle:TblCargo c WITH u.cargoId = c.id
                 LEFT JOIN sgiiBundle:TblDepartamento d WITH u.departamentoId = d.id
                 LEFT JOIN sgiiBundle:TblOrganizacion o WITH u.organizacionId = o.id
-                WHERE u.usuLog = :user AND u.usuPassword = :pass";
+                LEFT JOIN sgiiBundle:TblUsuarioPerfil tup WITH tup.usuarioId = u.id
+                WHERE u.usuLog = :user AND u.usuPassword = :pass
+                GROUP BY u.id";
         $query = $this->em->createQuery($dql);
         $query->setParameter('user', $user);
         $query->setParameter('pass', $this->encriptar($pass));

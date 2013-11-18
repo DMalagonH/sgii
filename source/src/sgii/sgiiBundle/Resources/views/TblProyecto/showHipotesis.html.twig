@@ -5,10 +5,12 @@
         {% else %}
             <span class="label">Inactivo</span>
         {% endif %}
-        &nbsp;
-        <a class="btn btn-danger btn-mini deleteHipotesis" data-id='{{ hipid }}'>
-            <i class="icon-trash icon-white"></i>
-        </a>
+        {% if permisoEdicion %}
+            &nbsp;
+            <a class="btn btn-danger btn-mini deleteHipotesis" data-id='{{ hipid }}'>
+                <i class="icon-trash icon-white"></i>
+            </a>
+        {% endif %}
     </div>
     {{ hipotesis }}
 </li>

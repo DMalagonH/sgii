@@ -97,7 +97,9 @@
                     </div>
                     <div class="control-group" style="margin-bottom: 8px; text-align: right;">
                         <a href="{{ path('proyectos') }}" class="btn btn-primary"/>Volver al listado</a>
-                        <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdelete'}}) }}</div>
+                        {% if permisoEdicion %}
+                            <div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdelete'}}) }}</div>
+                        {% endif %}    
                         <a href="{{ path('proyectos_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-info"/>Editar</a>
                     </div>
                 </div>
@@ -121,27 +123,30 @@
                                     {% set objEstado = obj.objEstado %}
                                     {% set objObjetivoId = obj.objetivoId %}
                                     {% set proyectoId = entity.id %}
+                                    {# permisoEdicion #}
                                     {% include 'sgiiBundle:TblProyecto:showObjetivos.html.twig'%}
                                 {% endfor %}
                             {% endif %}
                         </div>
-                            
-                        <li STYLE='display:none;' class='ctlnewObjetivo'>
-                            <textarea id='newObjetivo' REQUIRED STYLE="width:95%;margin-bottom:0px;"></textarea>
-                            <input id='newObjetivoEstado' type='checkbox' CHECKED STYLE ='margin-right:0px;' />Activo
-                            <div STYLE='text-align:right;'>
-                                <span STYLE='display:none;' class="btn btn-default ctlnewObjetivo canelnewObjetivo"/>Cancelar</span>
-                                <span STYLE='display:none;' class="btn btn-primary ctlnewObjetivo saveObjetivo"/>Guardar</span>
+                        
+                        {% if permisoEdicion %}
+                            <li STYLE='display:none;' class='ctlnewObjetivo'>
+                                <textarea id='newObjetivo' REQUIRED STYLE="width:95%;margin-bottom:0px;"></textarea>
+                                <input id='newObjetivoEstado' type='checkbox' CHECKED STYLE ='margin-right:0px;' />Activo
+                                <div STYLE='text-align:right;'>
+                                    <span STYLE='display:none;' class="btn btn-default ctlnewObjetivo canelnewObjetivo"/>Cancelar</span>
+                                    <span STYLE='display:none;' class="btn btn-primary ctlnewObjetivo saveObjetivo"/>Guardar</span>
+                                </div>
+                            </li>
+                            <br>
+                            <div class="control-group" style="margin-bottom:8px;text-align: right;">
+                                {% if objetivos %}
+                                    <input type='buttom' class="btn btn-success addObjetivo" value='Agregar Objetivo Específico'/>
+                                {% else %}
+                                    <input type='buttom' class="btn btn-success addObjetivo" value='Agregar Objetivo General'/>
+                                {% endif %}
                             </div>
-                        </li>
-                        <br>
-                        <div class="control-group" style="margin-bottom:8px;text-align: right;">
-                            {% if objetivos %}
-                                <input type='buttom' class="btn btn-success addObjetivo" value='Agregar Objetivo Específico'/>
-                            {% else %}
-                                <input type='buttom' class="btn btn-success addObjetivo" value='Agregar Objetivo General'/>
-                            {% endif %}
-                        </div>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -162,37 +167,41 @@
                     {% if integrantes %}
                         <ul class="dashboard-list">
                             {% for user in integrantes %}
-                                <li STYLE='display:block;' id='user_{{ user.usuarioId }}'>
+                                <li STYLE='display:block;min-height:54px;' id='user_{{ user.usuarioId }}'>
                                     <img class="dashboard-avatar" src="{{ gravatar(user.usuLog, 200) }}">
                                     <strong>Nombre:</strong> {{ user.usuApellido ~ ' ' ~ user.usuNombre }}<br>
                                     {% set classLabel = (user.usuarioProyectoTipo == 'Investigador') ? 'label-success' : 'label-info' %}
                                     <strong></strong> <div><span id='tipoUser_{{ user.usuarioId }}' class="label {{ classLabel }} ctlBasic_{{ user.usuarioId }}">{{ user.usuarioProyectoTipo }}</span></div>
-                                    <select STYLE='font-size:11px;width:100px;height:28px;margin-top:4px;display:none;' class='ctlEdit_{{ user.usuarioId }}' id='userTipo_{{ user.usuarioId }}'>
-                                        <option value='Investigador' {% if user.usuarioProyectoTipo == 'Investigador' %}SELECTED{% endif %}>Investigador</option>
-                                        <option value='Asesor' {% if user.usuarioProyectoTipo == 'Asesor' %}SELECTED{% endif %}>Asesor</option>
-                                    </select>
-                                    <div STYLE='text-align:right;'>
-                                        <a class="btn btn-info btn-mini btn-edit ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-rel="tooltip" data-original-title="Editar">
-                                            <i class="icon-edit icon-white"></i>
-                                        </a>&nbsp;
-                                        <a class="btn btn-danger btn-mini deleteUser ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-original-title="Eliminar">
-                                            <i class="icon-trash icon-white"></i>
-                                        </a>&nbsp;
-                                        <a class="btn btn-default btn-mini btn-cancel ctlEdit_{{ user.usuarioId }}" STYLE="display:none;" data-id='{{ user.usuarioId }}'>
-                                            <i class=" icon-share icon-black"></i> Cancelar
-                                        </a>&nbsp;
-                                        <a class="btn btn-success btn-mini editUser ctlEdit_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' STYLE="display:none;">
-                                            <i class="icon-check icon-white"></i> Guardar
-                                        </a>
-                                    </div>
+                                    {% if permisoEdicion %}
+                                        <select STYLE='font-size:11px;width:100px;height:28px;margin-top:4px;display:none;' class='ctlEdit_{{ user.usuarioId }}' id='userTipo_{{ user.usuarioId }}'>
+                                            <option value='Investigador' {% if user.usuarioProyectoTipo == 'Investigador' %}SELECTED{% endif %}>Investigador</option>
+                                            <option value='Director' {% if user.usuarioProyectoTipo == 'Asesor' %}SELECTED{% endif %}>Director</option>
+                                        </select>
+                                        <div STYLE='text-align:right;'>
+                                            <a class="btn btn-info btn-mini btn-edit ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-rel="tooltip" data-original-title="Editar">
+                                                <i class="icon-edit icon-white"></i>
+                                            </a>&nbsp;
+                                            <a class="btn btn-danger btn-mini deleteUser ctlBasic_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' data-original-title="Eliminar">
+                                                <i class="icon-trash icon-white"></i>
+                                            </a>&nbsp;
+                                            <a class="btn btn-default btn-mini btn-cancel ctlEdit_{{ user.usuarioId }}" STYLE="display:none;" data-id='{{ user.usuarioId }}'>
+                                                <i class=" icon-share icon-black"></i> Cancelar
+                                            </a>&nbsp;
+                                            <a class="btn btn-success btn-mini editUser ctlEdit_{{ user.usuarioId }}" data-id='{{ user.usuarioId }}' STYLE="display:none;">
+                                                <i class="icon-check icon-white"></i> Guardar
+                                            </a>
+                                        </div>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    <br>
-                    <div class="control-group" style="margin-bottom:8px;text-align:right;">
-                        <a href="{{ path('proyectos_addUsers', { 'id': entity.id }) }}" class="btn btn-primary btn-info"/>Agregar usuarios</a>
-                    </div>
+                    {% if permisoEdicion %}
+                        <br>
+                        <div class="control-group" style="margin-bottom:8px;text-align:right;">
+                            <a href="{{ path('proyectos_addUsers', { 'id': entity.id }) }}" class="btn btn-primary btn-info"/>Agregar usuarios</a>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -212,22 +221,25 @@
                                     {% set hipid = hip.id %}
                                     {% set hipotesis = hip.hipHipotesis %}
                                     {% set hipEstado = hip.hipEstado %}
+                                    {# permisoEdicion #}
                                     {% include 'sgiiBundle:TblProyecto:showHipotesis.html.twig'%}
                                 {% endfor %}
                             {% endif %}
                         </div>
-                        <li STYLE='display:none;' class='ctlHipotesis'>
-                            <textarea id='newHipotesis' REQUIRED STYLE="width:95%;margin-bottom:0px;"></textarea>
-                            <input id='newHipotesisEstado' type='checkbox' CHECKED STYLE ='margin-right:0px;' />Activo
-                            <div STYLE='text-align:right;'>
-                                <span STYLE='display:none;' class="btn btn-default ctlHipotesis canelAddHipotesis"/>Cancelar</span>
-                                <span STYLE='display:none;' class="btn btn-primary ctlHipotesis saveHipotesis"/>Guardar</span>
+                        {% if permisoEdicion %}
+                            <li STYLE='display:none;' class='ctlHipotesis'>
+                                <textarea id='newHipotesis' REQUIRED STYLE="width:95%;margin-bottom:0px;"></textarea>
+                                <input id='newHipotesisEstado' type='checkbox' CHECKED STYLE ='margin-right:0px;' />Activo
+                                <div STYLE='text-align:right;'>
+                                    <span STYLE='display:none;' class="btn btn-default ctlHipotesis canelAddHipotesis"/>Cancelar</span>
+                                    <span STYLE='display:none;' class="btn btn-primary ctlHipotesis saveHipotesis"/>Guardar</span>
+                                </div>
+                            </li>
+                            <br>
+                            <div class="control-group" style="margin-bottom:8px;text-align: right;">
+                                <span class="btn btn-success addHipotesis"/>Agregar hipotesis</span>
                             </div>
-                        </li>
-                        <br>
-                        <div class="control-group" style="margin-bottom:8px;text-align: right;">
-                            <span class="btn btn-success addHipotesis"/>Agregar hipotesis</span>
-                        </div>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

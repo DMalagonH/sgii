@@ -28,6 +28,10 @@ class TblDepartamentoController extends Controller
      */
     public function indexAction()
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('sgiiBundle:TblDepartamento')->findAll();
         return array( 'entities' => $entities );
@@ -46,6 +50,10 @@ class TblDepartamentoController extends Controller
      */
     public function showAction($id)
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
 
@@ -75,7 +83,9 @@ class TblDepartamentoController extends Controller
     public function newAction(Request $request)
     {
         $security = $this->get('security');
-        
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+
         $entity = new TblDepartamento();
         $form  = $this->createForm(new TblDepartamentoType(), $entity);
         
@@ -115,6 +125,8 @@ class TblDepartamentoController extends Controller
     public function editAction(Request $request, $id)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblDepartamento')->find($id);
@@ -161,6 +173,8 @@ class TblDepartamentoController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -172,12 +186,17 @@ class TblDepartamentoController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TblDepartamento entity.');
             }
+            
+            $cantidad = $this->get('queries')->getCountDepartamento($id);
+            if ($cantidad == 0) {
+                $em->remove($entity);
+                $em->flush();
 
-            $em->remove($entity);
-            $em->flush();
-
-            $security->setAuditoria('Eliminar cargo: '.$id. " - ".$entity->getDepNombre());
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido eliminado correctamente"));
+                $security->setAuditoria('Eliminar departamento: '.$id. " - ".$entity->getDepNombre());
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El departamento ha sido eliminado correctamente"));
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "El departamento no se puede eliminar porque hay usuarios que pertenecen a este"));
+            }
         }
 
         return $this->redirect($this->generateUrl('departamento'));

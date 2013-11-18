@@ -28,6 +28,10 @@ class TblLineaInvestigacionController extends Controller
      */
     public function indexAction()
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('sgiiBundle:TblLineaInvestigacion')->findAll();
         return array( 'entities' => $entities );
@@ -46,6 +50,10 @@ class TblLineaInvestigacionController extends Controller
      */
     public function showAction($id)
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblLineaInvestigacion')->find($id);
 
@@ -75,7 +83,9 @@ class TblLineaInvestigacionController extends Controller
     public function newAction(Request $request)
     {
         $security = $this->get('security');
-        
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+
         $entity = new TblLineaInvestigacion();
         $form  = $this->createForm(new TblLineaInvestigacionType(), $entity);
         
@@ -115,7 +125,9 @@ class TblLineaInvestigacionController extends Controller
     public function editAction(Request $request, $id)
     {
         $security = $this->get('security');
-        
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblLineaInvestigacion')->find($id);
 
@@ -161,6 +173,8 @@ class TblLineaInvestigacionController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -172,12 +186,17 @@ class TblLineaInvestigacionController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TblLineaInvestigacion entity.');
             }
-
-            $em->remove($entity);
-            $em->flush();
             
-            $security->setAuditoria('Eliminar línea de investigación: '.$id. " - ".$entity->getLinNombreInvestigacion());
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigación ha sido eliminado correctamente"));
+            $cantidad = $this->get('queries')->getCountLineaInvestigacion($id);
+            if ($cantidad == 0) {
+                $em->remove($entity);
+                $em->flush();
+
+                $security->setAuditoria('Eliminar línea de investigación: '.$id. " - ".$entity->getLinNombreInvestigacion());
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "La línea de investigación ha sido eliminado correctamente"));
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "La linea de investigación no se puede eliminar porque hay proyectos con esta."));
+            }
         }
         return $this->redirect($this->generateUrl('lineainvestigacion'));
     }

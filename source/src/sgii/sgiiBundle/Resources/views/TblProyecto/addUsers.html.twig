@@ -2,7 +2,7 @@
 
 {% block menu %}
     {% set origen = 'acceso_proyectos' %}
-    {% include '::menu_admin.html.twig' %}
+    {% include '::menu_principal.html.twig' %}
 {% endblock menu %}
 
 {% block body %}
@@ -26,8 +26,10 @@
                                 <th>Cedula</th>
                                 <th>Email</th><!-- log -->
                                 <th>Estado</th>
-                                <th>Tipo</th>
-                                <th style='text-align:center;'>Opciones</th>
+                                {% if permisoEdicion %}
+                                    <th>Tipo</th>
+                                    <th style='text-align:center;'>Opciones</th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
@@ -44,15 +46,17 @@
                                             <span class="label">Inactivo</span>
                                         {% endif %}
                                     </td>
-                                    <td id='userTipo_{{ entity.usuarioId }}'>
-                                        <select>
-                                            <option value='Investigador'>Investigador</option>
-                                            <option value='Asesor'>Asesor</option>
-                                        </select>
-                                    </td>
-                                    <td style='text-align:center;'>
-                                        <a data-id="{{ entity.usuarioId }}" class="btn btn-success btn-mini addUser"><i class="icon-plus icon-white"></i> Incluir</a>
-                                    </td>
+                                    {% if permisoEdicion %}
+                                        <td id='userTipo_{{ entity.usuarioId }}'>
+                                            <select>
+                                                <option value='Investigador'>Investigador</option>
+                                                <option value='Director'>Director</option>
+                                            </select>
+                                        </td>
+                                        <td style='text-align:center;'>
+                                            <a data-id="{{ entity.usuarioId }}" class="btn btn-success btn-mini addUser"><i class="icon-plus icon-white"></i> Incluir</a>
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>

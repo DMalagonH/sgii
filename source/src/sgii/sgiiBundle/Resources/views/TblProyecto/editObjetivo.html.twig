@@ -30,7 +30,9 @@
                         {{ form_errors(form) }}
                         {{ form_widget(form._token) }}
                         <div class="form-actions center">
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            {% if permisoEdicion %}
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            {% endif %}
                             <a href="{{ path('proyectos_show', {'id': proyectoId }) }}" class="btn">Cancelar</a>
                         </div>
                     </fieldset>

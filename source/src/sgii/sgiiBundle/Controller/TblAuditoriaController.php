@@ -24,6 +24,10 @@ class TblAuditoriaController extends Controller
      */
     public function loginAction()
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $entities = $this->get('queries')->getAuditoria();
         return array( 'entities' => $entities );
     }

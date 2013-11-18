@@ -28,6 +28,10 @@ class TblCargoController extends Controller
      */
     public function indexAction()
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('sgiiBundle:TblCargo')->findAll();
         return array( 'entities' => $entities );
@@ -46,6 +50,10 @@ class TblCargoController extends Controller
      */
     public function showAction($id)
     {
+        $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
 
@@ -75,6 +83,8 @@ class TblCargoController extends Controller
     public function newAction(Request $request)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $entity = new TblCargo();
         $form  = $this->createForm(new TblCargoType(), $entity);
@@ -115,6 +125,8 @@ class TblCargoController extends Controller
     public function editAction(Request $request, $id)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('sgiiBundle:TblCargo')->find($id);
@@ -161,6 +173,8 @@ class TblCargoController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $security = $this->get('security');
+        if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -171,13 +185,18 @@ class TblCargoController extends Controller
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TblCargo entity.');
-            }            
-
-            $em->remove($entity);
-            $em->flush();
+            }
             
-            $security->setAuditoria('Eliminar cargo: '.$id. " - ".$entity->getCarNombre());
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido eliminado correctamente"));
+            $cantidad = $this->get('queries')->getCountCargo($id);
+            if ($cantidad == 0) {
+                $em->remove($entity);
+                $em->flush();
+
+                $security->setAuditoria('Eliminar cargo: '.$id. " - ".$entity->getCarNombre());
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El cargo ha sido eliminado correctamente"));
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "El cargo no se puede eliminar porque hay usuarios que lo incluyen"));
+            }
         }
 
         return $this->redirect($this->generateUrl('cargo'));

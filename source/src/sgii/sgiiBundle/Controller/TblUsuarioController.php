@@ -98,6 +98,11 @@ class TblUsuarioController extends Controller
                     $errores = $this->validateFormUsuario($dataForm);
                     if ($errores == 0)
                     {
+                        //Generar contraseña 
+                        
+                        
+                        
+                        
                         $newPass = $security->encriptar($dataForm['usuCedula']);
                         $nUser = new TblUsuario();
                         $nUser->setUsuCedula($dataForm['usuCedula']);
@@ -105,12 +110,15 @@ class TblUsuarioController extends Controller
                         $nUser->setUsuNombre($dataForm['usuNombre']);
                         $nUser->setUsuFechaCreacion(new \DateTime());
                         $nUser->setUsuLog($dataForm['usuLog']);
-                        $nUser->setUsuPassword($newPass);
                         $nUser->setUsuEstado($dataForm['usuEstado']);
                         $nUser->setNivelId($dataForm['nivelId']);
                         $nUser->setCargoId($dataForm['cargoId']);
                         $nUser->setDepartamentoId($dataForm['departamentoId']);
                         $nUser->setOrganizacionId($dataForm['organizacionId']);
+                        
+                        //Generar contraseña 
+                        $pass = $security->generarPassword();
+                        $nUser->setUsuPassword($security->encriptar($pass));
                         
                         $em = $this->getDoctrine()->getEntityManager();
                         $em->persist($nUser);
@@ -122,9 +130,12 @@ class TblUsuarioController extends Controller
                         $em->persist($nUserPerfil);
                         $em->flush();
                         
+                        //Enviar correo de notificacion
+                        $this->get('import')->notificarRegistroUsuario($nUser, $pass);
+                        
                         $security->setAuditoria('Nuevo Usuario: '.$nUser->getId());
                         $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "Nuevo usuario agregado"));
-                        return $this->redirect($this->generateUrl('usuarios_show', array('id' => $nUser->getId())));
+                        //return $this->redirect($this->generateUrl('usuarios_show', array('id' => $nUser->getId())));
                     }
                     else {
                         $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Verifique los datos ingresados"));
@@ -239,13 +250,18 @@ class TblUsuarioController extends Controller
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find TblUsuario entity.');
             }
-
-            $this->get('queries')->deletPerfilesUsuario($id);
-            $em->remove($entity);
-            $em->flush();
             
-            $security->setAuditoria('Eliminar usuario: '.$id. " - ".$entity->getUsuLog());
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El usuario ha sido eliminado correctamente"));
+            $cantidad = $this->get('queries')->getCountProyectos($id);
+            if ($cantidad == 0) {
+                $this->get('queries')->deletPerfilesUsuario($id);
+                $em->remove($entity);
+                $em->flush();
+
+                $security->setAuditoria('Eliminar usuario: '.$id. " - ".$entity->getUsuLog());
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "information", "text" => "El usuario ha sido eliminado correctamente"));
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "text" => "Error al eliminar usuario"));
+            }
         }
         return $this->redirect($this->generateUrl('usuarios'));
     }
