@@ -64,7 +64,7 @@ class InstrumentosService
      * @param integer $instrumentoId id de instrumento
      * @return array
      */
-    public function getInstrumentos($instrumentoId = false, $proyectoId = false)
+    public function getInstrumentos($usuarioId, $instrumentoId = false, $proyectoId = false)
     {
         $dql = "SELECT 
                     i.id,
@@ -77,18 +77,20 @@ class InstrumentosService
                 FROM 
                     sgiiBundle:TblHerramienta i
                     JOIN sgiiBundle:TblTipoHerramienta ti WITH i.tipoHerramienta = ti.id
-                    LEFT JOIN sgiiBundle:TblProyecto p WITH i.proyecto = p.id";
+                    LEFT JOIN sgiiBundle:TblProyecto p WITH i.proyecto = p.id
+                    LEFT JOIN sgiiBundle:TblUsuarioProyecto up WITH p.id = up.proyectoId AND up.usuarioId = :usuarioId
+                WHERE (i.usuarioId = :usuarioId OR up.usuarioId = :usuarioId)";
         if($proyectoId)
         {
-            $dql .= " WHERE p.id = :proyectoId ";
+            $dql .= " AND p.id = :proyectoId ";
         }
         elseif($instrumentoId)
         {
-            $dql .= " WHERE i.id = :instrumentoId ";
+            $dql .= " AND i.id = :instrumentoId ";
         }
         
         $query = $this->em->createQuery($dql);
-        
+        $query->setParameter('usuarioId', $usuarioId);
         if($proyectoId)
         {
             $query->setParameter('proyectoId', $proyectoId);

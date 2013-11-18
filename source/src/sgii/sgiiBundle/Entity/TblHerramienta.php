@@ -63,7 +63,13 @@ class TblHerramienta
      */
     private $proyecto;
 
-
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_id", type="integer", nullable=true)
+     */
+    private $usuarioId;
+    
 
     /**
      * Get id
@@ -211,5 +217,28 @@ class TblHerramienta
     public function getProyecto()
     {
         return $this->proyecto;
+    }
+    
+    /**
+     * Set usuarioId
+     *
+     * @param integer $usuarioId
+     * @return TblHerramienta
+     */
+    public function setUsuarioId( $usuarioId = null)
+    {
+        $this->usuarioId = $usuarioId;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioId
+     *
+     * @return integer
+     */
+    public function getUsuarioId()
+    {
+        return $this->usuarioId;
     }
 }

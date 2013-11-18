@@ -30,8 +30,10 @@ class ResultadosController extends Controller
 //        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         $inst_serv = $this->get('instrumentos');
         
+        $usuarioId = $security->getSessionValue('id');
+        
         $resultados = $this->getResultados($id);
-        $instrumento = $inst_serv->getInstrumentos($id);
+        $instrumento = $inst_serv->getInstrumentos($usuarioId, $id);
         $usuarios = $inst_serv->getUsuariosInstrumento($id);
 //        $security->debug($resultados);
         
@@ -58,11 +60,13 @@ class ResultadosController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
 //        if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $usuarioId = $security->getSessionValue('id');
+        
         $inst_serv = $this->get('instrumentos');
         $queries = $this->get('queries');
         
         $preguntas = $this->getRespuestasUsuario($iid, $uid);
-        $instrumento = $inst_serv->getInstrumentos($iid);
+        $instrumento = $inst_serv->getInstrumentos($usuarioId, $iid);
         $usuario = $queries->getUsuarios($uid);
         
         return array(

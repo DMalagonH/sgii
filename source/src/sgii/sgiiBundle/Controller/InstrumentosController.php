@@ -30,13 +30,15 @@ class InstrumentosController extends Controller
         if(!$security->autentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
+        $usuarioId = $security->getSessionValue('id');
+        
         $inst_serv = $this->get('instrumentos');
         
         // Create form
         $form = $this->createInstrumentoForm(); 
         $proyectos = $inst_serv->getProyectos();
         
-        $instrumentos = $inst_serv->getInstrumentos();
+        $instrumentos = $inst_serv->getInstrumentos($usuarioId);
         
         if($request->getMethod() == 'POST')
         {
@@ -98,8 +100,8 @@ class InstrumentosController extends Controller
         if(!$security->autorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException("Acceso denegado");}
         
         $inst_serv = $this->get('instrumentos');
-        
-        $instrumento = $inst_serv->getInstrumentos($id);
+        $usuarioId = $security->getSessionValue('id');
+        $instrumento = $inst_serv->getInstrumentos($usuarioId, $id);
         
         $form = $this->createPreguntaForm();
         
