@@ -387,7 +387,7 @@ CREATE TABLE IF NOT EXISTS `tbl_hipotesis` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hip_hipotesis` VARCHAR(500) NOT NULL DEFAULT '0',
   `hip_estado` TINYINT(1) NULL DEFAULT '0',
-  `hip_srguimiento` LONGTEXT NOT NULL,
+  `hip_srguimiento` LONGTEXT NULL,
   `estado_hipotesis_id` INT NULL COMMENT 'Id estado hipotesis',
   `proyecto_id` INT NOT NULL COMMENT 'Id proyecto de investigacion',
   PRIMARY KEY (`id`),
