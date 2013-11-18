@@ -237,7 +237,7 @@ COMMENT = 'TABLA TRANSACCIONAL CON PROYECTOS DE INVESTIGACION';
 CREATE TABLE IF NOT EXISTS `tbl_objetivo` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `obj_objetivo` VARCHAR(250) NOT NULL DEFAULT '0' COMMENT 'Objetivo',
-  `obj_estado` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'estado del registro',
+  `obj_estado` TINYINT(1) NULL DEFAULT '0' COMMENT 'estado del registro',
   `proyecto_id` INT NOT NULL COMMENT 'FK con la tabla proyecto investigacion',
   `estado_objetivo_id` INT NULL COMMENT 'FK con la tabla estado de objetivo',
   `objetivo_id` INT NULL COMMENT 'FK de esta tabla copn sigo mismo para la relación genérico - especifico',
@@ -386,9 +386,9 @@ COMMENT = 'TABLA REFERENCIAL DE RESPUESTAS';
 CREATE TABLE IF NOT EXISTS `tbl_hipotesis` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `hip_hipotesis` VARCHAR(500) NOT NULL DEFAULT '0',
-  `hip_estado` TINYINT(1) NOT NULL DEFAULT '0',
+  `hip_estado` TINYINT(1) NULL DEFAULT '0',
   `hip_srguimiento` LONGTEXT NOT NULL,
-  `estado_hipotesis_id` INT NOT NULL COMMENT 'Id estado hipotesis',
+  `estado_hipotesis_id` INT NULL COMMENT 'Id estado hipotesis',
   `proyecto_id` INT NOT NULL COMMENT 'Id proyecto de investigacion',
   PRIMARY KEY (`id`),
   INDEX `fk_tbl_thipotesis_tbl_tproyecto_investigacion1_idx` (`proyecto_id` ASC),
