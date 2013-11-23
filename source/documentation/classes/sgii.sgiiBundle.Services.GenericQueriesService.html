@@ -1,0 +1,2849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>API Documentation</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">API Documentation</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                    <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/Acme.html">\Acme</a></li>
+                                                        <li><a href="../namespaces/sgii.html">\sgii</a></li>
+                                                    </ul>
+                    </li>
+                    <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                    <i class="icon-list-alt"></i>&#160;Errors
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                    <i class="icon-list-alt"></i>&#160;Markers
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1827484676"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-1827484676" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-286416310"></a>
+                                <a href="../namespaces/Acme.html" style="margin-left: 30px; padding-left: 0">Acme</a>
+            </div>
+            <div id="namespace-286416310" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-533876107"></a>
+                                <a href="../namespaces/Acme.DemoBundle.html" style="margin-left: 30px; padding-left: 0">DemoBundle</a>
+            </div>
+            <div id="namespace-533876107" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2012095721"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Tests.html" style="margin-left: 30px; padding-left: 0">Tests</a>
+            </div>
+            <div id="namespace-2012095721" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1183535258"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Tests.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-1183535258" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Tests.Controller.DemoControllerTest.html">DemoControllerTest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1151010034"></a>
+                                <a href="../namespaces/Acme.DemoBundle.DependencyInjection.html" style="margin-left: 30px; padding-left: 0">DependencyInjection</a>
+            </div>
+            <div id="namespace-1151010034" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.DependencyInjection.AcmeDemoExtension.html">AcmeDemoExtension</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-509392934"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Twig.html" style="margin-left: 30px; padding-left: 0">Twig</a>
+            </div>
+            <div id="namespace-509392934" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1809718082"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Twig.Extension.html" style="margin-left: 30px; padding-left: 0">Extension</a>
+            </div>
+            <div id="namespace-1809718082" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Twig.Extension.DemoExtension.html">DemoExtension</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1999274185"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-1999274185" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Controller.DemoController.html">DemoController</a></li>
+                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Controller.WelcomeController.html">WelcomeController</a></li>
+                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Controller.SecuredController.html">SecuredController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1528462914"></a>
+                                <a href="../namespaces/Acme.DemoBundle.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
+            </div>
+            <div id="namespace-1528462914" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.Form.ContactType.html">ContactType</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1863244714"></a>
+                                <a href="../namespaces/Acme.DemoBundle.EventListener.html" style="margin-left: 30px; padding-left: 0">EventListener</a>
+            </div>
+            <div id="namespace-1863244714" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.EventListener.ControllerListener.html">ControllerListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/Acme.DemoBundle.AcmeDemoBundle.html">AcmeDemoBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2077470417"></a>
+                                <a href="../namespaces/sgii.html" style="margin-left: 30px; padding-left: 0">sgii</a>
+            </div>
+            <div id="namespace-2077470417" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-873532010"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.html" style="margin-left: 30px; padding-left: 0">sgiiBundle</a>
+            </div>
+            <div id="namespace-873532010" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2016446216"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Entity.html" style="margin-left: 30px; padding-left: 0">Entity</a>
+            </div>
+            <div id="namespace-2016446216" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblEstadoProyecto.html">TblEstadoProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPerfil.html">TblPerfil</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblProyecto.html">TblProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblLog.html">TblLog</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblDepartamento.html">TblDepartamento</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblCargo.html">TblCargo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblLineaInvestigacion.html">TblLineaInvestigacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblRespuesta.html">TblRespuesta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblAuditoria.html">TblAuditoria</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblRespuestaUsuario.html">TblRespuestaUsuario</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPregunta.html">TblPregunta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblHipotesis.html">TblHipotesis</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblOrganizacion.html">TblOrganizacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblObjetivo.html">TblObjetivo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoPregunta.html">TblTipoPregunta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblModulo.html">TblModulo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoInvestigacion.html">TblTipoInvestigacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPerfilModulo.html">TblPerfilModulo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoHerramienta.html">TblTipoHerramienta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioProyecto.html">TblUsuarioProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioPerfil.html">TblUsuarioPerfil</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblHerramienta.html">TblHerramienta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioHerramienta.html">TblUsuarioHerramienta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblEstadoProyecto.html">TblEstadoProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPerfil.html">TblPerfil</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblProyecto.html">TblProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblLog.html">TblLog</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblDepartamento.html">TblDepartamento</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblCargo.html">TblCargo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblLineaInvestigacion.html">TblLineaInvestigacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblRespuesta.html">TblRespuesta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblAuditoria.html">TblAuditoria</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblRespuestaUsuario.html">TblRespuestaUsuario</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuario.html">TblUsuario</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPregunta.html">TblPregunta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblHipotesis.html">TblHipotesis</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblOrganizacion.html">TblOrganizacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblObjetivo.html">TblObjetivo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoPregunta.html">TblTipoPregunta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblModulo.html">TblModulo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblNivel.html">TblNivel</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoInvestigacion.html">TblTipoInvestigacion</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblPerfilModulo.html">TblPerfilModulo</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblTipoHerramienta.html">TblTipoHerramienta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioProyecto.html">TblUsuarioProyecto</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioPerfil.html">TblUsuarioPerfil</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblHerramienta.html">TblHerramienta</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Entity.TblUsuarioHerramienta.html">TblUsuarioHerramienta</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-607529188"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Tests.html" style="margin-left: 30px; padding-left: 0">Tests</a>
+            </div>
+            <div id="namespace-607529188" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2027283998"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Tests.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-2027283998" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblTipoInvestigacionControllerTest.html">TblTipoInvestigacionControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblCargoControllerTest.html">TblCargoControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblLineaInvestigacionControllerTest.html">TblLineaInvestigacionControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblDepartamentoControllerTest.html">TblDepartamentoControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.DefaultControllerTest.html">DefaultControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblUsuarioControllerTest.html">TblUsuarioControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblEstadoProyectoControllerTest.html">TblEstadoProyectoControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblProyectoControllerTest.html">TblProyectoControllerTest</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Tests.Controller.TblOrganizacionControllerTest.html">TblOrganizacionControllerTest</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-753841678"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.DependencyInjection.html" style="margin-left: 30px; padding-left: 0">DependencyInjection</a>
+            </div>
+            <div id="namespace-753841678" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.DependencyInjection.Configuration.html">Configuration</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.DependencyInjection.sgiiExtension.html">sgiiExtension</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2105658628"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Controller.html" style="margin-left: 30px; padding-left: 0">Controller</a>
+            </div>
+            <div id="namespace-2105658628" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblEstadoProyectoController.html">TblEstadoProyectoController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblLogController.html">TblLogController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.HomeController.html">HomeController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.ResultadosController.html">ResultadosController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblOrganizacionController.html">TblOrganizacionController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.PerfilController.html">PerfilController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.ImportController.html">ImportController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblTipoInvestigacionController.html">TblTipoInvestigacionController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblLineaInvestigacionController.html">TblLineaInvestigacionController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.InstrumentosController.html">InstrumentosController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblDepartamentoController.html">TblDepartamentoController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblAuditoriaController.html">TblAuditoriaController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblProyectoController.html">TblProyectoController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblCargoController.html">TblCargoController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.EjecucionController.html">EjecucionController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.TblUsuarioController.html">TblUsuarioController</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Controller.LoginController.html">LoginController</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1218003550"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Services.html" style="margin-left: 30px; padding-left: 0">Services</a>
+            </div>
+            <div id="namespace-1218003550" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1294326987"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Services.TwigExtensions.html" style="margin-left: 30px; padding-left: 0">TwigExtensions</a>
+            </div>
+            <div id="namespace-1294326987" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.TwigExtensions.GravatarExtension.html">GravatarExtension</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.MailService.html">MailService</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.ImportService.html">ImportService</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html">GenericQueriesService</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.InstrumentosService.html">InstrumentosService</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.SecurityService.html">SecurityService</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Services.ValidateService.html">ValidateService</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2122963581"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.Form.html" style="margin-left: 30px; padding-left: 0">Form</a>
+            </div>
+            <div id="namespace-2122963581" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblUsuarioType.html">TblUsuarioType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblProyectoType.html">TblProyectoType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblDepartamentoType.html">TblDepartamentoType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblTipoInvestigacionType.html">TblTipoInvestigacionType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblOrganizacionType.html">TblOrganizacionType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblLineaInvestigacionType.html">TblLineaInvestigacionType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblEstadoProyectoType.html">TblEstadoProyectoType</a></li>
+                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.Form.TblCargoType.html">TblCargoType</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1356962440"></a>
+                                <a href="../namespaces/sgii.sgiiBundle.EventListener.html" style="margin-left: 30px; padding-left: 0">EventListener</a>
+            </div>
+            <div id="namespace-1356962440" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.EventListener.sgiiExceptionListener.html">sgiiExceptionListener</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/sgii.sgiiBundle.sgiiBundle.html">sgiiBundle</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/sgii.sgiiBundle.Services.html">\sgii\sgiiBundle\Services</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\sgii\sgiiBundle\Services</small>GenericQueriesService</h1>
+                    <p><em>Servicio para obtener resultados de queries usadas en toda la aplicacion</em></p>
+                    
+
+
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getOrganizaciones" class="">getOrganizaciones()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCargos" class="">getCargos()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getDepartamentos" class="">getDepartamentos()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getNiveles" class="">getNiveles()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_existUser" class="">existUser()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_existsEmail" class="">existsEmail()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getErrores" class="">getErrores()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getAuditoria" class="">getAuditoria()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getPerfiles" class="">getPerfiles()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getPerfilUsuario" class="">getPerfilUsuario()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_deletPerfilesUsuario" class="">deletPerfilesUsuario()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_deleteUsuariosProyecto" class="">deleteUsuariosProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_deleteObjetivos" class="">deleteObjetivos()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_deleteHipotesis" class="">deleteHipotesis()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getPerfilesArray" class="">getPerfilesArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getUsuarios" class="">getUsuarios()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getOrganizacionesArray" class="">getOrganizacionesArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCargosArray" class="">getCargosArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getDepartamentosArray" class="">getDepartamentosArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getNivelesArray" class="">getNivelesArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getEstadoProyectoArray" class="">getEstadoProyectoArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getTipoInvestigacionArray" class="">getTipoInvestigacionArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getLineasInvestigacionArray" class="">getLineasInvestigacionArray()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getProyectos" class="">getProyectos()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getProyectosAcceso" class="">getProyectosAcceso()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_permisoCRUDHipObjIntPry" class="">permisoCRUDHipObjIntPry()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getUsuariosProyecto" class="">getUsuariosProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getNoUsuariosProyecto" class="">getNoUsuariosProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getHipotesisProyecto" class="">getHipotesisProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getObjetivosProyecto" class="">getObjetivosProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_deleteObjetivosEspecificos" class="">deleteObjetivosEspecificos()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountOrganizacion" class="">getCountOrganizacion()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountCargo" class="">getCountCargo()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountDepartamento" class="">getCountDepartamento()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountEstadosProyecto" class="">getCountEstadosProyecto()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountLineaInvestigacion" class="">getCountLineaInvestigacion()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountTipoInvestigacion" class="">getCountTipoInvestigacion()</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#method_getCountProyectos" class="">getCountProyectos()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <em>No protected methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#property_doctrine" class="">$doctrine</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#property_session" class="">$session</a><br />
+                                                                    <a href="../classes/sgii.sgiiBundle.Services.GenericQueriesService.html#property_em" class="">$em</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/sgii.sgiiBundle.Services.GenericQueriesService.php.html"><div class="path-wrapper">sgii/sgiiBundle/Services/GenericQueriesService.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">\Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                    <div class="namespace-wrapper">\sgii\sgiiBundle\Services\GenericQueriesService</div>
+                            </dd>
+
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_doctrine" name="property_doctrine" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$doctrine</h3>
+                <pre class="signature">$doctrine</pre>
+                <p><em></em></p>
+                
+
+
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_session" name="property_session" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$session</h3>
+                <pre class="signature">$session</pre>
+                <p><em></em></p>
+                
+
+
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_em" name="property_em" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$em</h3>
+                <pre class="signature">$em</pre>
+                <p><em></em></p>
+                
+
+
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct( <span class="argument">$doctrine</span>,  <span class="argument">$session</span>)</pre>
+                <p><em></em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$doctrine</td>
+                                <td>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$session</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrganizaciones" name="method_getOrganizaciones" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrganizaciones()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrganizaciones(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene las organizaciones</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de organizacion si busca una en especifico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCargos" name="method_getCargos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCargos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCargos(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene los cargos</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de cargo uno en especifico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getDepartamentos" name="method_getDepartamentos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getDepartamentos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getDepartamentos(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene los departamentos/areas</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de departamento si busca uno en especifico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNiveles" name="method_getNiveles" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNiveles()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNiveles(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene los niveles</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de nivel si busca uno en especifico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_existUser" name="method_existUser" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">existUser()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">existUser(String <span class="argument">$email</span>, Int <span class="argument">$documento</span>, Int <span class="argument">$id</span>) : Boolean</pre>
+                <p><em>Funcion que verifica si un usuario existe por medio del correo electronico y/o cedula
+- Acceso desde TblUsuarioController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>String</td>
+                                <td>$email</td>
+                                <td><p>Correo a validar si existe</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$documento</td>
+                                <td><p>Número de cédula a validar si existe</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$id</td>
+                                <td><p>Id del usuario</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Boolean
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_existsEmail" name="method_existsEmail" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">existsEmail()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">existsEmail(string <span class="argument">$email</span>, integer <span class="argument">$id</span>)</pre>
+                <p><em>Funcion que verifica si existe un usuario registrado con el email</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$email</td>
+                                <td><p>email a verificar</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de usuario, se usa en caso de verificar que no exista un usuario con el mismo correo a excepcion del usuario con este id</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Diego Malagón <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#x64;i&#101;&#103;&#x6f;&#x2d;&#115;&#111;&#x66;&#x74;&#119;&#97;&#x72;&#x65;&#64;&#104;&#111;&#x74;&#x6d;&#97;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getErrores" name="method_getErrores" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getErrores()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getErrores() : Array</pre>
+                <p><em>Listado de errores registrados en la aplicación
+- acceso desde TblLogController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de errores registrados en la aplicación</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAuditoria" name="method_getAuditoria" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAuditoria()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAuditoria() : Array</pre>
+                <p><em>Listado de acciones auditables registrados en la aplicación
+- acceso desde TblAuditoriaController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de acciones auditables registrados en la aplicación</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPerfiles" name="method_getPerfiles" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPerfiles()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPerfiles() : Array</pre>
+                <p><em>Listado de Perfiles Activos</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de perfiles activos</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPerfilUsuario" name="method_getPerfilUsuario" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPerfilUsuario()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPerfilUsuario(Int <span class="argument">$usuarioId</span>, String <span class="argument">$valor</span>) : Array</pre>
+                <p><em>Perfil del usuario que ingresa por Id
+- Acceso desde TblUsuarioController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$usuarioId</td>
+                                <td><p>Id del usuario</p>
+</td>
+                            </tr>
+                                                    <tr>
+                                <td>String</td>
+                                <td>$valor</td>
+                                <td><p>Valor que retorna del perfil, por default, el ID.</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de perfiles del usuario</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deletPerfilesUsuario" name="method_deletPerfilesUsuario" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">deletPerfilesUsuario()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deletPerfilesUsuario(Int <span class="argument">$usuarioId</span>)</pre>
+                <p><em>Borrar perfiles del usuario</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$usuarioId</td>
+                                <td><p>Id del usuario</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteUsuariosProyecto" name="method_deleteUsuariosProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">deleteUsuariosProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteUsuariosProyecto(Int <span class="argument">$proyectoId</span>)</pre>
+                <p><em>Borrar Usuarios del proyecto
+- Acceso desde tblProyectos</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteObjetivos" name="method_deleteObjetivos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">deleteObjetivos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteObjetivos(Int <span class="argument">$proyectoId</span>)</pre>
+                <p><em>Borrar Objetivos
+- Acceso desde tblProyectos</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteHipotesis" name="method_deleteHipotesis" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">deleteHipotesis()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteHipotesis(Int <span class="argument">$proyectoId</span>)</pre>
+                <p><em>Borrar Hipotesis
+- Acceso desde tblProyectos</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Int</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPerfilesArray" name="method_getPerfilesArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPerfilesArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPerfilesArray() : array</pre>
+                <p><em>Funcion que obtiene los perfiles retornandolas como array
+- acceso desde TblUsuarioController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getUsuarios" name="method_getUsuarios" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getUsuarios()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getUsuarios(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene los usuarios
+- Acceso desde TblUsuarios</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id del usuario si busca uno en específico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrganizacionesArray" name="method_getOrganizacionesArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrganizacionesArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrganizacionesArray() : array</pre>
+                <p><em>Funcion que obtiene las organizaciones retornandolas como array
+- acceso desde TblUsuarioController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCargosArray" name="method_getCargosArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCargosArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCargosArray() : array</pre>
+                <p><em>Funcion que obtiene los cargos retornandolas como Array
+- acceso desde TblUsuarioController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getDepartamentosArray" name="method_getDepartamentosArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getDepartamentosArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getDepartamentosArray() : array</pre>
+                <p><em>Funcion que obtiene los departamentos/areas como Array
+- acceso desde TblUsuarioController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNivelesArray" name="method_getNivelesArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNivelesArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNivelesArray() : array</pre>
+                <p><em>Funcion que obtiene los Niveles como Array
+- acceso desde TblUsuarioController
+- acceso desde PerfilController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getEstadoProyectoArray" name="method_getEstadoProyectoArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getEstadoProyectoArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getEstadoProyectoArray() : array</pre>
+                <p><em>Funcion que obtiene los Estados de proyecto
+- acceso desde TblProyectosController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>En donde la clave es el Id del estado</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTipoInvestigacionArray" name="method_getTipoInvestigacionArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTipoInvestigacionArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTipoInvestigacionArray() : array</pre>
+                <p><em>Funcion que obtiene los Tipos de investigación
+- acceso desde TblProyectosController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>En donde la clave es el Id del tipo de investigación</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLineasInvestigacionArray" name="method_getLineasInvestigacionArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLineasInvestigacionArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLineasInvestigacionArray() : array</pre>
+                <p><em>Funcion que obtiene las lineas de investigación
+- acceso desde TblProyectosController</em></p>
+                
+
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>En donde la clave es el Id de las lineas de investigación</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getProyectos" name="method_getProyectos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getProyectos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getProyectos(integer <span class="argument">$id</span>) : array</pre>
+                <p><em>Funcion que obtiene los proyectos
+- Acceso desde TblProyectosController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id del proyecto si busca uno en específico</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getProyectosAcceso" name="method_getProyectosAcceso" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getProyectosAcceso()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getProyectosAcceso( <span class="argument">$proyectos</span>) : array</pre>
+                <p><em>Funcion que obtiene los proyectos a los que se tiene acceso
+- Acceso desde TblProyectosController
+Acceso
+- Si es admin o superadmin = All
+- Si es investigador = Pry en los que pertenece
+- Si es estudiante = Ninguno</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$proyectos</td>
+                                <td>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_permisoCRUDHipObjIntPry" name="method_permisoCRUDHipObjIntPry" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">permisoCRUDHipObjIntPry()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">permisoCRUDHipObjIntPry(\sgii\sgiiBundle\Services\type <span class="argument">$estado</span>) : boolean</pre>
+                <p><em>Permiso de CRUD DE hipotesis, objetivos e integrantes y eliminacion del proyecto</em></p>
+                <p>Funcion que retorna si el usuario tiene acceso a
+- CRUD OBJETIVOS
+- CRUD INTEGRANTE
+- CRUD HIPOTESIS
+Se valida de la siguiente forma
+Si el proyecto esta abierto, tiene permiso o
+si el usuario tiene un rol diferente a investigador (admin o superadmin)</p>
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>\sgii\sgiiBundle\Services\type</td>
+                                <td>$estado</td>
+                                <td><p>Estado actual del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>1=> Permiso Activo 0=>No activo</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getUsuariosProyecto" name="method_getUsuariosProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getUsuariosProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getUsuariosProyecto(Integer <span class="argument">$proyectoId</span>) : Array</pre>
+                <p><em>Funcion que retorna el listado de usuarios incluidos en el proyecto
+- acceso desde TblProyectoController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de usuarios del poyecto que ingresa por parametro</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNoUsuariosProyecto" name="method_getNoUsuariosProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNoUsuariosProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNoUsuariosProyecto(Integer <span class="argument">$proyectoId</span>) : Array</pre>
+                <p><em>Funcion que retorna el listado de usuarios que no pertenecen al proyecto excepto usuarios tipo Usuario
+- acceso desde TblProyectoController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de usuarios que no pertenecen al poyecto que ingresa por parametro</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getHipotesisProyecto" name="method_getHipotesisProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getHipotesisProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getHipotesisProyecto(Integer <span class="argument">$proyectoId</span>) : Array</pre>
+                <p><em>Funcion que retorna el listado de hipotesis incluidos en el proyecto
+- acceso desde TblProyectoController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de hipotesis del poyecto que ingresa por parametro</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getObjetivosProyecto" name="method_getObjetivosProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getObjetivosProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getObjetivosProyecto(Integer <span class="argument">$proyectoId</span>) : Array</pre>
+                <p><em>Funcion que retorna el listado de objetivos general y específicos en el proyecto
+- acceso desde TblProyectoController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$proyectoId</td>
+                                <td><p>Id del proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Array
+                                            &mdash; <p>Arreglo de objetivos del poyecto que ingresa por parametro</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deleteObjetivosEspecificos" name="method_deleteObjetivosEspecificos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">deleteObjetivosEspecificos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deleteObjetivosEspecificos(Integer <span class="argument">$objGeneral</span>)</pre>
+                <p><em>Funcion que elimina los objetivos específicos del proyecto, entrando como parametro el Id del obj. general
+- acceso desde TblProyectoController</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Integer</td>
+                                <td>$objGeneral</td>
+                                <td><p>Id del objetivo gneral</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            version
+                        </th>
+                        <td>
+                                                            
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountOrganizacion" name="method_getCountOrganizacion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountOrganizacion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountOrganizacion(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad de usuarios de la organización</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de organizacion</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de usuarios</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountCargo" name="method_getCountCargo" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountCargo()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountCargo(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad de usuarios con este cargos</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de cargo</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de usuarios</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountDepartamento" name="method_getCountDepartamento" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountDepartamento()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountDepartamento(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad usuarios del departamento</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de departamento</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de usuarios</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountEstadosProyecto" name="method_getCountEstadosProyecto" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountEstadosProyecto()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountEstadosProyecto(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad proyectos que tienen este estado</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de estado de proyecto</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de proyectos</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountLineaInvestigacion" name="method_getCountLineaInvestigacion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountLineaInvestigacion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountLineaInvestigacion(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad proyectos que tienen esta linea de investigación</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id de la linea de investigacion</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de proyectos</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountTipoInvestigacion" name="method_getCountTipoInvestigacion" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountTipoInvestigacion()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountTipoInvestigacion(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad proyectos que tienen este tipo de investigación</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id del tipo de investigacion</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de proyectos</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCountProyectos" name="method_getCountProyectos" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCountProyectos()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCountProyectos(integer <span class="argument">$id</span>) : Int</pre>
+                <p><em>Funcion que obtiene la cantidad proyectos en lo que esta un usuario</em></p>
+                
+
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id</td>
+                                <td><p>id del usuario</p>
+</td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    Int
+                                            &mdash; <p>cantidad de proyectos</p>
+
+                                                </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Camilo Quijano <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;">&#x63;&#97;&#109;&#x69;&#x6c;&#111;&#113;&#x75;&#x69;j&#97;&#x6e;&#x6f;3&#49;&#64;&#x68;&#x6f;&#116;&#109;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#109;</a></p>
+
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">GenericQueriesService.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/sgii/sgiiBundle/Services/GenericQueriesService.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/Acme.html">\Acme</a></li>
+                                                                            <li><a href="../namespaces/sgii.html">\sgii</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="">Errors</a></li>
+                                    <li><a href="">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on November 23rd, 2013 at 17:11.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>
